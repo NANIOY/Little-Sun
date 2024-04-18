@@ -1,0 +1,1 @@
+This web app assists in organizing work schedules for Little Sun Zambia, designed by Yannick (NANIO) and Jenna.
