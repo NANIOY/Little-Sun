@@ -1,0 +1,111 @@
+<?php
+
+
+class Location
+{
+    private $id;
+    private $name;
+    private $address;
+    private $contactInfo;
+    private $managerId;
+
+    /**
+     * Get the value of id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the value of name
+     *
+     * @return  self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of address
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set the value of address
+     *
+     * @return  self
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of contactInfo
+     */
+    public function getContactInfo()
+    {
+        return $this->contactInfo;
+    }
+
+    /**
+     * Set the value of contactInfo
+     *
+     * @return  self
+     */
+    public function setContactInfo($contactInfo)
+    {
+        $this->contactInfo = $contactInfo;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of managerId
+     */
+    public function getManagerId()
+    {
+        return $this->managerId;
+    }
+
+    /**
+     * Set the value of managerId
+     *
+     * @return  self
+     */
+    public function setManagerId($managerId)
+    {
+        $this->managerId = $managerId;
+
+        return $this;
+    }
+}
