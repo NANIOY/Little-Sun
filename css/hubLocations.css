@@ -23,6 +23,10 @@
     transition: 0.3s;
 }
 
+.hublocations__header__button:hover {
+    background-color: #0056b3;
+}
+
 /* ITEMS */
 
 .hublocations__list__item {
