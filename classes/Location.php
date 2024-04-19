@@ -122,4 +122,12 @@ class Location
 
         $statement->execute();
     }
+
+    public static function getAll()
+    {
+        $conn = Db::getInstance();
+
+        $statement = $conn->query('select * from locations');
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
