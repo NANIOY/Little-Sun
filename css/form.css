@@ -1,5 +1,5 @@
 /* GENERAL */
-.locationForm {
+.formContainer {
     max-width: 480px;
     margin: 0 auto;
     padding: 24px;
@@ -8,31 +8,31 @@
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
-.locationForm__title {
+.formContainer__title {
     font-size: 24px;
 }
 
 /* FORM */
-.locationForm__form {
+.formContainer__form {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
 /* FORM FIELD */
-.locationForm__form__field {
+.formContainer__form__field {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.locationForm__form__field__label {
+.formContainer__form__field__label {
     font-weight: 600;
     font-size: 14px;
 }
 
-.locationForm__form__field__input,
-.locationForm__form__field__textarea {
+.formContainer__form__field__input,
+.formContainer__form__field__textarea {
     width: 100%;
     padding: 8px 0;
     font-size: 16px;
@@ -41,7 +41,7 @@
 }
 
 /* BUTTON */
-.locationForm__form__button {
+.formContainer__form__button {
     padding: 16px 0;
     font-size: 16px;
     background-color: #007bff;
@@ -52,6 +52,6 @@
     transition: 0.3s;
 }
 
-.locationForm__form__button:hover {
+.formContainer__form__button:hover {
     background-color: #0056b3;
 }
