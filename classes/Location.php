@@ -1,5 +1,5 @@
 <?php
-
+include_once(__DIR__ . '/../bootstrap.php');
 
 class Location
 {
@@ -111,9 +111,7 @@ class Location
 
     public function save()
     {
-        include_once(__DIR__ . '/Db.php');
-
-        $conn = Db::getConnection();
+        $conn = Db::getInstance();
 
         $statement = $conn->prepare('insert into locations (name, address, contact_info, manager_id) values (:name, :address, :contact_info, :manager_id)');
 

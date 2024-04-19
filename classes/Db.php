@@ -1,10 +1,10 @@
 <?php
 
-class Db
+abstract class Db
 {
     private static $conn;
 
-    public static function getConnection()
+    public static function getInstance()
     {
         include_once __DIR__ . '/../settings/db.php';
 
