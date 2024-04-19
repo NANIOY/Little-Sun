@@ -130,4 +130,13 @@ class Location
         $statement = $conn->query('select * from locations');
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function delete($id)
+    {
+        $conn = Db::getInstance();
+
+        $statement = $conn->prepare('delete from locations where id = :id');
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+    }
 }

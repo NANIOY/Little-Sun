@@ -1,9 +1,18 @@
 <?php
-
 include_once (__DIR__ . '/classes/Location.php');
 
 $locations = Location::getAll();
 
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_location'])) {
+	$locationId = $_POST['location_id'];
+	try {
+		Location::delete($locationId);
+		header("Location: " . $_SERVER['PHP_SELF']);
+		exit();
+	} catch (Throwable $th) {
+		$error = $th->getMessage();
+	}
+}
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +26,6 @@ $locations = Location::getAll();
 
 <body>
 	<div class="hublocations">
-
 		<div class="hublocations__header">
 			<h2 class="locationForm__title">Hub Locations</h2>
 			<a href="addLocation.php" class="hublocations__header__button">Add hub location</a>
@@ -30,7 +38,10 @@ $locations = Location::getAll();
 						<h3 class="hublocations__list__item__title">
 							<?php echo $location['name']; ?>
 						</h3>
-						<button type="button" class="hublocations__list__item__delete">X</button>
+						<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="delete-form">
+							<input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
+							<button type="submit" name="delete_location" class="hublocations__list__item__delete">X</button>
+						</form>
 					</div>
 
 					<div class="hublocations__list__item__details">
@@ -49,7 +60,6 @@ $locations = Location::getAll();
 							<span class="hublocations__list__item__value"><?php echo $location['manager_id']; ?></span>
 						</div>
 					</div>
-
 				</div>
 			<?php endforeach; ?>
 		</div>
