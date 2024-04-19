@@ -1,5 +1,8 @@
 <?php
 include_once (__DIR__ . '/classes/Manager.php');
+include_once (__DIR__ . '/classes/Location.php');
+
+$locations = Location::getAll();
 
 if (!empty($_POST)) {
     try {
@@ -9,8 +12,7 @@ if (!empty($_POST)) {
         $manager->setEmail($_POST['email']);
         $manager->setPassword($_POST['password']);
         $manager->setProfileImg($_POST['profile_img']);
-        
-        // $manager->setHubLocation($_POST['hub_location']);
+        $manager->setHubLocation($_POST['location_id']);
         $manager->save();
 
     } catch (Throwable $th) {
@@ -53,11 +55,14 @@ if (!empty($_POST)) {
                 <label for="profile_img" class="formContainer__form__field__label">Profile Image:</label>
                 <input type="file" id="profile_img" name="profile_img" class="formContainer__form__field__input">
             </div>
-            <!-- <div class="formContainer__form__field">
-                <label for="hub_location" class="formContainer__form__field__label">Hub Location:</label>
-                <input type="text" id="hub_location" name="hub_location" class="formContainer__form__field__input"
-                    required>
-            </div> -->
+            <div class="formContainer__form__field">
+                <label for="location_id" class="formContainer__form__field__label">Hub Location:</label>
+                <select id="location_id" name="location_id" class="formContainer__form__field__input" required>
+                    <?php foreach ($locations as $location): ?>
+                        <option value="<?= $location['id'] ?>"><?= htmlspecialchars($location['name']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
             <button type="submit" class="formContainer__form__button">Add Manager</button>
         </form>
     </div>
