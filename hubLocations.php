@@ -20,7 +20,7 @@ $locations = Location::getAll();
 
 		<div class="hublocations__header">
 			<h2 class="locationForm__title">Hub Locations</h2>
-			<button type="button" class="hublocations__header__button">Add hub location</button>
+			<a href="addLocation.php" class="hublocations__header__button">Add hub location</a>
 		</div>
 
 		<div class="hublocations__list">
