@@ -151,4 +151,18 @@ class Manager
 
         return $this;
     }
+
+    public function save()
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("INSERT INTO managers (first_name, last_name, email, password, profile_img, hub_location, role) VALUES (:first_name, :last_name, :email, :password, :profile_img, :hub_location, :role)");
+        $statement->bindValue(':first_name', $this->getFirstName());
+        $statement->bindValue(':last_name', $this->getLastName());
+        $statement->bindValue(':email', $this->getEmail());
+        $statement->bindValue(':password', $this->getPassword());
+        $statement->bindValue(':profile_img', $this->getProfileImg());
+        $statement->bindValue(':hub_location', $this->getHubLocation());
+        $statement->bindValue(':role', $this->getRole());
+        $statement->execute();
+    }
 }
