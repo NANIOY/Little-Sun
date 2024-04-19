@@ -15,6 +15,8 @@ if (!empty($_POST)) {
         $manager->setHubLocation($_POST['location_id']);
         $manager->save();
 
+        header('Location: index.php');
+        exit();
     } catch (Throwable $th) {
         $error = $th->getMessage();
     }
