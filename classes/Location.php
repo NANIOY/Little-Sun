@@ -108,4 +108,20 @@ class Location
 
         return $this;
     }
+
+    public function save()
+    {
+        include_once(__DIR__ . '/Db.php');
+
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare('insert into locations (name, address, contact_info, manager_id) values (:name, :address, :contact_info, :manager_id)');
+
+        $statement->bindValue(':name', $this->name);
+        $statement->bindValue(':address', $this->address);
+        $statement->bindValue(':contact_info', $this->contactInfo);
+        $statement->bindValue(':manager_id', $this->managerId);
+
+        $statement->execute();
+    }
 }
