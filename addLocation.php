@@ -9,6 +9,9 @@ if (!empty($_POST)) {
 		$location->setContactInfo($_POST['contact_info']);
 		$location->setManagerId($_POST['manager_id']);
 		$location->save();
+
+		header('Location: hubLocations.php');
+		exit();
 	} catch (Throwable $th) {
 		$error = $th->getMessage();
 	}
