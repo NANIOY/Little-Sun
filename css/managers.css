@@ -1,15 +1,41 @@
+.managers {
+    margin: 48px;
+}
+
+.managers__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.managers__header__button {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #007bff;
+    text-decoration: none;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.managers__header__button:hover {
+    background-color: #0056b3;
+}
+
 .managercards {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    margin-top: 20px;
-
+    justify-content: flex-start;
 }
 
 .managercard {
     border-radius: 5px;
     padding: 16px;
-    width: 400px;
+    flex: 1;
+    min-width: 400px;
     box-sizing: border-box;
     display: flex;
     gap: 16px;
@@ -45,4 +71,16 @@
 .managercard__hub {
     font-size: 0.8em;
     color: #666;
+}
+
+@media screen and (max-width: 768px) {
+    .managercard {
+        width: calc(50% - 20px);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .managercard {
+        width: calc(100% - 20px);
+    }
 }
