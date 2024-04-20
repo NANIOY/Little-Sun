@@ -176,9 +176,6 @@ class Manager
         $userStatement->bindValue(':role', $this->getRole());
         $userStatement->execute();
         $this->id = $conn->lastInsertId();
-
-        // get last inserted id
-        $userId = $conn->lastInsertId();
     }
 
     public function assignToLocation($locationId)
