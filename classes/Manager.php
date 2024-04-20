@@ -220,6 +220,12 @@ class Manager
     public function update()
     {
         $conn = Db::getInstance();
+        $this->updateUserDetails($conn);
+        $this->updateLocationManager($conn);
+    }
+
+    private function updateUserDetails($conn)
+    {
         $statement = $conn->prepare('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, password = :password, profile_img = :profile_img, location_id = :location_id WHERE id = :id');
         $statement->bindValue(':first_name', $this->getFirstName());
         $statement->bindValue(':last_name', $this->getLastName());
@@ -229,5 +235,25 @@ class Manager
         $statement->bindValue(':location_id', $this->getHubLocation());
         $statement->bindValue(':id', $this->getId());
         $statement->execute();
+    }
+
+    private function updateLocationManager($conn)
+    {
+        $locationManagerStatement = $conn->prepare('SELECT * FROM location_manager WHERE manager_id = :manager_id');
+        $locationManagerStatement->bindValue(':manager_id', $this->getId());
+        $locationManagerStatement->execute();
+        $locationManagerExists = $locationManagerStatement->fetch(PDO::FETCH_ASSOC);
+
+        if ($locationManagerExists) {
+            $updateLocationManagerStatement = $conn->prepare('UPDATE location_manager SET location_id = :location_id WHERE manager_id = :manager_id');
+            $updateLocationManagerStatement->bindValue(':location_id', $this->getHubLocation());
+            $updateLocationManagerStatement->bindValue(':manager_id', $this->getId());
+            $updateLocationManagerStatement->execute();
+        } else {
+            $insertLocationManagerStatement = $conn->prepare('INSERT INTO location_manager (manager_id, location_id) VALUES (:manager_id, :location_id)');
+            $insertLocationManagerStatement->bindValue(':manager_id', $this->getId());
+            $insertLocationManagerStatement->bindValue(':location_id', $this->getHubLocation());
+            $insertLocationManagerStatement->execute();
+        }
     }
 }

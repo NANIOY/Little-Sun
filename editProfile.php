@@ -27,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $manager->setLastName($_POST['last_name']);
     $manager->setEmail($_POST['email']);
     $manager->setPassword($_POST['password']);
-
     $manager->setHubLocation($_POST['location']);
 
     // handle profile image upload
@@ -84,9 +83,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="location" class="formContainer__form__field__label">Location:</label>
                 <select id="location" name="location" class="formContainer__form__field__input" required>
                     <?php foreach ($locations as $location): ?>
-                        <option value="<?php echo $location['id']; ?>" <?php if ($location['id'] == $managerData['location_id'])
-                               echo 'selected'; ?>>
-                            <?php echo $location['name']; ?></option>
+                        <option value="<?php echo $location['id']; ?>" <?php echo ($location['id'] == $managerData['location_id']) ? 'selected' : ''; ?>>
+                            <?php echo $location['name']; ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
