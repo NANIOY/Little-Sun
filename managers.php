@@ -15,8 +15,8 @@ $managers = Manager::getAll();
 </head>
 
 <body>
-    <?php foreach ($managers as $manager): ?>
-        <div class="managercards">
+    <div class="managercards">
+        <?php foreach ($managers as $manager): ?>
             <div class="managercard">
                 <img src="<?php echo $manager['profile_img']; ?>" alt="Profile Image" class="managercard__img">
                 <div class="managercard__info">
@@ -30,8 +30,8 @@ $managers = Manager::getAll();
                     <?php endif; ?>
                 </div>
             </div>
-        </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+    </div>
 
 </body>
 
