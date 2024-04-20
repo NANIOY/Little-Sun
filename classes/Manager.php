@@ -176,15 +176,6 @@ class Manager
         $userStatement->bindValue(':role', $this->getRole());
         $userStatement->execute();
         $this->id = $conn->lastInsertId();
-
-        // get last inserted id
-        $userId = $conn->lastInsertId();
-
-        // update location with manager id
-        $locationStatement = $conn->prepare("UPDATE locations SET manager_id = :manager_id WHERE id = :location_id");
-        $locationStatement->bindValue(':manager_id', $userId);
-        $locationStatement->bindValue(':location_id', $this->getHubLocation());
-        $locationStatement->execute();
     }
 
     public function assignToLocation($locationId)
