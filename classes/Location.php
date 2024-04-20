@@ -116,4 +116,13 @@ class Location
         $statement->bindValue(':id', $id);
         $statement->execute();
     }
+
+    public static function getManagersByLocationId($locationId)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare('SELECT users.first_name, users.last_name FROM users JOIN location_manager ON users.id = location_manager.manager_id WHERE location_manager.location_id = :location_id');
+        $statement->bindValue(':location_id', $locationId);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

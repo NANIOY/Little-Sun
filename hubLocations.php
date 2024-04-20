@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_location'])) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hub Locations</title>
+	<title>Little Sun | Hub Locations</title>
 	<link rel="stylesheet" href="css/global.css">
 	<link rel="stylesheet" href="css/hubLocations.css">
 </head>
@@ -57,7 +57,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_location'])) {
 						<span class="hublocations__list__item__sep">|</span>
 						<div class="hublocations__list__item__detail">
 							<i class="fas fa-user"></i>
-							<span class="hublocations__list__item__value"><?php echo $location['manager_id']; ?></span>
+							<span class="hublocations__list__item__value">
+								<?php
+								$managers = Location::getManagersByLocationId($location['id']);
+								foreach ($managers as $manager) {
+									echo $manager['first_name'] . ' ' . $manager['last_name'] . ', ';
+								}
+								?>
+							</span>
 						</div>
 					</div>
 				</div>

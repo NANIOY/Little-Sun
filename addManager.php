@@ -11,27 +11,31 @@ if (!empty($_POST)) {
         $manager->setLastName($_POST['last_name']);
         $manager->setEmail($_POST['email']);
         $manager->setPassword($_POST['password']);
-        $manager->setProfileImg($_POST['profile_img']);
+
+        $profileImgPath = 'uploads/' . basename($_FILES['profile_img']['name']);
+        move_uploaded_file($_FILES['profile_img']['tmp_name'], $profileImgPath);
+
+        $manager->setProfileImg($profileImgPath);
+
         $manager->setHubLocation($_POST['location_id']);
         $manager->save();
 
         $locationId = $_POST['location_id'];
         $manager->assignToLocation($locationId);
 
-        header('Location: index.php');
+        header('Location: managers.php');
         exit();
     } catch (Throwable $th) {
         $error = $th->getMessage();
     }
 }
-
 ?><!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Manager</title>
+    <title>Little Sun | Add Manager</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/form.css">
 </head>
@@ -39,7 +43,7 @@ if (!empty($_POST)) {
 <body>
     <div class="formContainer">
         <h2 class="formContainer__title">Add Manager</h2>
-        <form action="" method="post" class="formContainer__form">
+        <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
             <div class="formContainer__form__field">
                 <label for="first_name" class="formContainer__form__field__label">First Name:</label>
                 <input type="text" id="first_name" name="first_name" class="formContainer__form__field__input" required>
