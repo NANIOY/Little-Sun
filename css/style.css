@@ -1,0 +1,124 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+/*
+font-family: "tondo", sans-serif;
+font-weight: 300;
+font-style: normal;
+Tondo Regular
+font-family: "tondo", sans-serif;
+font-weight: 400;
+font-style: normal;
+Tondo Bold
+font-family: "tondo", sans-serif;
+font-weight: 700;
+font-style: normal;
+Tondo Signage
+
+*/
+
+body{
+    background-color:lightgrey;
+    font-family: "tondo-signage", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/** NAVBAR **/
+#navbar{
+    display: grid;
+    margin: 1rem;
+    padding: 1rem;
+    justify-content: space-between;
+    grid-template-columns: 4fr 1fr 1fr 1fr;
+}
+#logo img{
+    width: 200px;
+}
+
+a{
+    text-decoration: none;
+}
+
+#navbar ul a{
+    color: #000000;
+    text-align: center;
+    font-size: 18px;
+}
+
+button{
+    background-color: rgb(221, 221, 221);
+    border: none;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+/** LOGIN.PHP **/
+
+.LittleSunTitleShiftplanner{
+    margin: 2rem;
+    padding: 2rem;
+}
+
+.LittleSunTitleShiftplanner p {
+    padding-top: 4rem;
+    padding-bottom: 2rem;
+}
+
+.LittleSunLogin{
+    background-color:#ffffff;
+    margin: 4rem;
+    padding: 2rem;
+}
+
+h2{
+    text-align: center;
+}
+
+.form__field{
+    display: block;
+    margin: 1rem;
+}
+
+.form__field a{
+    color:#000000;
+    font-size: 12px;
+}
+
+.form__error{
+    color: red;
+    font-size: 12px;
+}
+
+#username, #password{
+    background-color: aliceblue;
+    margin-top: 0.4rem;
+    padding: 0.8rem;
+    width: 100%;
+    border: none;
+}
+
+@media screen and (min-width: 1024px){
+    main{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-content: center;
+        align-items: center;
+
+    }
+}
+
+@media screen and (min-width: 1200px){
+    main{
+        margin:0 8rem 0 8rem;
+    }
+
+.LittleSunLogin{
+        margin: 6rem;
+        padding: 2rem;
+    }
+}
