@@ -190,9 +190,17 @@ class Manager
     public function assignToLocation($locationId)
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare('INSERT INTO location_manager (location_id, manager_id) VALUES (:location_id, :manager_id)');
+        $statement = $conn->prepare("INSERT INTO location_manager (location_id, manager_id) VALUES (:location_id, :manager_id)");
         $statement->bindValue(':location_id', $locationId);
         $statement->bindValue(':manager_id', $this->getId());
         $statement->execute();
+    }
+
+    public static function getAll()
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare('SELECT users.*, locations.name AS location_name FROM users LEFT JOIN locations ON users.location_id = locations.id WHERE users.role = "manager"');
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }
