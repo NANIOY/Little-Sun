@@ -23,7 +23,6 @@
             <div id="logo"><img src="img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></div>
             <a href="#">Feature 1</a>
             <a href="#">Feature 2</a>
-            <a href="#">Help</a>
             <a href="#" class="LoggedIn">
                 <div class="user-avatar"><img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_640.png" width="50px" alt="user avatar"></div>
                 
