@@ -94,7 +94,7 @@ h2{
     font-size: 12px;
 }
 
-#username, #password{
+#firstname, #lastname, #username, #password, #role{
     background-color: aliceblue;
     margin-top: 0.4rem;
     padding: 0.8rem;
