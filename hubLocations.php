@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_location'])) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hub Locations</title>
+	<title>Little Sun | Hub Locations</title>
 	<link rel="stylesheet" href="css/global.css">
 	<link rel="stylesheet" href="css/hubLocations.css">
 </head>
