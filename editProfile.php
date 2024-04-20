@@ -2,11 +2,13 @@
 include_once (__DIR__ . '/classes/Manager.php');
 include_once (__DIR__ . '/classes/Location.php');
 
+// check if manager ID is provided
 if (!isset($_GET['id'])) {
     echo 'Manager ID not provided.';
     exit();
 }
 
+// get manager id from URL and get manager data
 $managerId = $_GET['id'];
 $managerData = Manager::getById($managerId);
 
@@ -17,6 +19,7 @@ if (!$managerData) {
 
 $locations = Location::getAll();
 
+// update manager data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $manager = new Manager();
     $manager->setId($managerId);
@@ -27,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $manager->setHubLocation($_POST['location']);
 
+    // handle profile image upload
     if ($_FILES['profile_img']['name']) {
         $profileImgPath = 'uploads/' . basename($_FILES['profile_img']['name']);
         move_uploaded_file($_FILES['profile_img']['tmp_name'], $profileImgPath);
