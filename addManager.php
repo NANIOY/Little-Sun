@@ -12,7 +12,7 @@ if (!empty($_POST)) {
         $manager->setEmail($_POST['email']);
         $manager->setPassword($_POST['password']);
         $manager->setProfileImg($_POST['profile_img']);
-        $manager->setHubLocation($_POST['location_id']);
+        $manager->setHubLocation($_POST['location_id']); 
         $manager->save();
 
         header('Location: index.php');

@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . '/../bootstrap.php');
+include_once (__DIR__ . '/../bootstrap.php');
 
 class Location
 {
@@ -7,8 +7,6 @@ class Location
     private $name;
     private $address;
     private $contactInfo;
-    private $managerId;
-
     /**
      * Get the value of id
      */
@@ -89,36 +87,15 @@ class Location
         return $this;
     }
 
-    /**
-     * Get the value of managerId
-     */
-    public function getManagerId()
-    {
-        return $this->managerId;
-    }
-
-    /**
-     * Set the value of managerId
-     *
-     * @return  self
-     */
-    public function setManagerId($managerId)
-    {
-        $this->managerId = $managerId;
-
-        return $this;
-    }
-
     public function save()
     {
         $conn = Db::getInstance();
 
-        $statement = $conn->prepare('insert into locations (name, address, contact_info, manager_id) values (:name, :address, :contact_info, :manager_id)');
+        $statement = $conn->prepare('insert into locations (name, address, contact_info) values (:name, :address, :contact_info)');
 
         $statement->bindValue(':name', $this->name);
         $statement->bindValue(':address', $this->address);
         $statement->bindValue(':contact_info', $this->contactInfo);
-        $statement->bindValue(':manager_id', $this->managerId);
 
         $statement->execute();
     }

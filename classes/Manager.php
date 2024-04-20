@@ -155,15 +155,25 @@ class Manager
     public function save()
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO users (first_name, last_name, email, password, profile_img, location_id, role) VALUES (:first_name, :last_name, :email, :password, :profile_img, :location_id, :role)");
-        $statement->bindValue(':first_name', $this->getFirstName());
-        $statement->bindValue(':last_name', $this->getLastName());
-        $statement->bindValue(':email', $this->getEmail());
-        $statement->bindValue(':password', $this->getPassword());
-        $statement->bindValue(':profile_img', $this->getProfileImg());
-        $statement->bindValue(':location_id', $this->getHubLocation());
-        $statement->bindValue(':role', $this->getRole());
-        $statement->execute();
+
+        $userStatement = $conn->prepare("INSERT INTO users (first_name, last_name, email, password, profile_img, location_id, role) VALUES (:first_name, :last_name, :email, :password, :profile_img, :location_id, :role)");
+        $userStatement->bindValue(':first_name', $this->getFirstName());
+        $userStatement->bindValue(':last_name', $this->getLastName());
+        $userStatement->bindValue(':email', $this->getEmail());
+        $userStatement->bindValue(':password', $this->getPassword());
+        $userStatement->bindValue(':profile_img', $this->getProfileImg());
+        $userStatement->bindValue(':location_id', $this->getHubLocation());
+        $userStatement->bindValue(':role', $this->getRole());
+        $userStatement->execute();
+
+        // get last inserted id
+        $userId = $conn->lastInsertId();
+
+        // update location with manager id
+        $locationStatement = $conn->prepare("UPDATE locations SET manager_id = :manager_id WHERE id = :location_id");
+        $locationStatement->bindValue(':manager_id', $userId);
+        $locationStatement->bindValue(':location_id', $this->getHubLocation());
+        $locationStatement->execute();
     }
 
 }

@@ -7,7 +7,6 @@ if (!empty($_POST)) {
 		$location->setName($_POST['name']);
 		$location->setAddress($_POST['address']);
 		$location->setContactInfo($_POST['contact_info']);
-		$location->setManagerId($_POST['manager_id']);
 		$location->save();
 
 		header('Location: hubLocations.php');
@@ -45,10 +44,6 @@ if (!empty($_POST)) {
 				<label for="contact_info" class="formContainer__form__field__label">Contact info:</label>
 				<input type="text" id="contact_info" name="contact_info" class="formContainer__form__field__input"
 					required>
-			</div>
-			<div class="formContainer__form__field">
-				<label for="manager_id" class="formContainer__form__field__label">Manager ID:</label>
-				<input type="text" id="manager_id" name="manager_id" class="formContainer__form__field__input" required>
 			</div>
 			<button type="submit" class="formContainer__form__button">Add location</button>
 		</form>
