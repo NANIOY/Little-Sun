@@ -13,7 +13,7 @@
         if ($user) {
             if (password_verify($password, $user['password'])) {
                 session_start();
-                $_SESSION['user'] = $user;
+                $_SESSION["user"] = $user;
                 header('Location: index.php');
             } else {
                 $error = true;
@@ -34,12 +34,7 @@
 </head>
 <body>
     <header>
-        <div id="navbar">
-            <div id="logo"><img src="img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></div>
-            <ul><a href="#">Feature 1</a></ul>
-            <ul><a href="#">Feature 2</a></ul>
-            <ul><a href="#">Help</a></ul>
-        </div>
+       <?php include_once("nav.inc.php"); ?>
     </header>
     <main>
 
@@ -61,7 +56,7 @@
 
                 <div class="form__field">
                     <label for="Email">Email:</label>
-                    <input type="text" name="email" id="username">
+                    <input type="text" name="email" id="email">
                 </div>
 
                 <div class="form__field">
