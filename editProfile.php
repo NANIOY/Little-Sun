@@ -26,7 +26,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $manager->setFirstName($_POST['first_name']);
     $manager->setLastName($_POST['last_name']);
     $manager->setEmail($_POST['email']);
-    $manager->setPassword($_POST['password']);
+
+    // only update password if not empty
+    $password = $_POST['password'];
+    if (!empty($password)) {
+        $manager->setPassword($password);
+    }
+
     $manager->setHubLocation($_POST['location']);
 
     // handle profile image upload
@@ -77,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="formContainer__form__field">
                 <label for="password" class="formContainer__form__field__label">New Password:</label>
-                <input type="password" id="password" name="password" class="formContainer__form__field__input" required>
+                <input type="password" id="password" name="password" class="formContainer__form__field__input">
             </div>
             <div class="formContainer__form__field">
                 <label for="location" class="formContainer__form__field__label">Location:</label>

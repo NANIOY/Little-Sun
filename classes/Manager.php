@@ -226,11 +226,17 @@ class Manager
 
     private function updateUserDetails($conn)
     {
-        $statement = $conn->prepare('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, password = :password, profile_img = :profile_img, location_id = :location_id WHERE id = :id');
+        $password = $this->getPassword();
+        if (!empty($password)) {
+            $statement = $conn->prepare('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, password = :password, profile_img = :profile_img, location_id = :location_id WHERE id = :id');
+            $statement->bindValue(':password', $password);
+        } else {
+            $statement = $conn->prepare('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, profile_img = :profile_img, location_id = :location_id WHERE id = :id');
+        }
+
         $statement->bindValue(':first_name', $this->getFirstName());
         $statement->bindValue(':last_name', $this->getLastName());
         $statement->bindValue(':email', $this->getEmail());
-        $statement->bindValue(':password', $this->getPassword());
         $statement->bindValue(':profile_img', $this->getProfileImg());
         $statement->bindValue(':location_id', $this->getHubLocation());
         $statement->bindValue(':id', $this->getId());
