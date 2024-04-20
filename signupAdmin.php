@@ -1,18 +1,25 @@
 <?php
-        if( !empty($_POST) ) {
-            $email = $_POST["email"];
-          
-            $options =[
-                'cost' => 14,
-            ];
 
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT, $options); // password_hash is veilig DEFAULT is BCRYPT
+    include_once (__DIR__ . '/classes/Admin.php');
 
-            $conn = new mysqli("127.0.0.1", "root", "", "littlesun");
-            $query = "insert into users (first_name, last_name, email, password, role) values ('$firstname', '$lastname','$email', '$password')";
-            $result = $conn->query($query);
-            header("Location: index.php");
+    if (!empty($_POST)) {
+        try {
+            $admin = new Admin();
+            $admin->setFirstName($_POST['first_name']);
+            $admin->setLastName($_POST['last_name']);
+            $admin->setEmail($_POST['email']);
+            $admin->setPassword($_POST['password']);
+            $admin->save();
+
+            var_dump($admin);
+
+            header('Location: login.php');
+            exit();
+        } catch (Throwable $th) {
+            $error = $th->getMessage();
         }
+    }
+
 
 
 ?><!DOCTYPE html>
@@ -34,45 +41,32 @@
         </div>
     </header>
     <main>
-        <div class="LittleSunTitleShiftplanner">
-            <h1>Little <span style="color:yellow">Sun</span> Shiftplanner</h1>
-            <p>Welcome to Little Sun Shiftplanner, the ultimate platform for shift planners in Zambia! At Little Sun Shiftplanner, we empower workers to take control of their schedules by defining their roles and selecting preferred work lactions. Our user-friendly interface allows workers ro plan their availibility for shifts and even schedule well-deserved vacations with ease.</p>
-        </div>
         <div class="LittleSunLogin">
             <form action="" method="post">
-                <h2>Sign up Admin</h2>
+                <h2>add Admin</h2>
 
                 <div class="form__field">
-                    <label for="Firstname">FirstName:</label>
-                    <input type="text" name="firstname" id="firstname">
+                    <label for="Firstname">Firstname:</label>
+                    <input type="text" name="first_name" id="first_name">
                 </div>
 
                 <div class="form__field">
                     <label for="Lastname">Lastname:</label>
-                    <input type="text" name="lastname" id="lastname">
+                    <input type="text" name="last_name" id="last_name">
                 </div>
 
                 <div class="form__field">
-                    <label for="Email">Username:</label>
-                    <input type="text" name="email" id="username">
+                    <label for="Email">Email:</label>
+                    <input type="text" name="email" id="email" required>
                 </div>
 
                 <div class="form__field">
                     <label for="Password">Password:</label>
-                    <input type="password" name="password" id="password">
+                    <input type="password" name="password" id="password" required>
                 </div>
 
                 <div class="form__field">
-                    <label for="Role">Role:</label>
-                    <input type="text" name="role" id="role">
-                </div>  
-
-                <div class="form__field">
-                    <button type="submit">Sign up</button>
-                </div>
-               
-                <div class="form__field">
-                    <a href="login.php">Already have an account?</a>
+                    <button type="submit">add Admin</button>
                 </div>
             </form>
         </div>
