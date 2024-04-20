@@ -1,39 +1,27 @@
 <?php
 
-    function canLogin($pEmail, $pPassword) { // user admin@littlesun.com pw 
-    
+    include_once (__DIR__ . '/classes/User.php');
 
-        $conn = new mysqli("127.0.0.1", "root", "", "littlesun");
-        $email = $conn->real_escape_string($pEmail);
-        $query = "select password from users where email = '$email'";
-        $result = $conn->query($query);
-        $user = $result->fetch_assoc();
-        
-        /*var_dump($user);*/
-        
-        if(password_verify($pPassword, $user['password'])) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    $users = User::getAll();
 
-    }
+    if (!empty($_POST)) {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-    if(!empty($_POST)) {
-        $email = $_POST["email"];
-        $password = $_POST["password"];
+        $user = User::getByEmail($email);
 
-        if(canLogin($email, $password)) {
-            session_start();
-            $_SESSION['loggedIn'] = true;
-            header("Location: index.php");
-        }
-        else {
+        if ($user) {
+            if (password_verify($password, $user['password'])) {
+                session_start();
+                $_SESSION['user'] = $user;
+                header('Location: index.php');
+            } else {
+                $error = true;
+            }
+        } else {
             $error = true;
         }
-    } 
-
+    }
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -54,6 +42,7 @@
         </div>
     </header>
     <main>
+
         <div class="LittleSunTitleShiftplanner">
             <h1>Little <span style="color:yellow">Sun</span> Shiftplanner</h1>
             <p>Welcome to Little Sun Shiftplanner, the ultimate platform for shift planners in Zambia! At Little Sun Shiftplanner, we empower workers to take control of their schedules by defining their roles and selecting preferred work lactions. Our user-friendly interface allows workers ro plan their availibility for shifts and even schedule well-deserved vacations with ease.</p>
@@ -71,7 +60,7 @@
 				<?php endif; ?>
 
                 <div class="form__field">
-                    <label for="Email">Username:</label>
+                    <label for="Email">Email:</label>
                     <input type="text" name="email" id="username">
                 </div>
 
@@ -86,8 +75,6 @@
                
                 <div class="form__field">
                     <a href="#">Forgot password?</a>
-                    <br>
-                    <a href="#">Don't have an account?</a>
                 </div>
             </form>
         </div>
