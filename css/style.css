@@ -71,8 +71,8 @@ button{
 
 .LittleSunLogin{
     background-color:#ffffff;
-    margin: 4rem;
-    padding: 2rem;
+    width: 100%;
+   
 }
 
 h2{
@@ -94,7 +94,7 @@ h2{
     font-size: 12px;
 }
 
-#firstname, #lastname, #username, #password, #role{
+#firstname, #lastname, #email, #password, #location{
     background-color: aliceblue;
     margin-top: 0.4rem;
     padding: 0.8rem;
@@ -118,7 +118,8 @@ h2{
     }
 
 .LittleSunLogin{
-        margin: 6rem;
-        padding: 2rem;
+        margin: 0 auto;
+        justify-content: center;
+        text-align: center;
     }
 }
