@@ -180,6 +180,4 @@ class Admin
         $this->id = $conn->lastInsertId();
 
     }
-
-
 }
