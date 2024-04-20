@@ -162,6 +162,28 @@ class Manager
         return $this->id;
     }
 
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public static function getById($id)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare('SELECT users.*, locations.name AS location_name FROM users LEFT JOIN locations ON users.location_id = locations.id WHERE users.role = "manager" AND users.id = :id');
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+
     public function save()
     {
         $conn = Db::getInstance();
@@ -193,5 +215,51 @@ class Manager
         $statement = $conn->prepare('SELECT users.*, locations.name AS location_name FROM users LEFT JOIN locations ON users.location_id = locations.id WHERE users.role = "manager"');
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function update()
+    {
+        $conn = Db::getInstance();
+        $this->updateUserDetails($conn);
+        $this->updateLocationManager($conn);
+    }
+
+    private function updateUserDetails($conn)
+    {
+        $password = $this->getPassword();
+        if (!empty($password)) {
+            $statement = $conn->prepare('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, password = :password, profile_img = :profile_img, location_id = :location_id WHERE id = :id');
+            $statement->bindValue(':password', $password);
+        } else {
+            $statement = $conn->prepare('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, profile_img = :profile_img, location_id = :location_id WHERE id = :id');
+        }
+
+        $statement->bindValue(':first_name', $this->getFirstName());
+        $statement->bindValue(':last_name', $this->getLastName());
+        $statement->bindValue(':email', $this->getEmail());
+        $statement->bindValue(':profile_img', $this->getProfileImg());
+        $statement->bindValue(':location_id', $this->getHubLocation());
+        $statement->bindValue(':id', $this->getId());
+        $statement->execute();
+    }
+
+    private function updateLocationManager($conn)
+    {
+        $locationManagerStatement = $conn->prepare('SELECT * FROM location_manager WHERE manager_id = :manager_id');
+        $locationManagerStatement->bindValue(':manager_id', $this->getId());
+        $locationManagerStatement->execute();
+        $locationManagerExists = $locationManagerStatement->fetch(PDO::FETCH_ASSOC);
+
+        if ($locationManagerExists) {
+            $updateLocationManagerStatement = $conn->prepare('UPDATE location_manager SET location_id = :location_id WHERE manager_id = :manager_id');
+            $updateLocationManagerStatement->bindValue(':location_id', $this->getHubLocation());
+            $updateLocationManagerStatement->bindValue(':manager_id', $this->getId());
+            $updateLocationManagerStatement->execute();
+        } else {
+            $insertLocationManagerStatement = $conn->prepare('INSERT INTO location_manager (manager_id, location_id) VALUES (:manager_id, :location_id)');
+            $insertLocationManagerStatement->bindValue(':manager_id', $this->getId());
+            $insertLocationManagerStatement->bindValue(':location_id', $this->getHubLocation());
+            $insertLocationManagerStatement->execute();
+        }
     }
 }
