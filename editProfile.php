@@ -1,5 +1,6 @@
 <?php
 include_once (__DIR__ . '/classes/Manager.php');
+include_once (__DIR__ . '/classes/Location.php');
 
 if (!isset($_GET['id'])) {
     echo 'Manager ID not provided.';
@@ -14,6 +15,8 @@ if (!$managerData) {
     exit();
 }
 
+$locations = Location::getAll();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $manager = new Manager();
     $manager->setId($managerId);
@@ -21,7 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $manager->setLastName($_POST['last_name']);
     $manager->setEmail($_POST['email']);
     $manager->setPassword($_POST['password']);
-    $manager->setHubLocation($managerData['location_id']);
+
+    $manager->setHubLocation($_POST['location']);
 
     if ($_FILES['profile_img']['name']) {
         $profileImgPath = 'uploads/' . basename($_FILES['profile_img']['name']);
@@ -71,6 +75,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="formContainer__form__field">
                 <label for="password" class="formContainer__form__field__label">New Password:</label>
                 <input type="password" id="password" name="password" class="formContainer__form__field__input" required>
+            </div>
+            <div class="formContainer__form__field">
+                <label for="location" class="formContainer__form__field__label">Location:</label>
+                <select id="location" name="location" class="formContainer__form__field__input" required>
+                    <?php foreach ($locations as $location): ?>
+                        <option value="<?php echo $location['id']; ?>" <?php if ($location['id'] == $managerData['location_id'])
+                               echo 'selected'; ?>>
+                            <?php echo $location['name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <div class="formContainer__form__field">
                 <label for="profile_img" class="formContainer__form__field__label">Profile Image:</label>
