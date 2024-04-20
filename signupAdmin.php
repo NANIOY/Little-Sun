@@ -1,38 +1,18 @@
 <?php
+        if( !empty($_POST) ) {
+            $email = $_POST["email"];
+          
+            $options =[
+                'cost' => 14,
+            ];
 
-    function canLogin($pEmail, $pPassword) { // user admin@littlesun.com pw 
-    
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT, $options); // password_hash is veilig DEFAULT is BCRYPT
 
-        $conn = new mysqli("127.0.0.1", "root", "", "littlesun");
-        $email = $conn->real_escape_string($pEmail);
-        $query = "select password from users where email = '$email'";
-        $result = $conn->query($query);
-        $user = $result->fetch_assoc();
-        
-        /*var_dump($user);*/
-        
-        if(password_verify($pPassword, $user['password'])) {
-            return true;
-        }
-        else {
-            return false;
-        }
-
-    }
-
-    if(!empty($_POST)) {
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-
-        if(canLogin($email, $password)) {
-            session_start();
-            $_SESSION['loggedIn'] = true;
+            $conn = new mysqli("127.0.0.1", "root", "", "littlesun");
+            $query = "insert into users (first_name, last_name, email, password, role) values ('$firstname', '$lastname','$email', '$password')";
+            $result = $conn->query($query);
             header("Location: index.php");
         }
-        else {
-            $error = true;
-        }
-    } 
 
 
 ?><!DOCTYPE html>
@@ -60,15 +40,17 @@
         </div>
         <div class="LittleSunLogin">
             <form action="" method="post">
-                <h2>Welcome</h2>
+                <h2>Sign up Admin</h2>
 
-                <?php if(isset($error)): ?>
-				<div class="form__error">
-					<p>
-						Sorry, we can't log you in with that email address and password. Can you try again?
-					</p>
-				</div>
-				<?php endif; ?>
+                <div class="form__field">
+                    <label for="Firstname">FirstName:</label>
+                    <input type="text" name="firstname" id="firstname">
+                </div>
+
+                <div class="form__field">
+                    <label for="Lastname">Lastname:</label>
+                    <input type="text" name="lastname" id="lastname">
+                </div>
 
                 <div class="form__field">
                     <label for="Email">Username:</label>
@@ -78,16 +60,19 @@
                 <div class="form__field">
                     <label for="Password">Password:</label>
                     <input type="password" name="password" id="password">
-                </div>    
+                </div>
 
                 <div class="form__field">
-                    <button type="submit">Login</button>
+                    <label for="Role">Role:</label>
+                    <input type="text" name="role" id="role">
+                </div>  
+
+                <div class="form__field">
+                    <button type="submit">Sign up</button>
                 </div>
                
                 <div class="form__field">
-                    <a href="#">Forgot password?</a>
-                    <br>
-                    <a href="#">Don't have an account?</a>
+                    <a href="login.php">Already have an account?</a>
                 </div>
             </form>
         </div>
