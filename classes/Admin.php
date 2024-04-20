@@ -4,10 +4,12 @@ include_once (__DIR__ . '/../bootstrap.php');
 
 class Admin
 {
-    private $firstname;
-    private $lastname;
+    private $firstName;
+    private $lastName;
     private $email;
     private $password;
+    
+    private $profileImg;
 
     private $role = "admin";
     private $id;
@@ -15,43 +17,42 @@ class Admin
 
 
     /**
-     * Get the value of firstname
-     */ 
-    public function getFirstname()
+     * Get the value of firstName
+     */
+    public function getFirstName()
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
     /**
-     * Set the value of firstname
+     * Set the value of firstName
      *
      * @return  self
-     */ 
-    public function setFirstname($firstname)
+     */
+    public function setFirstName($firstName)
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
 
         return $this;
     }
     
 
     /**
-     * Get the value of lastname
-     */ 
-    public function getLastname()
+     * Get the value of lastName
+     */
+    public function getLastName()
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
-
     /**
-     * Set the value of lastname
+     * Set the value of lastName
      *
      * @return  self
-     */ 
-    public function setLastname($lastname)
+     */
+    public function setLastName($lastName)
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -96,6 +97,27 @@ class Admin
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+
+        /**
+     * Get the value of profileImg
+     */ 
+    public function getProfileImg()
+    {
+        return $this->profileImg;
+    }
+
+    /**
+     * Set the value of profileImg
+     *
+     * @return  self
+     */ 
+    public function setProfileImg($profileImg)
+    {
+        $this->profileImg = $profileImg;
 
         return $this;
     }
@@ -148,9 +170,9 @@ class Admin
     public function save(){
         $conn = Db::getInstance();
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
-        $statement = $conn->prepare("INSERT INTO users (firstname, lastname, email, password, role ) VALUES (:firstname, :lastname, :email, :password, :role)");
-        $statement->bindValue(':firstname', $this->getFirstname());
-        $statement->bindValue(':lastname', $this->getLastname());
+        $statement = $conn->prepare("INSERT INTO users (first_name, last_name, email, password, role ) VALUES (:first_name, :last_name, :email, :password, :role)");
+        $statement->bindValue(':first_name', $this->getFirstName());
+        $statement->bindValue(':last_name', $this->getLastName());
         $statement->bindValue(':email', $this->getEmail());
         $statement->bindValue(':password', $hashedPassword);
         $statement->bindValue(':role', $this->getRole());
@@ -158,4 +180,6 @@ class Admin
         $this->id = $conn->lastInsertId();
 
     }
+
+
 }
