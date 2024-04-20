@@ -6,7 +6,6 @@ if (isset($_GET['id'])) {
     $manager = Manager::getById($managerId);
 
     if ($manager) {
-
         ?><!DOCTYPE html>
         <html lang="en">
 
@@ -31,6 +30,7 @@ if (isset($_GET['id'])) {
                             <?php else: ?>
                                 <p class="profile-location">Hub Location: Not specified</p>
                             <?php endif; ?>
+                            <a href="editProfile.php?id=<?php echo $managerId; ?>" class="edit-profile-button">Edit Profile</a>
                         </div>
                     </div>
                 </div>
