@@ -162,6 +162,16 @@ class Manager
         return $this->id;
     }
 
+    public static function getById($id)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare('SELECT users.*, locations.name AS location_name FROM users LEFT JOIN locations ON users.location_id = locations.id WHERE users.role = "manager" AND users.id = :id');
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+
     public function save()
     {
         $conn = Db::getInstance();
