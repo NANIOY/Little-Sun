@@ -10,6 +10,7 @@ class Manager
     private $profileImg;
     private $hubLocation;
     private $role = 'manager';
+    private $id;
 
 
     /**
@@ -152,6 +153,15 @@ class Manager
         return $this;
     }
 
+
+    /**
+     * Get the value of id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function save()
     {
         $conn = Db::getInstance();
@@ -165,6 +175,7 @@ class Manager
         $userStatement->bindValue(':location_id', $this->getHubLocation());
         $userStatement->bindValue(':role', $this->getRole());
         $userStatement->execute();
+        $this->id = $conn->lastInsertId();
 
         // get last inserted id
         $userId = $conn->lastInsertId();
@@ -176,4 +187,12 @@ class Manager
         $locationStatement->execute();
     }
 
+    public function assignToLocation($locationId)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare('INSERT INTO location_manager (location_id, manager_id) VALUES (:location_id, :manager_id)');
+        $statement->bindValue(':location_id', $locationId);
+        $statement->bindValue(':manager_id', $this->getId());
+        $statement->execute();
+    }
 }

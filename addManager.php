@@ -12,8 +12,11 @@ if (!empty($_POST)) {
         $manager->setEmail($_POST['email']);
         $manager->setPassword($_POST['password']);
         $manager->setProfileImg($_POST['profile_img']);
-        $manager->setHubLocation($_POST['location_id']); 
+        $manager->setHubLocation($_POST['location_id']);
         $manager->save();
+
+        $locationId = $_POST['location_id'];
+        $manager->assignToLocation($locationId);
 
         header('Location: index.php');
         exit();
@@ -21,8 +24,8 @@ if (!empty($_POST)) {
         $error = $th->getMessage();
     }
 }
-?>
-<!DOCTYPE html>
+
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
