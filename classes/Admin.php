@@ -1,12 +1,61 @@
 <?php
 
+include_once (__DIR__ . '/../bootstrap.php');
 
 class Admin
 {
+    private $firstname;
+    private $lastname;
     private $email;
     private $password;
-    private $role;
 
+    private $role = "admin";
+    private $id;
+    
+
+
+    /**
+     * Get the value of firstname
+     */ 
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set the value of firstname
+     *
+     * @return  self
+     */ 
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+    
+
+    /**
+     * Get the value of lastname
+     */ 
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+
+    /**
+     * Set the value of lastname
+     *
+     * @return  self
+     */ 
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+    
 
 
     /**
@@ -29,6 +78,8 @@ class Admin
         return $this;
     }
 
+
+
     /**
      * Get the value of password
      */
@@ -49,6 +100,10 @@ class Admin
         return $this;
     }
 
+
+
+
+
     /**
      * Get the value of role
      */
@@ -67,5 +122,40 @@ class Admin
         $this->role = $role;
 
         return $this;
+    }
+
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function save(){
+        $conn = Db::getInstance();
+        $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+        $statement = $conn->prepare("INSERT INTO users (firstname, lastname, email, password, role ) VALUES (:firstname, :lastname, :email, :password, :role)");
+        $statement->bindValue(':firstname', $this->getFirstname());
+        $statement->bindValue(':lastname', $this->getLastname());
+        $statement->bindValue(':email', $this->getEmail());
+        $statement->bindValue(':password', $hashedPassword);
+        $statement->bindValue(':role', $this->getRole());
+        $statement->execute();
+        $this->id = $conn->lastInsertId();
+
     }
 }
