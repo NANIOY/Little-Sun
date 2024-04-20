@@ -18,7 +18,7 @@ if (!empty($_POST)) {
         $locationId = $_POST['location_id'];
         $manager->assignToLocation($locationId);
 
-        header('Location: index.php');
+        header('Location: managers.php');
         exit();
     } catch (Throwable $th) {
         $error = $th->getMessage();
