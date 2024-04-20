@@ -162,6 +162,18 @@ class Manager
         return $this->id;
     }
 
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public static function getById($id)
     {
         $conn = Db::getInstance();
@@ -203,5 +215,19 @@ class Manager
         $statement = $conn->prepare('SELECT users.*, locations.name AS location_name FROM users LEFT JOIN locations ON users.location_id = locations.id WHERE users.role = "manager"');
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function update()
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, password = :password, profile_img = :profile_img, location_id = :location_id WHERE id = :id');
+        $statement->bindValue(':first_name', $this->getFirstName());
+        $statement->bindValue(':last_name', $this->getLastName());
+        $statement->bindValue(':email', $this->getEmail());
+        $statement->bindValue(':password', $this->getPassword());
+        $statement->bindValue(':profile_img', $this->getProfileImg());
+        $statement->bindValue(':location_id', $this->getHubLocation());
+        $statement->bindValue(':id', $this->getId());
+        $statement->execute();
     }
 }
