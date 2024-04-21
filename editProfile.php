@@ -91,6 +91,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     class="formContainer__form__field__input text-reg-normal">
             </div>
             <div class="formContainer__form__field">
+                <label for="profile_img" class="text-reg-s">Profile Image:</label>
+                <input type="file" id="profile_img" name="profile_img"
+                    class="formContainer__form__field__input text-reg-normal">
+            </div>
+            <div class="formContainer__form__field">
                 <label for="location" class="text-reg-s">Location:</label>
                 <select id="location" name="location" class="formContainer__form__field__input text-reg-normal"
                     required>
@@ -101,11 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="formContainer__form__field">
-                <label for="profile_img" class="text-reg-s">Profile Image:</label>
-                <input type="file" id="profile_img" name="profile_img"
-                    class="formContainer__form__field__input text-reg-normal">
-            </div>
+
             <button type="submit" class="formContainer__form__button button--primary">Save Changes</button>
         </form>
     </div>
