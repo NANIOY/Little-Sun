@@ -29,37 +29,37 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_location'])) {
 <body>
 	<div class="hublocations">
 		<div class="hublocations__header">
-			<h2 class="locationForm__title">Hub Locations</h2>
-			<a href="addLocation.php" class="hublocations__header__button">Add hub location</a>
+			<h3 class="locationForm__title">Hub Locations</h3>
+			<button onclick="window.location.href='addLocation.php'" class="button--primary">Add hub location</button>
 		</div>
 
 		<div class="hublocations__list">
 			<?php foreach ($locations as $location): ?>
 				<div class="hublocations__list__item">
 					<div class="hublocations__list__item__top">
-						<h3 class="hublocations__list__item__title">
+						<h5 class="hublocations__list__item__title">
 							<?php echo $location['name']; ?>
-						</h3>
+						</h5>
 						<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="delete-form">
 							<input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
-							<button type="submit" name="delete_location" class="hublocations__list__item__delete">X</button>
+							<button type="submit" name="delete_location" class="hublocations__list__item__delete">Delete</button>
 						</form>
 					</div>
 
 					<div class="hublocations__list__item__details">
-						<div class="hublocations__list__item__detail">
+						<div>
 							<i class="fas fa-map-marker-alt"></i>
-							<span class="hublocations__list__item__value"><?php echo $location['address']; ?></span>
+							<span><?php echo $location['address']; ?></span>
 						</div>
 						<span class="hublocations__list__item__sep">|</span>
-						<div class="hublocations__list__item__detail">
+						<div>
 							<i class="fas fa-phone"></i>
-							<span class="hublocations__list__item__value"><?php echo $location['contact_info']; ?></span>
+							<span><?php echo $location['contact_info']; ?></span>
 						</div>
 						<span class="hublocations__list__item__sep">|</span>
-						<div class="hublocations__list__item__detail">
+						<div>
 							<i class="fas fa-user"></i>
-							<span class="hublocations__list__item__value">
+							<span>
 								<?php
 								$managers = Location::getManagersByLocationId($location['id']);
 								foreach ($managers as $manager) {
