@@ -9,7 +9,7 @@ function isAuthenticated()
 
 function isAdmin()
 {
-    return isAuthenticated() && $_SESSION['user']['role'] === 'Admin';
+    return isAuthenticated() && $_SESSION['user']['role'] === 'admin';
 }
 
 function requireAuth()

@@ -1,5 +1,17 @@
 <?php
 
+    include_once (__DIR__ . '/classes/User.php');
+    include_once (__DIR__ . '/classes/Admin.php');
+    include_once (__DIR__ . '/includes/auth.inc.php');
+
+    requireAdmin();
+    
+    if(isset($_SESSION['user'])){
+        //echo 'Welcome ' . $_SESSION['user']['first_name'];
+    }else{
+        header('Location: login.php');
+    }
+
 ?><!DOCTYPE html>
 <html lang="en">
 

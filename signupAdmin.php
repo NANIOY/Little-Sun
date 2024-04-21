@@ -11,7 +11,6 @@
             $admin->setPassword($_POST['password']);
             $admin->save();
 
-            var_dump($admin);
 
             header('Location: login.php');
             exit();
@@ -33,12 +32,7 @@
 </head>
 <body>
     <header>
-        <div id="navbar">
-            <div id="logo"><img src="img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></div>
-            <ul><a href="#">Feature 1</a></ul>
-            <ul><a href="#">Feature 2</a></ul>
-            <ul><a href="#">Help</a></ul>
-        </div>
+        <?php include_once ("./includes/nav.inc.php"); ?>
     </header>
     <main>
         <div class="LittleSunLogin">
