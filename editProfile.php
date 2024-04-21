@@ -1,9 +1,6 @@
 <?php
 include_once (__DIR__ . '/classes/Manager.php');
 include_once (__DIR__ . '/classes/Location.php');
-include_once (__DIR__ . '/includes/auth.inc.php');
-
-requireAdmin();
 
 // check if manager ID is provided
 if (!isset($_GET['id'])) {

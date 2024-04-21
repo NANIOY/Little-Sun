@@ -1,19 +1,15 @@
 <?php
-include_once (__DIR__ . '/classes/User.php');
-include_once (__DIR__ . '/includes/auth.inc.php');
-
-requireAdmin();
-
-session_start();
-if (isset($_SESSION['user'])) {
-    //echo 'Welcome ' . $_SESSION['user']['first_name'];
-} else {
-    header('Location: login.php');
-}
+    include_once (__DIR__ . '/classes/User.php');
+    
+    session_start();
+    if(isset($_SESSION['user'])){
+        //echo 'Welcome ' . $_SESSION['user']['first_name'];
+    }else{
+        header('Location: login.php');
+    }
 
 ?><!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +17,6 @@ if (isset($_SESSION['user'])) {
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://use.typekit.net/qgt5qis.css">
 </head>
-
 <body>
     <header>
         <div id="navbar">
@@ -29,23 +24,21 @@ if (isset($_SESSION['user'])) {
             <a href="#">Feature 1</a>
             <a href="#">Feature 2</a>
             <a href="profile.php" class="LoggedIn">
-                <?php if (isset($_SESSION['user']['first_name'])): ?>
-                    <h3><?php echo $_SESSION['user']['first_name']; ?></h3>
-                <?php else: ?>
-                    <h3>User name here</h3>
+                <?php if(isset($_SESSION['user']['first_name'])): ?>
+                <h3><?php echo $_SESSION['user']['first_name']; ?></h3>
+                <?php else: ?> 
+                <h3>User name here</h3>
                 <?php endif; ?>
-                <div class="user-avatar"><img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_640.png"
-                        width="50px" alt="user avatar"></div>
-
+                <div class="user-avatar"><img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_640.png" width="50px" alt="user avatar"></div>
+                
             </a>
             <a href="logout.php">Log out?</a>
         </div>
     </header>
     <main>
 
-
+       
     </main>
-
+    
 </body>
-
 </html>
