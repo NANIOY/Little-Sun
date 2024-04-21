@@ -3,7 +3,6 @@
     --font-body: 'body';
     --font-bold: 'bold';
     --font-button: 'button'
-
   }
 
   @font-face {
@@ -64,6 +63,10 @@
   p, a, button, label, input, textarea, span {
     font-family: var(--font-body);
     line-height: 140%;
+  }
+
+  a {
+    text-decoration: none;
   }
 
   .text-bold-xl, .text-bold-l, .text-bold-normal, .text-bold-s, .text-bold-xs, .text-bold-xxs {
