@@ -88,8 +88,7 @@ class Manager
      */
     public function setPassword($password)
     {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $this->password = $hashedPassword;
+        $this->password = $password;
         return $this;
     }
 

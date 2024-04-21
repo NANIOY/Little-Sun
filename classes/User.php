@@ -15,7 +15,7 @@ class User
 
     /**
      * Get the value of firstName
-     */ 
+     */
     public function getFirstName()
     {
         return $this->firstName;
@@ -25,7 +25,7 @@ class User
      * Set the value of firstName
      *
      * @return  self
-     */ 
+     */
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
@@ -35,7 +35,7 @@ class User
 
     /**
      * Get the value of lastName
-     */ 
+     */
     public function getLastName()
     {
         return $this->lastName;
@@ -45,7 +45,7 @@ class User
      * Set the value of lastName
      *
      * @return  self
-     */ 
+     */
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
@@ -55,7 +55,7 @@ class User
 
     /**
      * Get the value of email
-     */ 
+     */
     public function getEmail()
     {
         return $this->email;
@@ -65,7 +65,7 @@ class User
      * Set the value of email
      *
      * @return  self
-     */ 
+     */
     public function setEmail($email)
     {
         $this->email = $email;
@@ -75,7 +75,7 @@ class User
 
     /**
      * Get the value of password
-     */ 
+     */
     public function getPassword()
     {
         return $this->password;
@@ -85,7 +85,7 @@ class User
      * Set the value of password
      *
      * @return  self
-     */ 
+     */
     public function setPassword($password)
     {
         $this->password = $password;
@@ -95,7 +95,7 @@ class User
 
     /**
      * Get the value of profileImg
-     */ 
+     */
     public function getProfileImg()
     {
         return $this->profileImg;
@@ -105,7 +105,7 @@ class User
      * Set the value of profileImg
      *
      * @return  self
-     */ 
+     */
     public function setProfileImg($profileImg)
     {
         $this->profileImg = $profileImg;
@@ -115,7 +115,7 @@ class User
 
     /**
      * Get the value of hubLocation
-     */ 
+     */
     public function getHubLocation()
     {
         return $this->hubLocation;
@@ -125,7 +125,7 @@ class User
      * Set the value of hubLocation
      *
      * @return  self
-     */ 
+     */
     public function setHubLocation($hubLocation)
     {
         $this->hubLocation = $hubLocation;
@@ -135,7 +135,7 @@ class User
 
     /**
      * Get the value of role
-     */ 
+     */
     public function getRole()
     {
         return $this->role;
@@ -145,7 +145,7 @@ class User
      * Set the value of role
      *
      * @return  self
-     */ 
+     */
     public function setRole($role)
     {
         $this->role = $role;
@@ -155,7 +155,7 @@ class User
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -165,7 +165,7 @@ class User
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -197,12 +197,19 @@ class User
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getByEmail($email)
+    public static function getByEmail($email, $enteredPassword)
     {
         $conn = Db::getInstance();
         $statement = $conn->prepare('SELECT * FROM users WHERE email = :email');
         $statement->bindValue(':email', $email);
         $statement->execute();
-        return $statement->fetch(PDO::FETCH_ASSOC);
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+        // Verify password
+        if ($user && password_verify($enteredPassword, $user['password'])) {
+            return $user; // Password is correct
+        } else {
+            return false; // Password is incorrect or user doesn't exist
+        }
     }
 }
