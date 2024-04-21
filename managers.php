@@ -11,7 +11,7 @@ $managers = Manager::getAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Little Sun | Managers</title>
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/managers.css">
+    <link rel="stylesheet" href="css/pagestyles/managers.css">
 </head>
 
 <?php include_once ("./includes/adminNav.inc.php"); ?>

@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_location'])) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Little Sun | Hub Locations</title>
 	<link rel="stylesheet" href="css/global.css">
-	<link rel="stylesheet" href="css/hubLocations.css">
+	<link rel="stylesheet" href="css/pagestyles/hubLocations.css">
 </head>
 
 <?php include_once("./includes/adminNav.inc.php"); ?>

@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Manager Profile</title>
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/pagestyles/form.css">
 </head>
 
 <?php include_once("./includes/adminNav.inc.php"); ?>

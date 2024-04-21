@@ -14,8 +14,10 @@ if (isset($_GET['id'])) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Manager Profile</title>
             <link rel="stylesheet" href="css/global.css">
-            <link rel="stylesheet" href="css/profile.css">
+            <link rel="stylesheet" href="css/pagestyles/profile.css">
         </head>
+
+        <?php include_once ("./includes/adminNav.inc.php"); ?>
 
         <body>
             <div class="container">

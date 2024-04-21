@@ -3,10 +3,6 @@ a {
     color: inherit;
 }
 
-.managers {
-    margin: 48px;
-}
-
 .managers__header {
     display: flex;
     justify-content: space-between;
