@@ -67,6 +67,7 @@
 
   a {
     text-decoration: none;
+    color: inherit;
   }
 
   .text-bold-xl, .text-bold-l, .text-bold-normal, .text-bold-s, .text-bold-xs, .text-bold-xxs {

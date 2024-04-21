@@ -19,8 +19,8 @@ $managers = Manager::getAll();
 <body>
     <div class="managers">
         <div class="managers__header">
-            <h2>All Managers</h2>
-            <a href="addManager.php" class="managers__header__button">Add manager</a>
+            <h3>All Managers</h3>
+            <button onclick="window.location.href='addManager.php'" class="button--primary">Add manager</button>
         </div>
 
         <div class="managercards">
@@ -28,12 +28,13 @@ $managers = Manager::getAll();
                 <a href="profile.php?id=<?php echo $manager['id']; ?>" class="managercard">
                     <img src="<?php echo $manager['profile_img']; ?>" alt="Profile Image" class="managercard__img">
                     <div class="managercard__info">
-                        <div class="managercard__name">
+                        <div class="text-bold-normal">
                             <?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?>
                         </div>
                         <?php if (isset($manager['location_name'])): ?>
-                            <div class="managercard__hub">
-                                Hub Location: <?php echo $manager['location_name']; ?>
+                            <div class="managercard__hub text-reg-s text-tertiary">
+                                <i class="fas fa-map-marker-alt"></i> 
+                                <?php echo $manager['location_name']; ?>
                             </div>
                         <?php endif; ?>
                     </div>
