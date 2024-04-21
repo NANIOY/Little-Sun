@@ -7,7 +7,7 @@
     </div>
 
     <div class="sidenav__bottom">
-    <?php session_start();
+    <?php
         if (isset($_SESSION["user"])) {
             $user = $_SESSION["user"];
             ?>
