@@ -16,20 +16,23 @@ $workers = User::getAllWorkers();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Little Sun | Workers</title>
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/pagestyles/managers.css">
+    <link rel="stylesheet" href="css/pagestyles/worker.css">
 </head>
 
 <?php include_once ("./includes/managerNav.inc.php"); ?>
 
 <body>
     <div class="workers">
-
-
+        
+    <div class="workers__header">
+            <h3>All Workers</h3>
+            <button onclick="window.location.href='addWorkers.php'" class="button--primary">Add worker</button>
+        </div>
         <div class="workercards">
                 <?php foreach ($workers as $workers): ?>
-                    <a href="profile.php?id=<?php echo $workers['id']; ?>" class="managercard">
-                        <img src="<?php echo $workers['profile_img']; ?>" alt="Profile Image" class="managercard__img profileimg">
-                        <div class="managercard__info">
+                    <a href="profile.php?id=<?php echo $workers['id']; ?>" class="workercard">
+                        <img src="<?php echo $workers['profile_img']; ?>" alt="Profile Image" class="workercard__img profileimg">
+                        <div class="workercard__info">
                             <div class="text-bold-normal">
                                 <?php echo $workers['first_name'] . ' ' . $workers['last_name']; ?>
                             </div>
