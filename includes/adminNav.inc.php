@@ -9,7 +9,7 @@
 <style>
     .sidenav {
         height: 100%;
-        width: 200px;
+        width: 240px;
         position: fixed;
         top: 0;
         left: 0;
@@ -18,7 +18,7 @@
     }
 
     .logo img {
-        width: 100%;
+        width: 80%;
     }
 
     .sidenav a {
@@ -26,6 +26,7 @@
         text-decoration: none;
         font-size: 18px;
         display: flex;
+        gap: 12px;
         transition: 0.3s;
     }
 
@@ -33,9 +34,6 @@
         color: var(--blurple);
     }
 
-    .sidenav a i {
-        margin-right: 10px;
-    }
 
     .navbar__logout {
         display: block;
