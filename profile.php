@@ -20,21 +20,18 @@ if (isset($_GET['id'])) {
         <?php include_once ("./includes/adminNav.inc.php"); ?>
 
         <body>
-            <div class="container">
-                <div class="manager-profile">
-                    <div class="profile-header">
-                        <img src="<?php echo $manager['profile_img']; ?>" alt="Profile Image" class="profile-img">
-                        <div class="profile-info">
-                            <h2 class="profile-name"><?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?></h2>
-                            <p class="profile-email">Email: <?php echo $manager['email']; ?></p>
-                            <?php if (isset($manager['location_name'])): ?>
-                                <p class="profile-location">Hub Location: <?php echo $manager['location_name']; ?></p>
-                            <?php else: ?>
-                                <p class="profile-location">Hub Location: Not specified</p>
-                            <?php endif; ?>
-                            <a href="editProfile.php?id=<?php echo $managerId; ?>" class="edit-profile-button">Edit Profile</a>
-                        </div>
-                    </div>
+            <div class="profile">
+                <img src="<?php echo $manager['profile_img']; ?>" alt="Profile Image" class="profile__img">
+                <div>
+                    <h3><?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?></h3>
+                    <p class="text-reg-normal">Email: <?php echo $manager['email']; ?></p>
+                    <?php if (isset($manager['location_name'])): ?>
+                        <p class="text-reg-normal">Hub Location: <?php echo $manager['location_name']; ?></p>
+                    <?php else: ?>
+                        <p class="text-reg-normal">Hub Location: Not specified</p>
+                    <?php endif; ?>
+                    <button onclick="window.location.href = 'editProfile.php?id=<?php echo $managerId; ?>';"
+                        class="button--secondary">Edit Profile</button>
                 </div>
             </div>
         </body>
