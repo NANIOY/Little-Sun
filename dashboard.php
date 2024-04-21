@@ -24,6 +24,8 @@
 
 <body>
     <?php include_once ("./includes/adminNav.inc.php"); ?>
+    <!-- <?php include_once ("./includes/managerNav.inc.php"); ?> -->
+    
 
 
 </body>
