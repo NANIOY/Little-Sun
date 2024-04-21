@@ -15,7 +15,10 @@
             ?>
             <div class="sidenav__user">
                 <img src="<?= $user['profile_img'] ?>" alt="Profile Image" class="sidenav__user__img profileimg">
-                <span class="text-bold-normal text-white"><?= $user['first_name'] ?>     <?= $user['last_name'] ?></span>
+                <div>
+                    <span class="text-bold-normal text-white"><?= $user['first_name'] ?>     <?= $user['last_name'] ?></span>
+                    <span class="badge text-bold-xs">Manager</span>
+                </div>
             </div>
         <?php } ?>
         <a href="logout.php" class="navbar__logout text-white"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -80,5 +83,20 @@
         height: 40px;
         margin-right: 12px;
         border-radius: 50%;
+    }
+
+    .sidenav__user div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .badge {
+        background-color: var(--green);
+        padding: 2px 4px;
+        border-radius: 4px;
+        box-sizing: border-box;
+        text-transform: uppercase;
     }
 </style>
