@@ -1,0 +1,66 @@
+.workers {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.workers__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.workers__header button {
+    width: 200px;
+}
+
+.workercards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.workercard {
+    border-radius: 4px;
+    padding: 16px;
+    flex: 1;
+    min-width: 400px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    background-color: var(--gray);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+.workercard:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.managercard__img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.workercard__info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+@media screen and (max-width: 768px) {
+    .workercard {
+        width: calc(50% - 20px);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .workercard {
+        width: calc(100% - 20px);
+    }
+}

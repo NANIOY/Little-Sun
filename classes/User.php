@@ -212,4 +212,21 @@ class User
             return false; // Password is incorrect or user doesn't exist
         }
     }
+
+    public static function getById($id)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare('SELECT * FROM users WHERE id = :id');
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function getAllWorkers()
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM users WHERE role = 'worker'");
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
