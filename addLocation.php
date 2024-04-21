@@ -27,6 +27,8 @@ if (!empty($_POST)) {
 	<link rel="stylesheet" href="css/form.css">
 </head>
 
+<?php include_once ("./includes/adminNav.inc.php"); ?>
+
 <body>
 	<div class="formContainer">
 		<h2 class="formContainer__title">Add Location</h2>

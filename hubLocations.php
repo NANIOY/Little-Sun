@@ -24,6 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_location'])) {
 	<link rel="stylesheet" href="css/hubLocations.css">
 </head>
 
+<?php include_once("./includes/adminNav.inc.php"); ?>
+
 <body>
 	<div class="hublocations">
 		<div class="hublocations__header">

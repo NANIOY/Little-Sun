@@ -14,6 +14,8 @@ $managers = Manager::getAll();
     <link rel="stylesheet" href="css/managers.css">
 </head>
 
+<?php include_once ("./includes/adminNav.inc.php"); ?>
+
 <body>
     <div class="managers">
         <div class="managers__header">
@@ -23,20 +25,20 @@ $managers = Manager::getAll();
 
         <div class="managercards">
             <?php foreach ($managers as $manager): ?>
-                    <a href="profile.php?id=<?php echo $manager['id']; ?>" class="managercard">
-                        <img src="<?php echo $manager['profile_img']; ?>" alt="Profile Image" class="managercard__img">
-                        <div class="managercard__info">
-                            <div class="managercard__name">
-                                <?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?>
-                            </div>
-                            <?php if (isset($manager['location_name'])): ?>
-                                <div class="managercard__hub">
-                                    Hub Location: <?php echo $manager['location_name']; ?>
-                                </div>
-                            <?php endif; ?>
+                <a href="profile.php?id=<?php echo $manager['id']; ?>" class="managercard">
+                    <img src="<?php echo $manager['profile_img']; ?>" alt="Profile Image" class="managercard__img">
+                    <div class="managercard__info">
+                        <div class="managercard__name">
+                            <?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?>
                         </div>
-                    </a>
-                <?php endforeach; ?>
+                        <?php if (isset($manager['location_name'])): ?>
+                            <div class="managercard__hub">
+                                Hub Location: <?php echo $manager['location_name']; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </a>
+            <?php endforeach; ?>
         </div>
     </div>
 </body>
