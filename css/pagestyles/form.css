@@ -1,5 +1,8 @@
 /* GENERAL */
 .formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
     max-width: 480px;
     margin: 0 auto;
     padding: 24px;
