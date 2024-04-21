@@ -21,7 +21,7 @@ if (isset($_GET['id'])) {
 
         <body>
             <div class="profile">
-                <img src="<?php echo $manager['profile_img']; ?>" alt="Profile Image" class="profile__img">
+                <img src="<?php echo $manager['profile_img']; ?>" alt="Profile Image" class="profile__img profileimg">
                 <div>
                     <h3><?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?></h3>
                     <p class="text-reg-normal">Email: <?php echo $manager['email']; ?></p>

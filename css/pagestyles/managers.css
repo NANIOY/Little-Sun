@@ -44,14 +44,6 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: var(--neutral-80);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: var(--white);
 }
 
 .managercard__info {

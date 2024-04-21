@@ -15,8 +15,6 @@ button {
   cursor: pointer;
 }
 
-
-
 /* BUTTONS */
 .button--primary {
   background-color: var(--blurple);

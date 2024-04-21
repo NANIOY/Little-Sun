@@ -17,23 +17,36 @@ i.fas {
   font-size: 20px;
 }
 
+.profileimg {
+  border-radius: 50%;
+  background-color: var(--neutral-80);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--white);
+}
+
 /* SCROLLBAR */
 ::-webkit-scrollbar-track {
   background-color: var(--neutral-20);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--blurple);
+  background-color: var(--black);
 }
 
 /* FIREFOX */
 * {
-  scrollbar-color: var(--blurple) var(--neutral-20);
+  scrollbar-color: var(--black) var(--neutral-20);
   scrollbar-width: thin;
 }
 
 *:hover {
-  scrollbar-color: var(--blurple-30) var(--neutral-20);
+  scrollbar-color: var(--neutral-30) var(--neutral-20);
 }
 
 * {
