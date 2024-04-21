@@ -17,6 +17,7 @@
 
 /* ITEMS */
 .hublocations__list__item {
+    position: relative; /* Add position relative */
     padding: 24px;
     border-radius: 8px;
     display: flex;
@@ -55,11 +56,21 @@
     gap: 8px;
 }
 
+/* BUTTONS */
+.hublocations__list__item__buttons {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
 .hublocations__list__item__delete {
-    margin-left: auto;
-    width: 100%;
+    width: 32px;
     height: 32px;
-    background-color: #dc3545;
+    background-color: var(--warning);
     color: var(--white);
     text-transform: uppercase;
     border: none;
@@ -68,6 +79,19 @@
     transition: 0.3s;
 }
 
-.hublocations__list__item__delete:hover {
-    background-color: #c82333;
+.hublocations__list__item__edit {
+    width: 32px;
+    height: 32px;
+    background-color: var(--info);
+    color: var(--white);
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.hublocations__list__item__delete:hover,
+.hublocations__list__item__edit:hover {
+    filter: brightness(0.8);
 }

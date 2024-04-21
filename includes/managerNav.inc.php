@@ -1,7 +1,7 @@
 <nav class="sidenav">
     <div class="sidenav__top">
         <a href="index.php" class="logo text-white"><img src="src\img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></a>
-        <a href="dashboard.php" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="managerDashboard.php" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="#" class="text-white"><i class="fas fa-users"></i> Workers</a>
         <a href="#" class="text-white"><i class="fas fa-tasks"></i> Tasks</a>
         <a href="#" class="text-white"><i class="far fa-calendar"></i> Schedule</a>
@@ -9,7 +9,6 @@
 
     <div class="sidenav__bottom">
         <?php
-        session_start();
         if (isset($_SESSION["user"])) {
             $user = $_SESSION["user"];
             ?>

@@ -125,4 +125,28 @@ class Location
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function update()
+    {
+        $conn = Db::getInstance();
+
+        $statement = $conn->prepare('UPDATE locations SET name = :name, address = :address, contact_info = :contact_info WHERE id = :id');
+
+        $statement->bindValue(':id', $this->id);
+        $statement->bindValue(':name', $this->name);
+        $statement->bindValue(':address', $this->address);
+        $statement->bindValue(':contact_info', $this->contactInfo);
+
+        $statement->execute();
+    }
+
+    public static function getById($id)
+    {
+        $conn = Db::getInstance();
+
+        $statement = $conn->prepare('select * from locations where id = :id');
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
 }

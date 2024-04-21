@@ -12,6 +12,11 @@ function isAdmin()
     return isAuthenticated() && $_SESSION['user']['role'] === 'admin';
 }
 
+function isManager()
+{
+    return isAuthenticated() && $_SESSION['user']['role'] === 'manager';
+}
+
 function requireAuth()
 {
     if (!isAuthenticated()) {
@@ -23,6 +28,14 @@ function requireAuth()
 function requireAdmin()
 {
     if (!isAdmin()) {
+        header('Location: login.php');
+        exit();
+    }
+}
+
+function requireManager()
+{
+    if (!isManager()) {
         header('Location: login.php');
         exit();
     }
