@@ -31,8 +31,9 @@ if (!empty($_POST)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LITTLESUN☀️</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://use.typekit.net/qgt5qis.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/pagestyles/form.css">
+    <link rel="stylesheet" href="css/pagestyles/login.css">
 </head>
 
 <body>
@@ -42,43 +43,45 @@ if (!empty($_POST)) {
     <main>
 
         <div class="LittleSunTitleShiftplanner">
-            <h1>Little <span style="color:yellow">Sun</span> Shiftplanner</h1>
+            <h2>Little <span style="color:yellow">Sun</span> Shiftplanner</h2>
             <p>Welcome to Little Sun Shiftplanner, the ultimate platform for shift planners in Zambia! At Little Sun
                 Shiftplanner, we empower workers to take control of their schedules by defining their roles and
                 selecting preferred work lactions. Our user-friendly interface allows workers ro plan their availibility
                 for shifts and even schedule well-deserved vacations with ease.</p>
-        </div>
-        <div class="LittleSunLogin">
-            <form action="" method="post">
-                <h2>Welcome</h2>
+        </div> 
 
-                <?php if (isset($error)): ?>
-                    <div class="form__error">
-                        <p>
-                            Sorry, we can't log you in with that email address and password. Can you try again?
-                        </p>
-                    </div>
-                <?php endif; ?>
+        <div class="formContainer">
+        <h4 class="formContainer__title">Welcome</h4>
+        <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
 
-                <div class="form__field">
-                    <label for="Email">Email:</label>
-                    <input type="text" name="email" id="email">
+            <?php if (isset($error)): ?>
+                <div class="form__error">
+                    <p>
+                        Sorry, we can't log you in with that email address and password. Can you try again?
+                    </p>
                 </div>
+            <?php endif; ?>
 
-                <div class="form__field">
-                    <label for="Password">Password:</label>
-                    <input type="password" name="password" id="password">
-                </div>
+            <div class="formContainer__form__field">
+                <label for="email" class="text-reg-s">Email:</label>
+                <input type="email" id="email" name="email" class="formContainer__form__field__input text-reg-normal" required>
+            </div>
+            
+            <div class="formContainer__form__field">
+                <label for="password" class="text-reg-s">Password:</label>
+                <input type="password" id="password" name="password"
+                    class="formContainer__form__field__input text-reg-normal" required>
+            </div>
 
-                <div class="form__field">
-                    <button type="submit">Login</button>
-                </div>
+            <div class="formContainer__form__field">
+                <a href="#">Forgot password?</a>
+            </div>
+           
+            <button type="submit" class="formContainer__form__button button--primary">Log In</button>
+        </form>
+    </div>
 
-                <div class="form__field">
-                    <a href="#">Forgot password?</a>
-                </div>
-            </form>
-        </div>
+
     </main>
 
 </body>
