@@ -1,5 +1,8 @@
 <?php
 include_once (__DIR__ . '/classes/Location.php');
+include_once (__DIR__ . '/includes/auth.inc.php');
+
+requireAdmin();
 
 $locations = Location::getAll();
 
@@ -24,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_location'])) {
 	<link rel="stylesheet" href="css/pagestyles/hubLocations.css">
 </head>
 
-<?php include_once("./includes/adminNav.inc.php"); ?>
+<?php include_once ("./includes/adminNav.inc.php"); ?>
 
 <body>
 	<div class="hublocations">
@@ -42,7 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_location'])) {
 						</h5>
 						<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="delete-form">
 							<input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
-							<button type="submit" name="delete_location" class="hublocations__list__item__delete">Delete</button>
+							<button type="submit" name="delete_location"
+								class="hublocations__list__item__delete">Delete</button>
 						</form>
 					</div>
 

@@ -1,6 +1,8 @@
 <?php
 include_once (__DIR__ . '/classes/Manager.php');
+include_once (__DIR__ . '/includes/auth.inc.php');
 
+requireAdmin();
 $managers = Manager::getAll();
 
 ?><!DOCTYPE html>
@@ -26,14 +28,15 @@ $managers = Manager::getAll();
         <div class="managercards">
             <?php foreach ($managers as $manager): ?>
                 <a href="profile.php?id=<?php echo $manager['id']; ?>" class="managercard">
-                    <img src="<?php echo $manager['profile_img']; ?>" alt="Profile Image" class="managercard__img profileimg">
+                    <img src="<?php echo $manager['profile_img']; ?>" alt="Profile Image"
+                        class="managercard__img profileimg">
                     <div class="managercard__info">
                         <div class="text-bold-normal">
                             <?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?>
                         </div>
                         <?php if (isset($manager['location_name'])): ?>
                             <div class="managercard__hub text-reg-s text-tertiary">
-                                <i class="fas fa-map-marker-alt"></i> 
+                                <i class="fas fa-map-marker-alt"></i>
                                 <?php echo $manager['location_name']; ?>
                             </div>
                         <?php endif; ?>
