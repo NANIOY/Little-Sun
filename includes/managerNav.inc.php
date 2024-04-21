@@ -1,10 +1,25 @@
 <nav class="sidenav">
-    <a href="index.php" class="logo text-white"><img src="src\img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></a>
-    <a href="dashboard.php" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-    <a href="#" class="text-white"><i class="fas fa-users"></i> Workers</a>
-    <a href="#" class="text-white"><i class="fas fa-tasks"></i> Tasks</a>
-    <a href="#" class="text-white"><i class="far fa-calendar"></i> Schedule</a>
-    <a href="logout.php" class="navbar__logout text-white"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <div class="sidenav__top">
+        <a href="index.php" class="logo text-white"><img src="src\img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></a>
+        <a href="dashboard.php" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="#" class="text-white"><i class="fas fa-users"></i> Workers</a>
+        <a href="#" class="text-white"><i class="fas fa-tasks"></i> Tasks</a>
+        <a href="#" class="text-white"><i class="far fa-calendar"></i> Schedule</a>
+    </div>
+
+    <div class="sidenav__bottom">
+        <?php
+        session_start();
+        if (isset($_SESSION["user"])) {
+            $user = $_SESSION["user"];
+            ?>
+            <div class="sidenav__user">
+                <img src="<?= $user['profile_img'] ?>" alt="Profile Image" class="sidenav__user__img profileimg">
+                <span class="text-bold-normal text-white"><?= $user['first_name'] ?>     <?= $user['last_name'] ?></span>
+            </div>
+        <?php } ?>
+        <a href="logout.php" class="navbar__logout text-white"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
 </nav>
 
 <style>
@@ -14,34 +29,56 @@
         position: fixed;
         top: 0;
         left: 0;
-        padding-top: 20px;
         background-color: var(--black);
+        padding: 20px 24px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        user-select: none;
+    }
+
+    .sidenav__top {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
     }
 
     .logo img {
-        width: 80%;
+        width: 100%;
+        margin-bottom: 8px;
     }
 
     .sidenav a {
-        padding: 16px;
         text-decoration: none;
-        font-size: 18px;
         display: flex;
+        align-items: center;
         gap: 12px;
-        transition: 0.3s;
+        color: var(--white);
+        transition: color 0.3s;
     }
 
     .sidenav a:hover {
         color: var(--blurple);
     }
 
+    .sidenav__bottom {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-bottom: 8px;
+    }
 
-    .navbar__logout {
-        display: block;
-        box-sizing: border-box;
-        position: absolute;
-        bottom: 20px;
-        width: 100%;
-        border-top: 1px solid var(--gray);
+    .sidenav__user {
+        display: flex;
+        align-items: center;
+        margin-top: auto;
+    }
+
+    .sidenav__user__img {
+        width: 40px;
+        height: 40px;
+        margin-right: 12px;
+        border-radius: 50%;
     }
 </style>
