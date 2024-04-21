@@ -7,6 +7,17 @@
     </div>
 
     <div class="sidenav__bottom">
+    <?php session_start();
+        if (isset($_SESSION["user"])) {
+            $user = $_SESSION["user"];
+            ?>
+            <div class="sidenav__userprofile">
+                <div>
+                    <span class="text-bold-normal text-white"><?= $user['first_name'] ?>     <?= $user['last_name'] ?></span>
+                    <span class="badge text-bold-xs">Admin</span>
+                </div>
+            </div>
+        <?php } ?>
         <a href="logout.php" class="navbar__logout text-white"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 </nav>
