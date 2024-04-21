@@ -8,10 +8,6 @@
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
-.formContainer__title {
-    font-size: 24px;
-}
-
 /* FORM */
 .formContainer__form {
     display: flex;
@@ -26,32 +22,10 @@
     gap: 4px;
 }
 
-.formContainer__form__field__label {
-    font-weight: 600;
-    font-size: 14px;
-}
-
 .formContainer__form__field__input,
 .formContainer__form__field__textarea {
     width: 100%;
     padding: 8px 0;
-    font-size: 16px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--neutral-20);
     border-radius: 4px;
-}
-
-/* BUTTON */
-.formContainer__form__button {
-    padding: 16px 0;
-    font-size: 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.formContainer__form__button:hover {
-    background-color: #0056b3;
 }

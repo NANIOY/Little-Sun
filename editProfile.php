@@ -61,35 +61,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/pagestyles/form.css">
 </head>
 
-<?php include_once("./includes/adminNav.inc.php"); ?>
+<?php include_once ("./includes/adminNav.inc.php"); ?>
 
 <body>
     <div class="formContainer">
-        <h2 class="formContainer__title">Edit Manager Profile</h2>
+        <h4 class="formContainer__title">Edit Manager Profile</h4>
         <form action="editProfile.php?id=<?php echo $managerId; ?>" method="post" enctype="multipart/form-data"
             class="formContainer__form">
             <div class="formContainer__form__field">
-                <label for="first_name" class="formContainer__form__field__label">First Name:</label>
-                <input type="text" id="first_name" name="first_name" class="formContainer__form__field__input"
+                <label for="first_name" class="text-reg-s">First Name:</label>
+                <input type="text" id="first_name" name="first_name"
+                    class="formContainer__form__field__input text-reg-normal"
                     value="<?php echo $managerData['first_name']; ?>" required>
             </div>
             <div class="formContainer__form__field">
-                <label for="last_name" class="formContainer__form__field__label">Last Name:</label>
-                <input type="text" id="last_name" name="last_name" class="formContainer__form__field__input"
+                <label for="last_name" class="text-reg-s">Last Name:</label>
+                <input type="text" id="last_name" name="last_name"
+                    class="formContainer__form__field__input text-reg-normal"
                     value="<?php echo $managerData['last_name']; ?>" required>
             </div>
             <div class="formContainer__form__field">
-                <label for="email" class="formContainer__form__field__label">Email:</label>
-                <input type="email" id="email" name="email" class="formContainer__form__field__input"
+                <label for="email" class="text-reg-s">Email:</label>
+                <input type="email" id="email" name="email" class="formContainer__form__field__input text-reg-normal"
                     value="<?php echo $managerData['email']; ?>" required>
             </div>
             <div class="formContainer__form__field">
-                <label for="password" class="formContainer__form__field__label">New Password:</label>
-                <input type="password" id="password" name="password" class="formContainer__form__field__input">
+                <label for="password" class="text-reg-s">New Password:</label>
+                <input type="password" id="password" name="password"
+                    class="formContainer__form__field__input text-reg-normal">
             </div>
             <div class="formContainer__form__field">
-                <label for="location" class="formContainer__form__field__label">Location:</label>
-                <select id="location" name="location" class="formContainer__form__field__input" required>
+                <label for="location" class="text-reg-s">Location:</label>
+                <select id="location" name="location" class="formContainer__form__field__input text-reg-normal"
+                    required>
                     <?php foreach ($locations as $location): ?>
                         <option value="<?php echo $location['id']; ?>" <?php echo ($location['id'] == $managerData['location_id']) ? 'selected' : ''; ?>>
                             <?php echo $location['name']; ?>
@@ -98,10 +102,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </select>
             </div>
             <div class="formContainer__form__field">
-                <label for="profile_img" class="formContainer__form__field__label">Profile Image:</label>
-                <input type="file" id="profile_img" name="profile_img" class="formContainer__form__field__input">
+                <label for="profile_img" class="text-reg-s">Profile Image:</label>
+                <input type="file" id="profile_img" name="profile_img"
+                    class="formContainer__form__field__input text-reg-normal">
             </div>
-            <button type="submit" class="formContainer__form__button">Save Changes</button>
+            <button type="submit" class="formContainer__form__button button--primary">Save Changes</button>
         </form>
     </div>
 </body>

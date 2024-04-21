@@ -31,23 +31,24 @@ if (!empty($_POST)) {
 
 <body>
 	<div class="formContainer">
-		<h2 class="formContainer__title">Add Location</h2>
+		<h4 class="formContainer__title">Add Location</h4>
 		<form action="" method="post" class="formContainer__form">
 			<div class="formContainer__form__field">
-				<label for="location_name" class="formContainer__form__field__label">Location name:</label>
-				<input type="text" id="location_name" name="name" class="formContainer__form__field__input" required>
+				<label for="location_name" class="text-reg-s">Location name:</label>
+				<input type="text" id="location_name" name="name"
+					class="formContainer__form__field__input text-reg-normal" required>
 			</div>
 			<div class="formContainer__form__field">
-				<label for="location_address" class="formContainer__form__field__label">Address:</label>
-				<textarea id="location_address" name="address" class="formContainer__form__field__textarea"
-					required></textarea>
+				<label for="location_address" class="text-reg-s">Address:</label>
+				<textarea id="location_address" name="address"
+					class="formContainer__form__field__textarea text-reg-normal" required></textarea>
 			</div>
 			<div class="formContainer__form__field">
-				<label for="contact_info" class="formContainer__form__field__label">Contact info:</label>
-				<input type="text" id="contact_info" name="contact_info" class="formContainer__form__field__input"
-					required>
+				<label for="contact_info" class="text-reg-s">Contact info:</label>
+				<input type="text" id="contact_info" name="contact_info"
+					class="formContainer__form__field__input text-reg-normal" required>
 			</div>
-			<button type="submit" class="formContainer__form__button">Add location</button>
+			<button type="submit" class="formContainer__form__button button--primary">Add location</button>
 		</form>
 	</div>
 </body>
