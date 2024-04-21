@@ -14,7 +14,7 @@
             if (password_verify($password, $user['password'])) {
                 session_start();
                 $_SESSION["user"] = $user;
-                header('Location: index.php');
+                header('Location: dashboard.php');
             } else {
                 $error = true;
             }
@@ -34,7 +34,7 @@
 </head>
 <body>
     <header>
-       <?php include_once("nav.inc.php"); ?>
+       <?php include_once("./includes/nav.inc.php"); ?>
     </header>
     <main>
 
