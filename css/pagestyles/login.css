@@ -1,0 +1,19 @@
+/** LOGIN.PHP **/
+
+.LittleSunTitleShiftplanner{
+    margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 1024px){
+    main{
+        margin-top: 8rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .formContainer{
+        width: 80%;
+    }
+}
