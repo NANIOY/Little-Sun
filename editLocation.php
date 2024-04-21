@@ -1,5 +1,8 @@
 <?php
 include_once (__DIR__ . '/classes/Location.php');
+include_once (__DIR__ . '/includes/auth.inc.php');
+
+requireAdmin();
 
 // check if location ID is provided
 if (!isset($_GET['location_id'])) {

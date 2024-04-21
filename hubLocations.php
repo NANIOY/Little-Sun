@@ -1,5 +1,8 @@
 <?php
 include_once (__DIR__ . '/classes/Location.php');
+include_once (__DIR__ . '/includes/auth.inc.php');
+
+requireAdmin();
 
 $locations = Location::getAll();
 
