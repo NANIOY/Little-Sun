@@ -14,7 +14,13 @@ if (!empty($_POST)) {
         if (password_verify($password, $user['password'])) {
             session_start();
             $_SESSION["user"] = $user;
-            header('Location: dashboard.php');
+            if ($user['role'] === 'admin') {
+                header('Location: dashboard.php');
+            } elseif ($user['role'] === 'manager') {
+                header('Location: managerDashboard.php');
+            } else {
+            }
+            exit();
         } else {
             $error = true;
         }
@@ -45,7 +51,8 @@ if (!empty($_POST)) {
             <h1>Little <span style="color:yellow">Sun</span> Shiftplanner</h1>
             <p>Welcome to Little Sun Shiftplanner, the ultimate platform for shift planners in Zambia! At Little Sun
                 Shiftplanner, we empower workers to take control of their schedules by defining their roles and
-                selecting preferred work lactions. Our user-friendly interface allows workers ro plan their availibility
+                selecting preferred work locations. Our user-friendly interface allows workers to plan their
+                availability
                 for shifts and even schedule well-deserved vacations with ease.</p>
         </div>
         <div class="LittleSunLogin">
