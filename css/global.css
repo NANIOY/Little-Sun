@@ -2,6 +2,11 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 @import "colors.css";
 @import "fonts.css";
+@import "buttons.css";
+
+body {
+  margin: 32px 56px 0 312px;
+}
 
 i.fas {
   display: flex;
