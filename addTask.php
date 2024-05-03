@@ -6,7 +6,17 @@ requireAdmin();
 
 
 if (!empty($_POST)) {
+    try {
+        $task = new Task();
+        $task->setTitle($_POST['title']);
+        $task->setColor($_POST['color']);
+        $task->save();
 
+        header('Location: tasks.php');
+        exit();
+    } catch (Throwable $th) {
+        $error = $th->getMessage();
+    }
 }
 ?><!DOCTYPE html>
 <html lang="en">

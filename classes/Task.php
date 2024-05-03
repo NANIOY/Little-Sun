@@ -40,4 +40,15 @@ class Task
         return $this;
     }
 
+    public function save()
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("INSERT INTO tasks (title, color) VALUES (:title, :color)");
+        $title = $this->getTitle();
+        $color = $this->getColor();
+        $statement->bindValue(":title", $title);
+        $statement->bindValue(":color", $color);
+        $statement->execute();
+    }
+
 }
