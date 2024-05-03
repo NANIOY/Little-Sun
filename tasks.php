@@ -21,20 +21,20 @@ $tasks = Task::getAll();
 <?php include_once ("./includes/adminNav.inc.php"); ?>
 
 <body>
+
     <div class="managers">
         <div class="managers__header">
             <h3>All Tasks</h3>
-            <button onclick="window.location.href='addTask.php'" class="button--primary">Add task</button>
+            <button onclick="window.location.href='addTask.php'" class="button--primary">Add Task</button>
         </div>
 
         <div class="tasklist">
             <?php foreach ($tasks as $task): ?>
                 <div class="tasklist__item">
-                    <div class="tasklist__item__title text-bold-normal">
+                    <div class="tasklist__item__color text-bold-normal"
+                        style="background-color: <?php echo htmlspecialchars($task['color']); ?>">
                         <?php echo $task['title']; ?>
                     </div>
-                    <div class="tasklist__item__color"
-                        style="background-color: <?php echo htmlspecialchars($task['color']); ?>;"></div>
                 </div>
             <?php endforeach; ?>
         </div>

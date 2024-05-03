@@ -8,23 +8,26 @@
 
 .tasklist__item {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 20px;
+    justify-content: flex-start;
+    padding: 12px;
     border-bottom: 1px solid var(--neutral-30);
     cursor: pointer;
-    background-color: var(--gray);}
+    background-color: var(--gray);
+}
 
 .tasklist__item:last-child {
     border-bottom: none;
 }
 
-.tasklist__item__title {
-    color: var(--black);
-}
-
 .tasklist__item__color {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
+    min-width: 48px;
+    height: 40px; 
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    padding: 0 20px;
+    text-transform: uppercase;
+    user-select: none;
 }
