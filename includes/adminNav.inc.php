@@ -4,6 +4,7 @@
         <a href="dashboard.php" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="managers.php" class="text-white"><i class="fas fa-users"></i> Managers</a>
         <a href="hublocations.php" class="text-white"><i class="fas fa-map-marker-alt"></i> Hub Locations</a>
+        <a href="tasks.php" class="text-white"><i class="fas fa-thumbtack"></i> Tasks</a>
     </div>
 
     <div class="sidenav__bottom">
