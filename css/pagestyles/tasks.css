@@ -1,0 +1,30 @@
+.tasklist {
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tasklist__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--neutral-30);
+    cursor: pointer;
+    background-color: var(--gray);}
+
+.tasklist__item:last-child {
+    border-bottom: none;
+}
+
+.tasklist__item__title {
+    color: var(--black);
+}
+
+.tasklist__item__color {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
