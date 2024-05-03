@@ -51,4 +51,12 @@ class Task
         $statement->execute();
     }
 
+    public static function getAll()
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM tasks");
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
