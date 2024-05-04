@@ -5,7 +5,13 @@ include_once (__DIR__ . '/includes/auth.inc.php');
 
 requireManager();
 
-$workers = User::getAllWorkers();
+if (!isset($_SESSION['user']['location_id'])) {
+    echo 'Manager hub location not set.';
+    exit();
+}
+
+$locationId = $_SESSION['user']['location_id'];
+$workers = User::getAllWorkers($locationId);
 
 include_once (__DIR__ . '/classes/Manager.php');
 
@@ -36,8 +42,7 @@ include_once (__DIR__ . '/classes/Manager.php');
         <div class="workercards">
             <?php foreach ($workers as $worker): ?>
                 <a href="profileWorker.php?id=<?php echo $worker['id']; ?>" class="workercard">
-                    <img src="<?php echo $worker['profile_img']; ?>" alt="Profile Image"
-                        class="workercard__img profileimg">
+                    <img src="<?php echo $worker['profile_img']; ?>" alt="Profile Image" class="workercard__img profileimg">
                     <div class="workercard__info">
                         <div class="text-bold-normal">
                             <?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?>
@@ -48,6 +53,5 @@ include_once (__DIR__ . '/classes/Manager.php');
         </div>
     </div>
 </body>
-
 
 </html>

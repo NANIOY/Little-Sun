@@ -222,10 +222,11 @@ class User
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function getAllWorkers()
+    public static function getAllWorkers($locationId)
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT * FROM users WHERE role = 'worker'");
+        $statement = $conn->prepare("SELECT * FROM users WHERE role = 'worker' AND location_id = :location_id");
+        $statement->bindValue(':location_id', $locationId, PDO::PARAM_INT);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
