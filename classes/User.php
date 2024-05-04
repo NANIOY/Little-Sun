@@ -230,4 +230,41 @@ class User
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function update()
+    {
+        $conn = Db::getInstance();
+        $userStatement = $conn->prepare("UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, profile_img = :profile_img, location_id = :location_id WHERE id = :id");
+        $userStatement->bindValue(':first_name', $this->getFirstName());
+        $userStatement->bindValue(':last_name', $this->getLastName());
+        $userStatement->bindValue(':email', $this->getEmail());
+        $userStatement->bindValue(':profile_img', $this->getProfileImg());
+        $userStatement->bindValue(':location_id', $this->getHubLocation());
+        $userStatement->bindValue(':id', $this->getId());
+        $userStatement->execute();
+    }
+
+    public function assignTasks($tasks)
+    {
+        $conn = Db::getInstance();
+        $conn->beginTransaction();
+
+        try {
+            $stmt = $conn->prepare("DELETE FROM task_user_assignment WHERE user_id = :user_id");
+            $stmt->bindValue(':user_id', $this->id);
+            $stmt->execute();
+
+            $stmt = $conn->prepare("INSERT INTO task_user_assignment (user_id, task_id) VALUES (:user_id, :task_id)");
+            foreach ($tasks as $task_id) {
+                $stmt->bindValue(':user_id', $this->id);
+                $stmt->bindValue(':task_id', $task_id);
+                $stmt->execute();
+            }
+
+            $conn->commit();
+        } catch (Exception $e) {
+            $conn->rollback();
+            throw $e;
+        }
+    }
 }
