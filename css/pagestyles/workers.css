@@ -15,10 +15,9 @@
 }
 
 .workercards {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 20px;
-    justify-content: flex-start;
 }
 
 .workercard {
@@ -40,7 +39,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.managercard__img {
+.workercard__img {
     width: 80px;
     height: 80px;
     border-radius: 50%;
