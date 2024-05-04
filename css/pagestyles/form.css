@@ -36,3 +36,30 @@
 .formContainer__form__button {
     margin-top: 16px;
 }
+
+/* COLOR CHOICE */
+.color {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.color__choice {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--white);
+}
+
+.color__input {
+    display: none;
+}
+
+.color__input:checked+.color__choice {
+    border: 2px solid var(--black);
+    transition: border 0.2s;
+}
