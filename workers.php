@@ -35,7 +35,7 @@ include_once (__DIR__ . '/classes/Manager.php');
 
         <div class="workercards">
             <?php foreach ($workers as $worker): ?>
-                <a href="profile.php?id=<?php echo $worker['id']; ?>" class="workercard">
+                <a href="profileWorker.php?id=<?php echo $worker['id']; ?>" class="workercard">
                     <img src="<?php echo $worker['profile_img']; ?>" alt="Profile Image"
                         class="workercard__img profileimg">
                     <div class="workercard__info">
