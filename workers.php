@@ -26,7 +26,7 @@ $workers = User::getAllWorkers();
         
     <div class="workers__header">
             <h3>All Workers</h3>
-            <button onclick="window.location.href='addWorkers.php'" class="button--primary">Add worker</button>
+            <button onclick="window.location.href='addWorker.php'" class="button--primary">Add worker</button>
         </div>
         <div class="workercards">
                 <?php foreach ($workers as $workers): ?>
