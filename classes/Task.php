@@ -86,4 +86,13 @@ class Task
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
+    public static function getTasksByWorkerId($workerId)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT t.* FROM tasks t JOIN task_user_assignment tua ON t.id = tua.task_id WHERE tua.user_id = :user_id");
+        $statement->bindValue(":user_id", $workerId, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
