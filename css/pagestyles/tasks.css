@@ -1,33 +1,29 @@
 .tasklist {
     width: 100%;
     margin: 0 auto;
-    border-radius: 8px;
+}
+
+.tasklist__tag {
+    display: block;
+    margin-bottom: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.tasklist__item {
-    display: flex;
-    justify-content: flex-start;
-    padding: 12px;
-    border-bottom: 1px solid var(--neutral-30);
-    cursor: pointer;
-    background-color: var(--gray);
-}
-
-.tasklist__item:last-child {
-    border-bottom: none;
-}
-
-.tasklist__item__color {
-    min-width: 48px;
-    height: 40px; 
-    border-radius: 4px;
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 8px;
     color: var(--white);
-    padding: 0 20px;
-    text-transform: uppercase;
-    user-select: none;
+    position: relative;
+    display: flex;
+    flex-direction: row;
 }
+
+.tasklist__tag__buttons {
+    position: absolute;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    justify-content: space-between;
+    margin-right: 16px;
+}
+
