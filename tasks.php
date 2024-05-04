@@ -6,6 +6,17 @@ requireAdmin();
 
 $tasks = Task::getAll();
 
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_task'])) {
+    $taskId = $_POST['task_id'];
+    try {
+        Task::delete($taskId);
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    } catch (Throwable $th) {
+        $error = $th->getMessage();
+    }
+}
+
 ?><!DOCTYPE html>
 <html lang="en">
 
