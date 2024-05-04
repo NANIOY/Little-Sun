@@ -13,10 +13,6 @@ if (!isset($_SESSION['user']['location_id'])) {
 $locationId = $_SESSION['user']['location_id'];
 $workers = User::getAllWorkers($locationId);
 
-include_once (__DIR__ . '/classes/Manager.php');
-
-
-
 
 ?><!DOCTYPE html>
 <html lang="en">
