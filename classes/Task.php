@@ -59,4 +59,31 @@ class Task
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function delete($id)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("DELETE FROM tasks WHERE id = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+    }
+
+    public function update()
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("UPDATE tasks SET title = :title, color = :color WHERE id = :id");
+        $statement->bindValue(":id", $this->id);
+        $statement->bindValue(":title", $this->title);
+        $statement->bindValue(":color", $this->color);
+        $statement->execute();
+    }
+
+    public static function getById($id)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM tasks WHERE id = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
