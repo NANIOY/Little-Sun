@@ -1,0 +1,35 @@
+.workerprofile {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+}
+
+.workerprofile__details {
+    display: flex;
+    align-items: center;
+}
+
+.profile__img {
+    width: 160px;
+    height: 160px;
+    margin-right: 20px;
+}
+
+button {
+    width: 128px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.profile__tasks__label {
+    display: block;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile__tasks__label input[type="checkbox"] {
+    margin-right: 4px;
+}
