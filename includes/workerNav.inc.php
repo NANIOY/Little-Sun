@@ -2,6 +2,8 @@
     <div class="sidenav__top">
         <a href="index.php" class="logo text-white"><img src="src\img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></a>
         <a href="workerDashboard.php" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="workerTasks.php" class="text-white"><i class="fas fa-tasks"></i>My Tasks</a>
+        <a href="#" class="text-white"><i class="far fa-calendar"></i> Schedule</a>
     </div>
 
     <div class="sidenav__bottom">
