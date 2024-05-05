@@ -7,7 +7,7 @@ class TimeOff
     private $startDate;
     private $endDate;
     private $reason;
-    
+
 
 
     public function getId()
@@ -20,7 +20,7 @@ class TimeOff
         $this->id = $id;
         return $this;
     }
- 
+
     public function getStartDate()
     {
         return $this->startDate;
@@ -33,7 +33,7 @@ class TimeOff
         return $this;
     }
 
-    
+
     public function getEndDate()
     {
         return $this->endDate;
@@ -50,7 +50,7 @@ class TimeOff
     {
         return $this->reason;
     }
- 
+
     public function setReason($reason)
     {
         $this->reason = $reason;
@@ -58,19 +58,20 @@ class TimeOff
         return $this;
     }
 
-
-    
-
     public function save()
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO time_off (startDate, endDate, reason) VALUES (:startDate, :endDate, :reason)");
+        $statement = $conn->prepare("INSERT INTO time_off (startDate, endDate, reason, user_id) VALUES (:startDate, :endDate, :reason, :user_id)");
         $startDate = $this->getStartDate();
         $endDate = $this->getEndDate();
         $reason = $this->getReason();
+        $user_id = $_SESSION['user']['id'];
+
         $statement->bindValue(":startDate", $startDate);
         $statement->bindValue(":endDate", $endDate);
         $statement->bindValue(":reason", $reason);
+        $statement->bindValue(":user_id", $user_id);
+        $statement->execute();
     }
 
     public static function getAll()

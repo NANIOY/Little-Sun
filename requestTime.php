@@ -16,12 +16,9 @@ if (!empty($_POST)) {
         $timeOff->setEndDate($_POST['endDate']);
         $timeOff->setReason($_POST['reason']);
         $timeOff->save();
-
-
-        echo "Request submitted";
-
-        /*  header('Location: workerSchedule.php');
-          exit(); */
+        
+        header('Location: workerSchedule.php');
+        exit();
     } catch (Throwable $th) {
         $error = $th->getMessage();
         echo "Error: " . $error;
@@ -51,12 +48,12 @@ if (!empty($_POST)) {
         <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
             <div class="formContainer__form__field">
                 <label for="start_date" class="text-reg-s">Start date</label>
-                <input type="datetime-local" />
+                <input type="datetime-local" id="start_date" name="startDate" required />
             </div>
 
             <div class="formContainer__form__field">
-                <label for="start_date" class="text-reg-s">End date</label>
-                <input type="datetime-local" />
+                <label for="end_date" class="text-reg-s">End date</label>
+                <input type="datetime-local" id="end_date" name="endDate" required />
             </div>
 
             <div class="formContainer__form__field">
@@ -65,9 +62,9 @@ if (!empty($_POST)) {
                     required placeholder="Enter reason for time off">
             </div>
 
-
-            <button type="submit" class="formContainer__form__button button--primary">submit</button>
+            <button type="submit" class="formContainer__form__button button--primary">Submit</button>
         </form>
+
     </div>
 </body>
 
