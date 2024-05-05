@@ -4,7 +4,6 @@ include_once (__DIR__ . '/classes/TimeOff.php');
 
 requireWorker();
 $user_id = $_SESSION['user']['id'];
-echo 'Session User ID: ' . $_SESSION['user']['id'];
 
 $timesOff = TimeOff::getAllForUser($user_id);
 
@@ -38,9 +37,11 @@ $timesOff = TimeOff::getAllForUser($user_id);
                             <strong>Date: </strong><?= date("Y-m-d H:i", strtotime($request['startDate'])) ?> to
                             <?= date("Y-m-d H:i", strtotime($request['endDate'])) ?><br>
                             <strong>Reason: </strong><?= htmlspecialchars($request['reason']) ?><br>
-                            <strong>Status: </strong><?= $request['approved'] ? 'Approved' : 'Pending' ?>
+                            <strong>Status:
+                            </strong><?= isset($request['approved']) && $request['approved'] ? 'Approved' : 'Pending' ?>
                         </li>
                     <?php endforeach; ?>
+
                 </ul>
             <?php else: ?>
                 <p>No time off requests found.</p>
