@@ -60,9 +60,11 @@ if (!empty($_POST)) {
             </div>
 
             <div class="formContainer__form__field">
-                <label for="start_date" class="text-reg-s">Reason</label>
-                <?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?>
+                <label for="reason" class="text-reg-s">Reason:</label>
+                <input type="text" id="reason" name="reason" class="formContainer__form__field__input text-reg-normal"
+                    required placeholder="Enter reason for time off">
             </div>
+
 
             <button type="submit" class="formContainer__form__button button--primary">submit</button>
         </form>
