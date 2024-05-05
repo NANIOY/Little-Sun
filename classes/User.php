@@ -250,20 +250,20 @@ class User
         $conn->beginTransaction();
 
         try {
-            $stmt = $conn->prepare("DELETE FROM task_user_assignment WHERE user_id = :user_id");
-            $stmt->bindValue(':user_id', $this->id);
-            $stmt->execute();
+            $statement = $conn->prepare("DELETE FROM task_user_assignment WHERE user_id = :user_id");
+            $statement->bindValue(':user_id', $this->id, PDO::PARAM_INT);
+            $statement->execute();
 
-            $stmt = $conn->prepare("INSERT INTO task_user_assignment (user_id, task_id) VALUES (:user_id, :task_id)");
+            $statement = $conn->prepare("INSERT INTO task_user_assignment (user_id, task_id) VALUES (:user_id, :task_id)");
             foreach ($tasks as $task_id) {
-                $stmt->bindValue(':user_id', $this->id);
-                $stmt->bindValue(':task_id', $task_id);
-                $stmt->execute();
+                $statement->bindValue(':user_id', $this->id, PDO::PARAM_INT);
+                $statement->bindValue(':task_id', $task_id, PDO::PARAM_INT);
+                $statement->execute();
             }
 
             $conn->commit();
         } catch (Exception $e) {
-            $conn->rollback();
+            $conn->rollback(); 
             throw $e;
         }
     }

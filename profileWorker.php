@@ -7,9 +7,18 @@ requireManager();
 
 if (isset($_GET['id'])) {
     $workerId = $_GET['id'];
-    $worker = User::getById($workerId);
+    $workerData = User::getById($workerId);
 
-    if ($worker) {
+    if ($workerData) {
+        $worker = new User();
+        $worker->setId($workerData['id']);
+        $worker->setFirstName($workerData['first_name']);
+        $worker->setLastName($workerData['last_name']);
+        $worker->setEmail($workerData['email']);
+        $worker->setProfileImg($workerData['profile_img']);
+        $worker->setHubLocation($workerData['location_id']);
+        $worker->setRole($workerData['role']);
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['task_ids'])) {
             try {
                 $worker->assignTasks($_POST['task_ids']);
@@ -39,10 +48,10 @@ if (isset($_GET['id'])) {
         <body>
             <div class="workerprofile">
                 <div class="workerprofile__details">
-                    <img src="<?php echo htmlspecialchars($worker['profile_img']); ?>" alt="Profile Image" class="profile__img profileimg">
+                    <img src="<?php echo htmlspecialchars($workerData['profile_img']); ?>" alt="Profile Image" class="profile__img profileimg">
                     <div>
-                        <h3><?php echo htmlspecialchars($worker['first_name']) . ' ' . htmlspecialchars($worker['last_name']); ?></h3>
-                        <p class="text-reg-normal">Email: <?php echo htmlspecialchars($worker['email']); ?></p>
+                        <h3><?php echo htmlspecialchars($workerData['first_name']) . ' ' . htmlspecialchars($workerData['last_name']); ?></h3>
+                        <p class="text-reg-normal">Email: <?php echo htmlspecialchars($workerData['email']); ?></p>
                         <?php if (!empty($message)): ?>
                         <p><?php echo $message; ?></p>
                         <?php endif; ?>
