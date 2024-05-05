@@ -17,6 +17,11 @@ function isManager()
     return isAuthenticated() && $_SESSION['user']['role'] === 'manager';
 }
 
+function isWorker()
+{
+    return isAuthenticated() && $_SESSION['user']['role'] === 'worker';
+}
+
 function requireAuth()
 {
     if (!isAuthenticated()) {
@@ -36,6 +41,14 @@ function requireAdmin()
 function requireManager()
 {
     if (!isManager()) {
+        header('Location: login.php');
+        exit();
+    }
+}
+
+function requireWorker()
+{
+    if (!isWorker()) {
         header('Location: login.php');
         exit();
     }
