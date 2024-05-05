@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="formContainer">
         <h4 class="formContainer__title">Edit Worker Profile</h4>
-        <form action="editProfile.php?id=<?php echo $workerId; ?>" method="post" enctype="multipart/form-data"
+        <form action="editWorkerProfile.php?id=<?php echo $workerId; ?>" method="post" enctype="multipart/form-data"
             class="formContainer__form">
             <div class="formContainer__form__field">
                 <label for="first_name" class="text-reg-s">First Name:</label>
