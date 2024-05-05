@@ -132,4 +132,16 @@ class TimeOff
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getAllForLocation($locationId)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT time_off.*, users.first_name, users.last_name, time_off.approved AS approved FROM time_off 
+                            JOIN users ON time_off.user_id = users.id 
+                            WHERE users.location_id = :location_id 
+                            ORDER BY time_off.startDate DESC");
+        $statement->bindValue(':location_id', $locationId, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
