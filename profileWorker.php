@@ -29,8 +29,7 @@ if (isset($_GET['id'])) {
 
         $allTasks = Task::getAll();
         $workerTasks = Task::getTasksByWorkerId($workerId);
-        $workerTaskIds = $workerTasks ? array_column($workerTasks, 'task_id') : [];
-
+        $workerTaskIds = $workerTasks ? array_column($workerTasks, 'id') : [];
         ?><!DOCTYPE html>
         <html lang="en">
 
@@ -70,18 +69,19 @@ if (isset($_GET['id'])) {
                 <div class="profile__tasks">
                     <h4>Assign Tasks</h4>
                     <form action="" method="post">
-                        <ul>
-                            <?php foreach ($allTasks as $task): ?>
-                                <li>
-                                    <label class="profile__tasks__label">
-                                        <input type="checkbox" name="task_ids[]" value="<?php echo $task['id']; ?>" <?php echo in_array($task['id'], $workerTaskIds) ? 'checked' : ''; ?>>
-                                        <?php echo htmlspecialchars($task['title']); ?>
-                                    </label>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <button type="submit" class="button--primary">Assign Tasks</button>
-                    </form>
+                    <ul>
+                        <?php foreach ($allTasks as $task): ?>
+                            <li>
+                                <label class="profile__tasks__label">
+                                    <input type="checkbox" name="task_ids[]" value="<?php echo $task['id']; ?>"
+                                        <?php echo in_array($task['id'], $workerTaskIds) ? 'checked' : ''; ?>>
+                                    <?php echo htmlspecialchars($task['title']); ?>
+                                </label>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <button type="submit" class="button--primary">Assign Tasks</button>
+                </form>
                 </div>
             </div>
         </body>
