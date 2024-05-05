@@ -63,3 +63,14 @@
         width: calc(100% - 20px);
     }
 }
+
+.tasklist {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tasklist__tag {
+    padding: 4px 6px;
+    box-sizing: border-box;
+}
