@@ -6,24 +6,22 @@ include_once (__DIR__ . '/includes/auth.inc.php');
 
 requireWorker();
 
-$worker = User:: getById($_SESSION['user']['id']);
-
-$locations = Location::getAll();
+$worker = User::getById($_SESSION['user']['id']);
 
 if (!empty($_POST)) {
     try {
-      
+
         $timeOff = new TimeOff();
         $timeOff->setStartDate($_POST['startDate']);
         $timeOff->setEndDate($_POST['endDate']);
         $timeOff->setReason($_POST['reason']);
         $timeOff->save();
-        
+
 
         echo "Request submitted";
 
-      /*  header('Location: workerSchedule.php');
-        exit(); */
+        /*  header('Location: workerSchedule.php');
+          exit(); */
     } catch (Throwable $th) {
         $error = $th->getMessage();
         echo "Error: " . $error;
@@ -51,21 +49,6 @@ if (!empty($_POST)) {
         <h4 class="formContainer__title">Request time off</h4>
 
         <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
-            <div class="formContainer__form__field">
-                <label for="first_name" class="text-reg-s">Name</label>
-                <?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?>
-            </div>
-
-            <div class="formContainer__form__field">
-                <label for="location_id" class="text-reg-s">Hub Location:</label>
-                <select id="location_id" name="location_id" class="formContainer__form__field__input text-reg-normal"
-                    required>
-                    <?php foreach ($locations as $location): ?>
-                        <option value="<?= $location['id'] ?>"><?= htmlspecialchars($location['name']) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
             <div class="formContainer__form__field">
                 <label for="start_date" class="text-reg-s">Start date</label>
                 <input type="datetime-local" />
