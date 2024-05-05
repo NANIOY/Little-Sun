@@ -104,5 +104,12 @@ class TimeOff
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
-
+    public static function getAllForUser($userId)
+    {
+        $conn = Db::getInstance();
+        $stmt = $conn->prepare("SELECT * FROM time_off WHERE user_id = :user_id ORDER BY startDate DESC");
+        $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
