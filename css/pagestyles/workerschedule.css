@@ -1,0 +1,18 @@
+.workers__list__timeoff {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+}
+
+.workers__list__timeoff__request {
+    background-color: var(--gray);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    border-radius: 4px;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.workers__list__timeoff__request:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

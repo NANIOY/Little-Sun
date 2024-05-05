@@ -16,6 +16,7 @@ $timesOff = TimeOff::getAllForUser($user_id);
     <title>Little Sun | Schedule</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/workers.css">
+    <link rel="stylesheet" href="css/pagestyles/workerschedule.css">
 </head>
 
 <body>
@@ -31,18 +32,18 @@ $timesOff = TimeOff::getAllForUser($user_id);
             <?php
             $timeOffRequests = TimeOff::getAllForUser($_SESSION['user']['id']);
             if (!empty($timeOffRequests)): ?>
-                <ul>
+                <div class="workers__list__timeoff">
                     <?php foreach ($timeOffRequests as $request): ?>
-                        <li>
-                            <strong>Date: </strong><?= date("Y-m-d H:i", strtotime($request['startDate'])) ?> to
+                        <div class="workers__list__timeoff__request">
+                            <span class="text-bold-normal">Date: </span><?= date("Y-m-d H:i", strtotime ($request['startDate'])) ?> to 
                             <?= date("Y-m-d H:i", strtotime($request['endDate'])) ?><br>
-                            <strong>Reason: </strong><?= htmlspecialchars($request['reason']) ?><br>
-                            <strong>Status:
-                            </strong><?= isset($request['approved']) && $request['approved'] ? 'Approved' : 'Pending' ?>
-                        </li>
+                            <span class="text-bold-normal">Reason: </span><?= htmlspecialchars($request['reason']) ?><br>
+                            <span class="text-bold-normal">Status:
+                            </span><?= isset($request['approved']) && $request['approved'] ? 'Approved' : 'Pending' ?>
+                        </div>
                     <?php endforeach; ?>
 
-                </ul>
+                </div>
             <?php else: ?>
                 <p>No time off requests found.</p>
             <?php endif; ?>
