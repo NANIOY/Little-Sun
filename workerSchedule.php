@@ -15,7 +15,14 @@
 
 <body>
     <?php include_once ("./includes/workerNav.inc.php"); ?>
+
+    <div class="workers">
+        <div class="workers__header">
+            <h3>My Schedule</h3>
+            <button onclick="window.location.href='requestTime.php'" class="button--primary">Request time off</button>
+        </div>
     
 </body>
 
 </html>
+

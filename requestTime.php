@@ -5,40 +5,17 @@ include_once (__DIR__ . '/includes/auth.inc.php');
 
 requireWorker();
 
-if (!isset($_SESSION['user']['location_id'])) {
-    echo 'Worker hub location not set.';
-    exit();
-}
+$worker = User:: getById($_SESSION['user']['id']);
 
 $locations = Location::getAll();
 
-$locationId = $_SESSION['user']['location_id'];
-$workers = User::getAllWorkers($locationId);
-
-
-$workerId = $_GET['id'];
-$workerData = User::getById($workerId);
-
 if (!empty($_POST)) {
     try {
-        $worker = new User();
-        $worker->setFirstName($_POST['first_name']);
-        $worker->setLastName($_POST['last_name']);
-        $worker->setEmail($_POST['email']);
-        $worker->setPassword($_POST['password']);
+      
+        echo "Request submitted";
 
-        $profileImgPath = 'uploads/' . basename($_FILES['profile_img']['name']);
-        move_uploaded_file($_FILES['profile_img']['tmp_name'], $profileImgPath);
-        $worker->setProfileImg($profileImgPath);
-
-        $worker->setRole('worker');
-        $worker->setHubLocation($_SESSION['user']['location_id']);
-
-
-        $worker->save();
-
-        header('Location: workerSchedule.php');
-        exit();
+      /*  header('Location: workerSchedule.php');
+        exit(); */
     } catch (Throwable $th) {
         $error = $th->getMessage();
         echo "Error: " . $error;
@@ -72,12 +49,6 @@ if (!empty($_POST)) {
             </div>
 
             <div class="formContainer__form__field">
-                <label for="first_name" class="text-reg-s">Location</label>
-                <?php echo $location['name']; ?>
-            </div>
-
-
-            <div class="formContainer__form__field">
                 <label for="location_id" class="text-reg-s">Hub Location:</label>
                 <select id="location_id" name="location_id" class="formContainer__form__field__input text-reg-normal"
                     required>
@@ -87,6 +58,20 @@ if (!empty($_POST)) {
                 </select>
             </div>
 
+            <div class="formContainer__form__field">
+                <label for="start_date" class="text-reg-s">Start date</label>
+                <input type="datetime-local" />
+            </div>
+
+            <div class="formContainer__form__field">
+                <label for="start_date" class="text-reg-s">End date</label>
+                <input type="datetime-local" />
+            </div>
+
+            <div class="formContainer__form__field">
+                <label for="start_date" class="text-reg-s">Reason</label>
+                <?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?>
+            </div>
 
             <button type="submit" class="formContainer__form__button button--primary">submit</button>
         </form>
