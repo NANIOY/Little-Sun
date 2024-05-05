@@ -6,7 +6,7 @@ include_once (__DIR__ . '/includes/auth.inc.php');
 
 requireWorker();
 
-$worker = User:: getById($_SESSION['user']['id']);
+$worker = User::getById($_SESSION['user']['id']);
 
 $locations = Location::getAll();
 
@@ -14,8 +14,8 @@ if (!empty($_POST)) {
     try {
       
         $timeOff = new TimeOff();
-        $timeOff->setStartDate($_POST['startDate']);
-        $timeOff->setEndDate($_POST['endDate']);
+        $timeOff->setStartDate($_POST['start_date']);
+        $timeOff->setEndDate($_POST['end_date']);
         $timeOff->setReason($_POST['reason']);
         $timeOff->save();
         
