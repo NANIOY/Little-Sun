@@ -8,6 +8,21 @@ $locationId = $_SESSION['user']['location_id'];
 
 $timeOffRequests = TimeOff::getAllForLocation($locationId);
 
+
+function getStatus($approvedCode)
+{
+    switch ($approvedCode) {
+        case 0:
+            return 'Pending';
+        case 1:
+            return 'Declined';
+        case 2:
+            return 'Approved';
+        default:
+            return 'Unknown';
+    }
+}
+
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +53,7 @@ $timeOffRequests = TimeOff::getAllForLocation($locationId);
                             <?= date("Y-m-d H:i", strtotime($request['endDate'])) ?><br>
                             <strong>Reason: </strong><?= htmlspecialchars($request['reason']) ?><br>
                             <strong>Status: </strong>
-                            <?= isset($request['approved']) ? ($request['approved'] ? 'Approved' : 'Pending') : 'Unknown' ?>
+                            <?= getStatus($request['approved']) ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
