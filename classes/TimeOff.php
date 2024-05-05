@@ -8,6 +8,7 @@ class TimeOff
     private $endDate;
     private $reason;
     private $approved;
+    private $declineReason;
 
 
 
@@ -71,20 +72,33 @@ class TimeOff
         return $this;
     }
 
+    public function getDeclineReason()
+    {
+        return $this->declineReason;
+    }
+
+    public function setDeclineReason($declineReason)
+    {
+        $this->declineReason = $declineReason;
+        return $this;
+    }
+
     public function save()
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO time_off (startDate, endDate, reason, approved, user_id) VALUES (:startDate, :endDate, :reason, :approved, :user_id)");
+        $statement = $conn->prepare("INSERT INTO time_off (startDate, endDate, reason, approved, decline_reason, user_id) VALUES (:startDate, :endDate, :reason, :approved, :decline_reason, :user_id)");
         $startDate = $this->getStartDate();
         $endDate = $this->getEndDate();
         $reason = $this->getReason();
         $approved = $this->getApproved() ?? 0;
+        $declineReason = $this->getDeclineReason();
         $user_id = $_SESSION['user']['id'];
 
         $statement->bindValue(":startDate", $startDate);
         $statement->bindValue(":endDate", $endDate);
         $statement->bindValue(":reason", $reason);
         $statement->bindValue(":approved", $approved, PDO::PARAM_INT);
+        $statement->bindValue(":decline_reason", $declineReason);
         $statement->bindValue(":user_id", $user_id, PDO::PARAM_INT);
         $statement->execute();
     }
@@ -100,16 +114,18 @@ class TimeOff
     public function update()
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("UPDATE time_off SET start_date = :start_date, end_date = :end_date, reason = :reason, approved = :approved WHERE id = :id");
+        $statement = $conn->prepare("UPDATE time_off SET start_date = :start_date, end_date = :end_date, reason = :reason, approved = :approved, decline_reason = :decline_reason WHERE id = :id");
         $start_date = $this->getStartDate();
         $end_date = $this->getEndDate();
         $reason = $this->getReason();
         $approved = $this->getApproved();
+        $declineReason = $this->getDeclineReason();
 
         $statement->bindValue(":start_date", $start_date);
         $statement->bindValue(":end_date", $end_date);
         $statement->bindValue(":reason", $reason);
         $statement->bindValue(":approved", $approved, PDO::PARAM_INT);
+        $statement->bindValue(":decline_reason", $declineReason);
         $statement->bindValue(":id", $this->getId(), PDO::PARAM_INT);
         $statement->execute();
     }

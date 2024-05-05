@@ -46,21 +46,23 @@ function getStatus($approvedCode)
             <?php if (!empty($timeOffRequests)): ?>
                 <div class="workers__list__timeoff">
                     <?php foreach ($timeOffRequests as $request): ?>
-                        <div class="workers__list__timeoff__request">
-                            <strong>Employee:
-                            </strong><?= htmlspecialchars($request['first_name'] . ' ' . $request['last_name']) ?><br>
-                            <strong>Date: </strong><?= date("Y-m-d H:i", strtotime($request['startDate'])) ?> to
-                            <?= date("Y-m-d H:i", strtotime($request['endDate'])) ?><br>
-                            <strong>Reason: </strong><?= htmlspecialchars($request['reason']) ?><br>
-                            <strong>Status: </strong>
-                            <?= getStatus($request['approved']) ?>
-                        </div>
+                        <a href="managerApprove.php?id=<?= $request['id'] ?>" class="workers__list__timeoff__request_link">
+                            <div class="workers__list__timeoff__request">
+                                <strong>Employee:</strong>
+                                <?= htmlspecialchars($request['first_name'] . ' ' . $request['last_name']) ?><br>
+                                <strong>Date:</strong> <?= date("Y-m-d H:i", strtotime($request['startDate'])) ?> to
+                                <?= date("Y-m-d H:i", strtotime($request['endDate'])) ?><br>
+                                <strong>Reason:</strong> <?= htmlspecialchars($request['reason']) ?><br>
+                                <strong>Status:</strong> <?= getStatus($request['approved']) ?>
+                            </div>
+                        </a>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
                 <p>No time off requests found.</p>
             <?php endif; ?>
         </div>
+
     </div>
 </body>
 
