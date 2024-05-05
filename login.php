@@ -18,7 +18,8 @@ if (!empty($_POST)) {
                 header('Location: dashboard.php');
             } elseif ($user['role'] === 'manager') {
                 header('Location: managerDashboard.php');
-            } else {
+            } elseif ($user['role'] === 'worker') {
+                header('Location: workerDashboard.php');
             }
             exit();
         } else {
