@@ -1,6 +1,7 @@
 <?php
 include_once (__DIR__ . '/classes/User.php');
 include_once (__DIR__ . '/classes/Location.php');
+include_once (__DIR__ . '/classes/TimeOff.php');
 include_once (__DIR__ . '/includes/auth.inc.php');
 
 requireWorker();
@@ -12,6 +13,13 @@ $locations = Location::getAll();
 if (!empty($_POST)) {
     try {
       
+        $timeOff = new TimeOff();
+        $timeOff->setStartDate($_POST['startDate']);
+        $timeOff->setEndDate($_POST['endDate']);
+        $timeOff->setReason($_POST['reason']);
+        $timeOff->save();
+        
+
         echo "Request submitted";
 
       /*  header('Location: workerSchedule.php');

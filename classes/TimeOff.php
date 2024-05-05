@@ -1,11 +1,11 @@
 <?php
 include_once (__DIR__ . '/../bootstrap.php');
 
-class Task
+class TimeOff
 {
     private $id;
-    private $start_date;
-    private $end_date;
+    private $startDate;
+    private $endDate;
     private $reason;
     
 
@@ -20,30 +20,28 @@ class Task
         $this->id = $id;
         return $this;
     }
-
-  
-    public function getStart_date()
+ 
+    public function getStartDate()
     {
-        return $this->start_date;
+        return $this->startDate;
     }
 
-    
-    public function setStart_date($start_date)
+    public function setStartDate($startDate)
     {
-        $this->start_date = $start_date;
+        $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEnd_date()
+    
+    public function getEndDate()
     {
-        return $this->end_date;
+        return $this->endDate;
     }
 
-  
-    public function setEnd_date($end_date)
+    public function setEndDate($endDate)
     {
-        $this->end_date = $end_date;
+        $this->endDate = $endDate;
 
         return $this;
     }
@@ -66,14 +64,13 @@ class Task
     public function save()
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO time_off (start_date, end_date, reason) VALUES (:start_date, :end_date, :reason)");
-        $start_date = $this->getStart_date();
-        $end_date = $this->getEnd_date();
+        $statement = $conn->prepare("INSERT INTO time_off (startDate, endDate, reason) VALUES (:startDate, :endDate, :reason)");
+        $startDate = $this->getStartDate();
+        $endDate = $this->getEndDate();
         $reason = $this->getReason();
-        $statement->bindValue(":start_date", $start_date);
-        $statement->bindValue(":end_date", $end_date);
+        $statement->bindValue(":startDate", $startDate);
+        $statement->bindValue(":endDate", $endDate);
         $statement->bindValue(":reason", $reason);
-        $statement->execute();
     }
 
     public static function getAll()
@@ -88,13 +85,12 @@ class Task
     {
         $conn = Db::getInstance();
         $statement = $conn->prepare("UPDATE time_off (start_date, end_date, reason) VALUES (:start_date, :end_date, :reason)");
-        $start_date = $this->getStart_date();
-        $end_date = $this->getEnd_date();
+        $start_date = $this->getStartDate();
+        $end_date = $this->getEndDate();
         $reason = $this->getReason();
         $statement->bindValue(":start_date", $start_date);
         $statement->bindValue(":end_date", $end_date);
         $statement->bindValue(":reason", $reason);
-        
         $statement->execute();
     }
 
@@ -107,8 +103,5 @@ class Task
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
-
-
- 
 
 }
