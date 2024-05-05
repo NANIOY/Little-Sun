@@ -263,7 +263,7 @@ class User
 
             $conn->commit();
         } catch (Exception $e) {
-            $conn->rollback(); 
+            $conn->rollback();
             throw $e;
         }
     }
