@@ -4,7 +4,7 @@
         <a href="managerDashboard.php" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="workers.php" class="text-white"><i class="fas fa-users"></i> Workers</a>
         <a href="managerTasks.php" class="text-white"><i class="fas fa-tasks"></i> Tasks</a>
-        <a href="#" class="text-white"><i class="far fa-calendar"></i> Schedule</a>
+        <a href="managerSchedule.php" class="text-white"><i class="far fa-calendar"></i> Schedule</a>
     </div>
 
     <div class="sidenav__bottom">
