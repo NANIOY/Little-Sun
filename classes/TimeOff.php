@@ -74,16 +74,18 @@ class TimeOff
     public function save()
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO time_off (startDate, endDate, reason, user_id) VALUES (:startDate, :endDate, :reason, :user_id)");
+        $statement = $conn->prepare("INSERT INTO time_off (startDate, endDate, reason, approved, user_id) VALUES (:startDate, :endDate, :reason, :approved, :user_id)");
         $startDate = $this->getStartDate();
         $endDate = $this->getEndDate();
         $reason = $this->getReason();
+        $approved = $this->getApproved() ?? 0;
         $user_id = $_SESSION['user']['id'];
 
         $statement->bindValue(":startDate", $startDate);
         $statement->bindValue(":endDate", $endDate);
         $statement->bindValue(":reason", $reason);
-        $statement->bindValue(":user_id", $user_id);
+        $statement->bindValue(":approved", $approved, PDO::PARAM_INT);
+        $statement->bindValue(":user_id", $user_id, PDO::PARAM_INT);
         $statement->execute();
     }
 
@@ -98,13 +100,17 @@ class TimeOff
     public function update()
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("UPDATE time_off (start_date, end_date, reason) VALUES (:start_date, :end_date, :reason)");
+        $statement = $conn->prepare("UPDATE time_off SET start_date = :start_date, end_date = :end_date, reason = :reason, approved = :approved WHERE id = :id");
         $start_date = $this->getStartDate();
         $end_date = $this->getEndDate();
         $reason = $this->getReason();
+        $approved = $this->getApproved();
+
         $statement->bindValue(":start_date", $start_date);
         $statement->bindValue(":end_date", $end_date);
         $statement->bindValue(":reason", $reason);
+        $statement->bindValue(":approved", $approved, PDO::PARAM_INT);
+        $statement->bindValue(":id", $this->getId(), PDO::PARAM_INT);
         $statement->execute();
     }
 
