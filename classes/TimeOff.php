@@ -7,6 +7,7 @@ class TimeOff
     private $startDate;
     private $endDate;
     private $reason;
+    private $approved;
 
 
 
@@ -54,6 +55,18 @@ class TimeOff
     public function setReason($reason)
     {
         $this->reason = $reason;
+
+        return $this;
+    }
+
+    public function getApproved()
+    {
+        return $this->approved;
+    }
+
+    public function setApproved($approved)
+    {
+        $this->approved = $approved;
 
         return $this;
     }
