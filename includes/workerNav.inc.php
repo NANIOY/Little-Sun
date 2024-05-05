@@ -3,7 +3,7 @@
         <a href="index.php" class="logo text-white"><img src="src\img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></a>
         <a href="workerDashboard.php" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="workerTasks.php" class="text-white"><i class="fas fa-tasks"></i>My Tasks</a>
-        <a href="#" class="text-white"><i class="far fa-calendar"></i> Schedule</a>
+        <a href="workerSchedule.php" class="text-white"><i class="far fa-calendar"></i> Schedule</a>
     </div>
 
     <div class="sidenav__bottom">
@@ -12,6 +12,7 @@
             $user = $_SESSION["user"];
             ?>
             <div class="sidenav__userprofile">
+                <img src="<?= $user['profile_img'] ?>" alt="Profile Image" class="sidenav__user__img profileimg">
                 <div>
                     <span class="text-bold-normal text-white"><?= $user['first_name'] ?>     <?= $user['last_name'] ?></span>
                     <span class="badge text-bold-xs">Worker</span>
@@ -23,7 +24,7 @@
 </nav>
 
 <style>
-    .sidenav {
+     .sidenav {
         height: 100%;
         width: 240px;
         position: fixed;
@@ -67,5 +68,33 @@
         flex-direction: column;
         gap: 24px;
         margin-bottom: 8px;
+    }
+
+    .sidenav__user {
+        display: flex;
+        align-items: center;
+        margin-top: auto;
+    }
+
+    .sidenav__user__img {
+        width: 40px;
+        height: 40px;
+        margin-right: 12px;
+        border-radius: 50%;
+    }
+
+    .sidenav__user div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .badge {
+        background-color: var(--green);
+        padding: 2px 4px;
+        border-radius: 4px;
+        box-sizing: border-box;
+        text-transform: uppercase;
     }
 </style>
