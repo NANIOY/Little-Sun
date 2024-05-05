@@ -9,8 +9,6 @@
 
     $worker = User::getAll();
 
-
-
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +17,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Little Sun | Tasks</title>
     <link rel="stylesheet" href="css/global.css">
-    
-    <link rel="stylesheet" href="css/pagestyles/workers.css">
 </head>
 
 <body>
@@ -33,16 +29,15 @@
 
         <div class="workercards">
             <?php foreach ($timeOffTasks as $timeOffTask):
-                $timeOffTask = TimeOff::getRequestByWorkerId($workers['id']);?>
+                $timeOffTask = TimeOff::getById($timeOffTask['id']);?>
                    
-                <a href="timeOff.php?id=<?php echo $timeOffTask['id']; ?>" class="workercard">
-                    
+                <a href="profileWorker.php?id=<?php echo $timeOffTask['id']; ?>" class="workercard">
+                    <img src="<?php echo $worker['profile_img']; ?>" alt="Profile Image" class="workercard__img profileimg">
                     <div class="workercard__info">
                         <div class="text-bold-normal">
                             <?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?>
                         </div>
                     </div>
-
                     <div class="workercard__info">
                         <div class="text-bold-normal">
                             <?php echo $timeOffTask['startDate'] . ' ' . $timeOffTask['endDate']; ?>

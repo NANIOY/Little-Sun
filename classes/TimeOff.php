@@ -64,18 +64,19 @@ class TimeOff
     public function save()
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO time_off (start_date, end_date, reason) VALUES (:start_date, :end_date, :reason)");
-    
-        $statement->bindValue(":start_date", $this->getStartDate());
-        $statement->bindValue(":end_date", $this->getEndDate());
-        $statement->bindValue(":reason", $this->getReason());
-        $statement->execute();
+        $statement = $conn->prepare("INSERT INTO time_off (startDate, endDate, reason) VALUES (:startDate, :endDate, :reason)");
+        $startDate = $this->getStartDate();
+        $endDate = $this->getEndDate();
+        $reason = $this->getReason();
+        $statement->bindValue(":startDate", $startDate);
+        $statement->bindValue(":endDate", $endDate);
+        $statement->bindValue(":reason", $reason);
     }
 
     public static function getAll()
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT * FROM time_off");
+        $statement = $conn->prepare("SELECT * FROM tasks");
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -84,11 +85,11 @@ class TimeOff
     {
         $conn = Db::getInstance();
         $statement = $conn->prepare("UPDATE time_off (start_date, end_date, reason) VALUES (:start_date, :end_date, :reason)");
-        $startDate = $this->getStartDate();
-        $endDate = $this->getEndDate();
+        $start_date = $this->getStartDate();
+        $end_date = $this->getEndDate();
         $reason = $this->getReason();
-        $statement->bindValue(":start_date", $startDate);
-        $statement->bindValue(":end_date", $endDate);
+        $statement->bindValue(":start_date", $start_date);
+        $statement->bindValue(":end_date", $end_date);
         $statement->bindValue(":reason", $reason);
         $statement->execute();
     }
@@ -100,15 +101,6 @@ class TimeOff
         $statement->bindValue(":id", $id);
         $statement->execute();
         return $statement->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public static function getRequestByWorkerId($workerId)
-    {
-        $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT * FROM time_off WHERE user_id = :user_id");
-        $statement->bindValue(":user_id", $workerId, PDO::PARAM_INT);
-        $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
