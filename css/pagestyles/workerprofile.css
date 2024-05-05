@@ -33,3 +33,13 @@ ul {
 .profile__tasks__label input[type="checkbox"] {
     margin-right: 4px;
 }
+
+.tasklist {
+    display: flex;
+    gap: 8px;
+}
+
+.tasklist__tag {
+    padding: 4px 8px;
+    box-sizing: border-box;
+}
