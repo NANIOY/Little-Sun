@@ -50,7 +50,7 @@ if (!empty($_POST)) {
     <main>
 
         <div class="LittleSunTitleShiftplanner">
-            <h2>Little <span style="color:yellow">Sun</span> Shiftplanner</h2>
+            <h2>Little <span style="color:#FDFD96; text-shadow: 2px 2px #010101">Sun</span> Shiftplanner</h2>
             <p>Welcome to Little Sun Shiftplanner, the ultimate platform for shift planners in Zambia! At Little Sun
                 Shiftplanner, we empower workers to take control of their schedules by defining their roles and
                 selecting preferred work locations. Our user-friendly interface allows workers to plan their
