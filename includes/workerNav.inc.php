@@ -90,6 +90,10 @@
         gap: 2px;
     }
 
+    .sidenav__userprofile{
+        display: flex;
+        align-items: center;
+    }
     .badge {
         background-color: var(--green);
         padding: 2px 4px;
