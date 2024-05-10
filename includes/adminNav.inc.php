@@ -13,6 +13,7 @@
             $user = $_SESSION["user"];
             ?>
             <div class="sidenav__userprofile">
+            <img src="<?= $user['profile_img'] ?>" alt="Profile Image" class="sidenav__user__img profileimg">
                 <div>
                     <span class="text-bold-normal text-white"><?= $user['first_name'] ?>     <?= $user['last_name'] ?></span>
                     <span class="badge text-bold-xs">Admin</span>
@@ -68,5 +69,39 @@
         flex-direction: column;
         gap: 24px;
         margin-bottom: 8px;
+    }
+
+    .sidenav__user {
+        display: flex;
+        align-items: center;
+        margin-top: auto;
+    }
+
+    .sidenav__user__img {
+        width: 40px;
+        height: 40px;
+        margin-right: 12px;
+        border-radius: 50%;
+    }
+
+    .sidenav__user div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .sidenav__userprofile{
+        display: flex;
+        align-items: center;
+    
+    }
+
+    .badge {
+        background-color: var(--green);
+        padding: 2px 4px;
+        border-radius: 4px;
+        box-sizing: border-box;
+        text-transform: uppercase;
     }
 </style>
