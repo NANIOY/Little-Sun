@@ -1,9 +1,11 @@
 <?php
 include_once (__DIR__ . '/includes/auth.inc.php');
 include_once (__DIR__ . '/classes/TimeOff.php');
+include_once (__DIR__ . '/classes/User.php');
 
 requireWorker();
 $user_id = $_SESSION['user']['id'];
+$worker = User::getById($user_id);
 
 $timesOff = TimeOff::getAllForUser($user_id);
 
@@ -13,7 +15,7 @@ $timesOff = TimeOff::getAllForUser($user_id);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Sun | Schedule</title>
+    <title>Little Sun | <?= htmlspecialchars($worker['first_name']) ?>'s Schedule</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/workers.css">
     <link rel="stylesheet" href="css/pagestyles/workerschedule.css">
