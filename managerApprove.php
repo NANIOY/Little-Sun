@@ -13,32 +13,20 @@ if (isset($_GET['id'])) {
     header('Location: managerSchedule.php');
     exit();
 }
+
 // added
 $comma_separated = implode(",", $timeOffRequest);
 
-function getStatus($status)
-{
-    switch ($status) {
-        case 0:
-            return 'Pending';
-        case 1:
-            return 'Declined';
-        case 2:
-            return 'Approved';
-        default:
-            return 'Unknown';
-    }
-} // MOVE TO TimeOff.php
+$user = User::getById($timeOffRequest['userId']);
 
 if (isset($user['first_name'])){
-    $user = User::getById($timeOffRequest['userId']);
+    $user = User::getById($timeOffRequest['userId']);// NOT WORKING - $user is empty
     $timeOffRequest['first_name'] = $user['first_name'];
     $timeOffRequest['last_name'] = $user['last_name'];
 }else{
     $timeOffRequest['first_name'] = 'Unknown firstname';
     $timeOffRequest['last_name'] = 'Unknown lastname';
 }
-
 
 
 // added - end
