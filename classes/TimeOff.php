@@ -9,6 +9,11 @@ class TimeOff
     private $reason;
     private $approved;
     private $declineReason;
+    // added 
+    private $userId;
+    private $status;
+    
+    // added - end
 
 
 
@@ -82,6 +87,40 @@ class TimeOff
         $this->declineReason = $declineReason;
         return $this;
     }
+
+    // added
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+    
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     */ 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @return  self
+     */ 
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+    
+    // added - end
+
 
     public function save()
     {
@@ -158,4 +197,5 @@ class TimeOff
     }
 
 
+    
 }
