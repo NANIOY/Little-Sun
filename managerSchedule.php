@@ -2,6 +2,7 @@
 include_once (__DIR__ . '/includes/auth.inc.php');
 include_once (__DIR__ . '/classes/TimeOff.php');
 include_once (__DIR__ . '/classes/User.php');
+include_once (__DIR__ . '/classes/Calender.php');
 
 requireManager();
 
@@ -15,6 +16,8 @@ requireManager();
     <title>Little Sun | Schedule</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/workerschedule.css">
+    <link rel="stylesheet" href="css/pagestyles/calendar.css">
+
 </head>
 
 <body>
@@ -26,9 +29,11 @@ requireManager();
         </div>
 
         <div class="workers__calendar">
-            <?php
-            echo "Here will be the schedule calendar";
-            ?>
+                <?php
+                    $calendar = new Calendar();
+
+                    echo $calendar->show();
+                ?>
            
         </div>
 
