@@ -28,7 +28,9 @@ if (isset($_POST['clockIn'])) {
 
 if (isset($_POST['clockOut'])) {
     Attendance::clockOut($userId);
+    $hoursWorked = Attendance::calculateHoursWorked($userId);
     $status = Attendance::getCurrentStatus($userId);
+    $status['message'] .= ' | Worked: ' . $hoursWorked;
     if (preg_match("/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/", $status['message'], $matches)) {
         $dateTime = new DateTime($matches[1]);
         $formattedTime = $dateTime->format('H:i');
