@@ -10,24 +10,39 @@ $worker = User::getById($userId);
 $status = Attendance::getCurrentStatus($userId);
 $workerTasks = Task::getTasksByWorkerId($userId);
 
+if (preg_match("/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/", $status['message'], $matches)) {
+    $dateTime = new DateTime($matches[1]);
+    $formattedTime = $dateTime->format('H:i');
+    $status['message'] = str_replace($matches[1], $formattedTime, $status['message']);
+}
+
 if (isset($_POST['clockIn'])) {
     Attendance::clockIn($userId);
     $status = Attendance::getCurrentStatus($userId);
+    if (preg_match("/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/", $status['message'], $matches)) {
+        $dateTime = new DateTime($matches[1]);
+        $formattedTime = $dateTime->format('H:i');
+        $status['message'] = str_replace($matches[1], $formattedTime, $status['message']);
+    }
 }
 
 if (isset($_POST['clockOut'])) {
     Attendance::clockOut($userId);
     $status = Attendance::getCurrentStatus($userId);
+    if (preg_match("/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/", $status['message'], $matches)) {
+        $dateTime = new DateTime($matches[1]);
+        $formattedTime = $dateTime->format('H:i');
+        $status['message'] = str_replace($matches[1], $formattedTime, $status['message']);
+    }
 }
-?>
 
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($worker['first_name']) ?>'s Dashboard | Little Sun</title>
+    <title>Little Sun | <?= htmlspecialchars($worker['first_name']) ?>'s Dashboard</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/workerDashboard.css">
     <link rel="stylesheet" href="css/pagestyles/tasks.css">
@@ -57,8 +72,7 @@ if (isset($_POST['clockOut'])) {
             <div class="dashboard__section__tasklist">
                 <?php if (!empty($workerTasks)): ?>
                     <?php foreach ($workerTasks as $task): ?>
-                        <div class="tasklist__tag"
-                            style="background-color: <?= htmlspecialchars($task['color']); ?>">
+                        <div class="tasklist__tag" style="background-color: <?= htmlspecialchars($task['color']); ?>">
                             <?= htmlspecialchars($task['title']); ?>
                         </div>
                     <?php endforeach; ?>
