@@ -5,8 +5,6 @@ include_once (__DIR__ . '/classes/TimeOff.php');
 include_once (__DIR__ . '/includes/auth.inc.php');
 
 
-
-
 requireManager();
 
 if (isset($_GET['id'])) {
@@ -15,6 +13,25 @@ if (isset($_GET['id'])) {
     header('Location: managerSchedule.php');
     exit();
 }
+
+// added
+$comma_separated = implode(",", $timeOffRequest);
+
+$user = User::getById($timeOffRequest['userId']);
+
+if (isset($user['first_name'])){
+    $user = User::getById($timeOffRequest['userId']);// NOT WORKING - $user is empty
+    $timeOffRequest['first_name'] = $user['first_name'];
+    $timeOffRequest['last_name'] = $user['last_name'];
+}else{
+    $timeOffRequest['first_name'] = 'Unknown firstname';
+    $timeOffRequest['last_name'] = 'Unknown lastname';
+}
+
+
+// added - end
+
+echo $comma_separated;
 
 if (!empty($_POST)) {
     try {
