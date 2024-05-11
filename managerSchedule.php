@@ -4,24 +4,7 @@ include_once (__DIR__ . '/classes/TimeOff.php');
 include_once (__DIR__ . '/classes/User.php');
 
 requireManager();
-$locationId = $_SESSION['user']['location_id'];
 
-$timeOffRequests = TimeOff::getAllForLocation($locationId);
-
-
-function getStatus($approvedCode)
-{
-    switch ($approvedCode) {
-        case 0:
-            return 'Pending';
-        case 1:
-            return 'Declined';
-        case 2:
-            return 'Approved';
-        default:
-            return 'Unknown';
-    }
-}
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -39,28 +22,14 @@ function getStatus($approvedCode)
 
     <div class="workers">
         <div class="workers__header">
-            <h3>Worker Time Off Requests</h3>
+            <h3>Workers calendar</h3>
         </div>
 
-        <div class="workers__list">
-            <?php if (!empty($timeOffRequests)): ?>
-                <div class="workers__list__timeoff">
-                    <?php foreach ($timeOffRequests as $request): ?>
-                        <a href="managerApprove.php?id=<?= $request['id'] ?>" class="workers__list__timeoff__request_link">
-                            <div class="workers__list__timeoff__request">
-                                <strong>Employee:</strong>
-                                <?= htmlspecialchars($request['first_name'] . ' ' . $request['last_name']) ?><br>
-                                <strong>Date:</strong> <?= date("Y-m-d H:i", strtotime($request['startDate'])) ?> to
-                                <?= date("Y-m-d H:i", strtotime($request['endDate'])) ?><br>
-                                <strong>Reason:</strong> <?= htmlspecialchars($request['reason']) ?><br>
-                                <strong>Status:</strong> <?= getStatus($request['approved']) ?>
-                            </div>
-                        </a>
-                    <?php endforeach; ?>
-                </div>
-            <?php else: ?>
-                <p>No time off requests found.</p>
-            <?php endif; ?>
+        <div class="workers__calendar">
+            <?php
+            echo "Here will be the schedule calendar";
+            ?>
+           
         </div>
 
     </div>
