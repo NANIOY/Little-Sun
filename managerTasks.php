@@ -27,27 +27,6 @@
             <h3>All Tasks</h3>
         </div>
 
-        <div class="workercards">
-            <?php foreach ($timeOffTasks as $timeOffTask):
-                $timeOffTask = TimeOff::getById($timeOffTask['id']);?>
-                   
-                <a href="profileWorker.php?id=<?php echo $timeOffTask['id']; ?>" class="workercard">
-                    <img src="<?php echo $worker['profile_img']; ?>" alt="Profile Image" class="workercard__img profileimg">
-                    <div class="workercard__info">
-                        <div class="text-bold-normal">
-                            <?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?>
-                        </div>
-                    </div>
-                    <div class="workercard__info">
-                        <div class="text-bold-normal">
-                            <?php echo $timeOffTask['startDate'] . ' ' . $timeOffTask['endDate']; ?>
-                        </div>
-                        <div class="text-bold-normal">
-                            <?php echo $timeOffTask['reason']; ?>
-                        </div>
-                    </div>
-                </a>
-            <?php endforeach; ?>
 
         </div>
     </div>
