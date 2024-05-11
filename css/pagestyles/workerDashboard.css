@@ -1,0 +1,32 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.dashboard__section--top {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.dashboard__section h2, .dashboard__section h3 {
+    margin-bottom: 20px;
+}
+
+.dashboard__section__msg{
+    color: var(--neutral-70);
+    margin-top: 16px;
+}
+
+.dashboard__section__tasklist {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.tasklist__tag:not(.button) {
+    cursor: default;
+}
