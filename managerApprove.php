@@ -1,49 +1,55 @@
 <?php
-include_once (__DIR__ . '/classes/User.php');
-include_once (__DIR__ . '/classes/Location.php');
-include_once (__DIR__ . '/classes/TimeOff.php');
 include_once (__DIR__ . '/includes/auth.inc.php');
-
+include_once (__DIR__ . '/classes/User.php');
+include_once (__DIR__ . '/classes/TimeOff.php');
 
 requireManager();
 
-if (isset($_GET['id'])) {
-    $timeOffRequest = TimeOff::getById($_GET['id']);
-} else {
+if (!isset($_GET['id'])) {
     header('Location: managerSchedule.php');
     exit();
 }
 
-// added
-$comma_separated = implode(",", $timeOffRequest);
-
-$user = User::getById($timeOffRequest['userId']);
-
-if (isset($user['first_name'])){
-    $user = User::getById($timeOffRequest['userId']);// NOT WORKING - $user is empty
-    $timeOffRequest['first_name'] = $user['first_name'];
-    $timeOffRequest['last_name'] = $user['last_name'];
-}else{
-    $timeOffRequest['first_name'] = 'Unknown firstname';
-    $timeOffRequest['last_name'] = 'Unknown lastname';
+$timeOffRequest = TimeOff::getById($_GET['id']);
+if (!$timeOffRequest) {
+    header('Location: managerSchedule.php');
+    exit();
 }
 
+$user = User::getById($timeOffRequest['user_id']);
 
-// added - end
+if (!$user || empty($user['first_name']) || empty($user['last_name'])) {
+    $timeOffRequest['first_name'] = 'Unknown firstname';
+    $timeOffRequest['last_name'] = 'Unknown lastname';
+} else {
+    $timeOffRequest['first_name'] = $user['first_name'];
+    $timeOffRequest['last_name'] = $user['last_name'];
+}
 
-echo $comma_separated;
+function getStatus($approvedCode)
+{
+    switch ($approvedCode) {
+        case 0:
+            return 'Pending';
+        case 1:
+            return 'Declined';
+        case 2:
+            return 'Approved';
+        default:
+            return 'Unknown';
+    }
+}
 
-if (!empty($_POST)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $status = $_POST['status'] ?? 0;
+    $declineReason = $_POST['declineReason'] ?? '';
+
     try {
-        $status = $_POST['status'];
-        $declineReason = $_POST['declineReason'] ?? '';
-
         $timeOffRequest->setApproved($status);
         if ($status == 1) {
             $timeOffRequest->setDeclineReason($declineReason);
         }
         $timeOffRequest->update();
-
         header('Location: managerSchedule.php');
         exit();
     } catch (Throwable $th) {
@@ -63,20 +69,18 @@ if (!empty($_POST)) {
     <link rel="stylesheet" href="css/pagestyles/form.css">
 </head>
 
-<?php include_once ("./includes/managerNav.inc.php"); ?>
-
 <body>
     <?php include_once ("./includes/managerNav.inc.php"); ?>
 
     <div class="formContainer">
-        <h4 class="formContainer__title">Handle request</h4>
-
+        <h4 class="formContainer__title">Handle Request</h4>
         <div class="requestDetails">
             <h5>Request Details</h5>
             <p><strong>Employee:</strong>
                 <?= htmlspecialchars($timeOffRequest['first_name'] . ' ' . $timeOffRequest['last_name']) ?></p>
             <p><strong>Date Range:</strong> <?= date("Y-m-d H:i", strtotime($timeOffRequest['startDate'])) ?> to
-                <?= date("Y-m-d H:i", strtotime($timeOffRequest['endDate'])) ?></p>
+                <?= date("Y-m-d H:i", strtotime($timeOffRequest['endDate'])) ?>
+            </p>
             <p><strong>Reason for Time Off:</strong> <?= htmlspecialchars($timeOffRequest['reason']) ?></p>
             <p><strong>Current Status:</strong> <?= getStatus($timeOffRequest['approved']) ?></p>
         </div>
@@ -90,14 +94,12 @@ if (!empty($_POST)) {
                     <option value="0" <?= $timeOffRequest['approved'] == 0 ? 'selected' : '' ?>>Pending</option>
                 </select>
             </div>
-
             <div class="formContainer__form__field">
                 <label for="declineReason">Reason for Decline (if applicable):</label>
                 <input type="text" id="declineReason" name="declineReason" class="formContainer__form__field__input"
                     placeholder="Enter reason if declined"
                     value="<?= htmlspecialchars($timeOffRequest['decline_reason'] ?? '') ?>">
             </div>
-
             <button type="submit" class="formContainer__form__button button--primary">Update Request</button>
         </form>
     </div>
