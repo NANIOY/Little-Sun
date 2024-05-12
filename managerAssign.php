@@ -99,18 +99,31 @@ if ($workerId) {
             </div>
             <div class="formContainer__form__field">
                 <label for="start_time">Start Time:</label>
-                <input type="text" id="start_time" name="start_time" class="formContainer__form__field__input" required
-                    placeholder="Start Time">
+                <select id="start_time" name="start_time" class="formContainer__form__field__input" required>
+                    <?php
+                    $startTime = strtotime('07:00');
+                    for ($i = 0; $i < 12; $i++) {
+                        $time = date('H:i', $startTime + $i * 3600);
+                        echo "<option value=\"$time\">$time</option>";
+                    }
+                    ?>
+                </select>
             </div>
             <div class="formContainer__form__field">
                 <label for="end_time">End Time:</label>
-                <input type="text" id="end_time" name="end_time" class="formContainer__form__field__input" required
-                    placeholder="End Time">
+                <select id="end_time" name="end_time" class="formContainer__form__field__input" required>
+                    <?php
+                    $endTime = strtotime('07:00') + 3600;
+                    for ($i = 0; $i < 12; $i++) {
+                        $time = date('H:i', $endTime + $i * 3600);
+                        echo "<option value=\"$time\">$time</option>";
+                    }
+                    ?>
+                </select>
             </div>
             <button type="submit" class="formContainer__form__button button--primary">Assign Task</button>
         </form>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         function updateTaskList() {
             var workerId = document.getElementById('user_id').value;
@@ -131,19 +144,6 @@ if ($workerId) {
             };
             xhr.send();
         }
-        flatpickr('#start_time', {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: 'H:i',
-            time_24hr: true
-        });
-
-        flatpickr('#end_time', {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: 'H:i',
-            time_24hr: true
-        });
     </script>
 
 </body>
