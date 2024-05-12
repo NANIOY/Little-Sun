@@ -2,6 +2,8 @@
 include_once (__DIR__ . '/includes/auth.inc.php');
 include_once (__DIR__ . '/classes/Manager.php');
 include_once (__DIR__ . '/classes/Calendar.php');
+include_once (__DIR__ . '/classes/Task.php');
+include_once (__DIR__ . '/classes/User.php');
 requireManager();
 
 function generateDaysForMonth($year, $month)
@@ -66,13 +68,16 @@ $locationId = $manager->getHubLocation();
 
 $schedules = $manager->fetchSchedules($locationId, "$currentYear-$currentMonth");
 
+$tasks = Task::getAll();
+$workers = User::getAllWorkers($locationId);
+
 ?><!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar</title>
+    <title>Little Sun | Schedule</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/workerschedule.css">
     <link rel="stylesheet" href="css/pagestyles/calendar.css">
@@ -81,7 +86,26 @@ $schedules = $manager->fetchSchedules($locationId, "$currentYear-$currentMonth")
 <body>
     <div class="container">
         <?php include_once ("./includes/managerNav.inc.php"); ?>
-
+        <div class="filter">
+            <h4 class="filter__header">Tasks</h4>
+            <?php foreach ($tasks as $task): ?>
+                <div>
+                    <input type="checkbox" id="task-<?php echo $task['id']; ?>" name="tasks"
+                        value="<?php echo $task['id']; ?>">
+                    <label for="task-<?php echo $task['id']; ?>"><?php echo $task['title']; ?></label>
+                </div>
+            <?php endforeach; ?>
+            <h4 class="filter__header--two">Workers</h4>
+            <?php foreach ($workers as $worker): ?>
+                <div>
+                    <input type="checkbox" id="worker-<?php echo $worker['id']; ?>" name="workers"
+                        value="<?php echo $worker['id']; ?>">
+                    <label
+                        for="worker-<?php echo $worker['id']; ?>"><?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?></label>
+                </div>
+            <?php endforeach; ?>
+            <button class="button--secondary" onclick="applyFilters()">Apply Filters</button>
+        </div>
         <div class="workers">
             <div class="workers__header">
                 <h3>Schedule</h3>
@@ -120,7 +144,6 @@ $schedules = $manager->fetchSchedules($locationId, "$currentYear-$currentMonth")
                 <?php endforeach; ?>
             </div>
         </div>
-
         <script>
             function navigateToAssignment(date) {
                 window.location.href = 'managerAssign.php?date=' + date;
@@ -128,6 +151,20 @@ $schedules = $manager->fetchSchedules($locationId, "$currentYear-$currentMonth")
 
             function navigateMonth(year, month) {
                 window.location.href = '?year=' + year + '&month=' + month;
+            }
+
+            function applyFilters() {
+                var tasksChecked = Array.from(document.querySelectorAll('[name="tasks"]:checked')).map(input => input.value);
+                var workersChecked = Array.from(document.querySelectorAll('[name="workers"]:checked')).map(input => input.value);
+                document.querySelectorAll('.calendar__day__card').forEach(card => {
+                    var taskMatch = tasksChecked.length === 0 || tasksChecked.includes(card.getAttribute('data-task-id'));
+                    var workerMatch = workersChecked.length === 0 || workersChecked.includes(card.getAttribute('data-worker-id'));
+                    if (taskMatch && workerMatch) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
             }
         </script>
     </div>
