@@ -109,7 +109,8 @@ $schedules = $manager->fetchSchedulesForLocationAndDate($locationId, "$currentYe
                         $schedules = $manager->fetchSchedulesForLocationAndDate($locationId, $day['date']);
                         foreach ($schedules as $schedule):
                             ?>
-                            <div class="calendar__day__card text-reg-s">
+                            <div class="calendar__day__card text-reg-s"
+                                style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>">
                                 <strong><?php echo htmlspecialchars($schedule['task_title']); ?></strong><br>
                                 <small><?php echo date('H:i', strtotime($schedule['start_time'])) . ' - ' . date('H:i', strtotime($schedule['end_time'])); ?></small>
                             </div>
