@@ -51,12 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = $_POST['status'] ?? 0;
     $declineReason = $_POST['declineReason'] ?? '';
 
+    $timeOff = new TimeOff();
+    $timeOff->setId($timeOffRequest['id']);
+    $timeOff->setStartDate($timeOffRequest['startDate']);
+    $timeOff->setEndDate($timeOffRequest['endDate']);
+    $timeOff->setReason($timeOffRequest['reason']);
+    $timeOff->setApproved($status);
+    $timeOff->setDeclineReason($declineReason);
+    $timeOff->setUserId($timeOffRequest['user_id']);
+
     try {
-        $timeOffRequest->setApproved($status);
-        if ($status == 1) {
-            $timeOffRequest->setDeclineReason($declineReason);
-        }
-        $timeOffRequest->update();
+        $timeOff->update();
         header('Location: managerSchedule.php');
         exit();
     } catch (Throwable $th) {

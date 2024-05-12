@@ -12,7 +12,7 @@ class TimeOff
     // added 
     private $userId;
     private $status;
-    
+
     // added - end
 
 
@@ -93,7 +93,7 @@ class TimeOff
     {
         return $this->userId;
     }
-    
+
     public function setUserId($userId)
     {
         $this->userId = $userId;
@@ -102,7 +102,7 @@ class TimeOff
 
     /**
      * Get the value of status
-     */ 
+     */
     public function getStatus()
     {
         return $this->status;
@@ -112,14 +112,14 @@ class TimeOff
      * Set the value of status
      *
      * @return  self
-     */ 
+     */
     public function setStatus($status)
     {
         $this->status = $status;
 
         return $this;
     }
-    
+
     // added - end
 
 
@@ -154,21 +154,22 @@ class TimeOff
     public function update()
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("UPDATE time_off SET start_date = :start_date, end_date = :end_date, reason = :reason, approved = :approved, decline_reason = :decline_reason WHERE id = :id");
-        $start_date = $this->getStartDate();
-        $end_date = $this->getEndDate();
+        $statement = $conn->prepare("UPDATE time_off SET startDate = :startDate, endDate = :endDate, reason = :reason, approved = :approved, decline_reason = :declineReason WHERE id = :id");
+        $startDate = $this->getStartDate();
+        $endDate = $this->getEndDate();
         $reason = $this->getReason();
         $approved = $this->getApproved();
         $declineReason = $this->getDeclineReason();
 
-        $statement->bindValue(":start_date", $start_date);
-        $statement->bindValue(":end_date", $end_date);
+        $statement->bindValue(":startDate", $startDate);
+        $statement->bindValue(":endDate", $endDate);
         $statement->bindValue(":reason", $reason);
         $statement->bindValue(":approved", $approved, PDO::PARAM_INT);
-        $statement->bindValue(":decline_reason", $declineReason);
+        $statement->bindValue(":declineReason", $declineReason);
         $statement->bindValue(":id", $this->getId(), PDO::PARAM_INT);
         $statement->execute();
     }
+
 
     public static function getById($id)
     {
@@ -198,5 +199,5 @@ class TimeOff
     }
 
 
-    
+
 }
