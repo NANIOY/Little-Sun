@@ -1,31 +1,39 @@
 <?php
-    include_once (__DIR__ . '/includes/auth.inc.php');
-    include_once (__DIR__ . '/classes/TimeOff.php');
-    include_once (__DIR__ . '/classes/User.php');
+include_once (__DIR__ . '/includes/auth.inc.php');
+include_once (__DIR__ . '/classes/TimeOff.php');
+include_once (__DIR__ . '/classes/User.php');
 
-    $timeOffTasks = TimeOff::getAll();
+$timeOffTasks = TimeOff::getAll();
 
-    $worker = User::getAll();
+$worker = User::getAll();
 
-    requireManager();
-    $locationId = $_SESSION['user']['location_id'];
+requireManager();
+$locationId = $_SESSION['user']['location_id'];
 
-    $timeOffRequests = TimeOff::getAllForLocation($locationId);
+$timeOffRequests = TimeOff::getAllForLocation($locationId);
 
 
-    function getStatus($approvedCode)
-    {
-        switch ($approvedCode) {
-            case 0:
-                return 'Pending';
-            case 1:
-                return 'Declined';
-            case 2:
-                return 'Approved';
-            default:
-                return 'Unknown';
-        }
+function getStatus($approvedCode)
+{
+    switch ($approvedCode) {
+        case 0:
+            return 'Pending';
+        case 1:
+            return 'Declined';
+        case 2:
+            return 'Approved';
+        default:
+            return 'Unknown';
     }
+}
+
+function formatDateRange($startDate, $endDate)
+{
+    $start = date("d/m", strtotime($startDate));
+    $end = date("d/m", strtotime($endDate));
+    return $start . ' - ' . $end;
+}
+
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -52,8 +60,8 @@
                             <div class="workers__list__timeoff__request">
                                 <strong>Employee:</strong>
                                 <?= htmlspecialchars($request['first_name'] . ' ' . $request['last_name']) ?><br>
-                                <strong>Date:</strong> <?= date("Y-m-d H:i", strtotime($request['startDate'])) ?> to
-                                <?= date("Y-m-d H:i", strtotime($request['endDate'])) ?><br>
+                                <strong>Date Range:</strong>
+                                <?= formatDateRange($request['startDate'], $request['endDate']) ?><br>
                                 <strong>Reason:</strong> <?= htmlspecialchars($request['reason']) ?><br>
                                 <strong>Status:</strong> <?= getStatus($request['approved']) ?>
                             </div>
@@ -65,7 +73,7 @@
             <?php endif; ?>
         </div>
     </div>
-    
+
 </body>
 
 </html>
