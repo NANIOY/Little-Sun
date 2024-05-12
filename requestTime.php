@@ -16,7 +16,7 @@ if (!empty($_POST)) {
         $timeOff->setEndDate($_POST['endDate']);
         $timeOff->setReason($_POST['reason']);
         $timeOff->save();
-        
+
         header('Location: workerSchedule.php');
         exit();
     } catch (Throwable $th) {
@@ -48,12 +48,12 @@ if (!empty($_POST)) {
         <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
             <div class="formContainer__form__field">
                 <label for="start_date" class="text-reg-s">Start date</label>
-                <input type="datetime-local" id="start_date" name="startDate" required />
+                <input type="date" id="start_date" name="startDate" required />
             </div>
 
             <div class="formContainer__form__field">
                 <label for="end_date" class="text-reg-s">End date</label>
-                <input type="datetime-local" id="end_date" name="endDate" required />
+                <input type="date" id="end_date" name="endDate" required />
             </div>
 
             <div class="formContainer__form__field">
@@ -64,7 +64,6 @@ if (!empty($_POST)) {
 
             <button type="submit" class="formContainer__form__button button--primary">Submit</button>
         </form>
-
     </div>
 </body>
 
