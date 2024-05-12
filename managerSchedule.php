@@ -104,7 +104,10 @@ $workers = User::getAllWorkers($locationId);
                         for="worker-<?php echo $worker['id']; ?>"><?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?></label>
                 </div>
             <?php endforeach; ?>
-            <button class="button--secondary" onclick="applyFilters()">Apply Filters</button>
+            <div class="filter__buttons">
+                <button class="button--secondary" onclick="applyFilters()">Apply Filters</button>
+                <button class="button--tertiary" onclick="removeFilters()">Remove Filters</button>
+            </div>
         </div>
         <div class="workers">
             <div class="workers__header">
@@ -167,6 +170,16 @@ $workers = User::getAllWorkers($locationId);
                     } else {
                         card.style.display = 'none';
                     }
+                });
+            }
+
+            function removeFilters() {
+                document.querySelectorAll('input[type="checkbox"][name="tasks"], input[type="checkbox"][name="workers"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+                document.querySelectorAll('.calendar__day__card').forEach(card => {
+                    card.style.display = '';
                 });
             }
         </script>
