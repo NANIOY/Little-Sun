@@ -127,14 +127,15 @@ $workers = User::getAllWorkers($locationId);
                 <div class="text-bold-normal">Sun</div>
                 <?php foreach ($allDaysThisMonth as $day): ?>
                     <div class="calendar__day<?php echo $day['currentMonth'] ? '' : ' calendar__day--other'; ?>"
-                        onclick="navigateToAssignment('<?php echo $day['date']; ?>')">
+                        onclick="navigateToAssignment('<?php echo htmlspecialchars($day['date']); ?>')">
                         <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
                         <?php
                         $schedules = $manager->fetchSchedules($locationId, $day['date']);
-                        foreach ($schedules as $schedule):
-                            ?>
+                        foreach ($schedules as $schedule): ?>
                             <div class="calendar__day__card text-reg-s"
-                                style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>">
+                                style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
+                                data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>"
+                                data-worker-id="<?php echo htmlspecialchars($schedule['user_id']); ?>">
                                 <strong><?php echo htmlspecialchars($schedule['task_title']); ?></strong><br>
                                 <span><?php echo htmlspecialchars($schedule['first_name']) . ' ' . htmlspecialchars($schedule['last_name']); ?></span><br>
                                 <small><?php echo date('H:i', strtotime($schedule['start_time'])) . ' - ' . date('H:i', strtotime($schedule['end_time'])); ?></small>
@@ -156,9 +157,11 @@ $workers = User::getAllWorkers($locationId);
             function applyFilters() {
                 var tasksChecked = Array.from(document.querySelectorAll('[name="tasks"]:checked')).map(input => input.value);
                 var workersChecked = Array.from(document.querySelectorAll('[name="workers"]:checked')).map(input => input.value);
+
                 document.querySelectorAll('.calendar__day__card').forEach(card => {
                     var taskMatch = tasksChecked.length === 0 || tasksChecked.includes(card.getAttribute('data-task-id'));
-                    var workerMatch = workersChecked.length === 0 || workersChecked.includes(card.getAttribute('data-worker-id'));
+                    var workerMatch = workersChecked.length === 0 || (card.getAttribute('data-worker-id') && workersChecked.includes(card.getAttribute('data-worker-id')));
+
                     if (taskMatch && workerMatch) {
                         card.style.display = '';
                     } else {
