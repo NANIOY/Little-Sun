@@ -65,6 +65,7 @@ if ($workerId) {
     <title>Assign Task</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/form.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 
 <body>
@@ -98,15 +99,18 @@ if ($workerId) {
             </div>
             <div class="formContainer__form__field">
                 <label for="start_time">Start Time:</label>
-                <input type="time" id="start_time" name="start_time" class="formContainer__form__field__input" required>
+                <input type="text" id="start_time" name="start_time" class="formContainer__form__field__input" required
+                    placeholder="Start Time">
             </div>
             <div class="formContainer__form__field">
                 <label for="end_time">End Time:</label>
-                <input type="time" id="end_time" name="end_time" class="formContainer__form__field__input" required>
+                <input type="text" id="end_time" name="end_time" class="formContainer__form__field__input" required
+                    placeholder="End Time">
             </div>
             <button type="submit" class="formContainer__form__button button--primary">Assign Task</button>
         </form>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         function updateTaskList() {
             var workerId = document.getElementById('user_id').value;
@@ -127,6 +131,19 @@ if ($workerId) {
             };
             xhr.send();
         }
+        flatpickr('#start_time', {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: 'H:i',
+            time_24hr: true
+        });
+
+        flatpickr('#end_time', {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: 'H:i',
+            time_24hr: true
+        });
     </script>
 
 </body>
