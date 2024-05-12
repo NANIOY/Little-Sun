@@ -112,6 +112,7 @@ $schedules = $manager->fetchSchedules($locationId, "$currentYear-$currentMonth")
                             <div class="calendar__day__card text-reg-s"
                                 style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>">
                                 <strong><?php echo htmlspecialchars($schedule['task_title']); ?></strong><br>
+                                <span><?php echo htmlspecialchars($schedule['first_name']) . ' ' . htmlspecialchars($schedule['last_name']); ?></span><br>
                                 <small><?php echo date('H:i', strtotime($schedule['start_time'])) . ' - ' . date('H:i', strtotime($schedule['end_time'])); ?></small>
                             </div>
                         <?php endforeach; ?>

@@ -265,7 +265,12 @@ class Manager
     public function fetchSchedules($locationId, $date)
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT schedules.*, tasks.title AS task_title, tasks.color AS color FROM schedules JOIN tasks ON schedules.task_id = tasks.id WHERE schedules.location_id = :locationId AND schedules.date = :date");
+        $statement = $conn->prepare("SELECT schedules.*, tasks.title AS task_title, tasks.color AS color, users.first_name, users.last_name 
+                                     FROM schedules 
+                                     JOIN tasks ON schedules.task_id = tasks.id 
+                                     JOIN schedule_user_assigned ON schedules.id = schedule_user_assigned.schedule_id
+                                     JOIN users ON schedule_user_assigned.user_id = users.id
+                                     WHERE schedules.location_id = :locationId AND schedules.date = :date");
         $statement->bindValue(':locationId', $locationId);
         $statement->bindValue(':date', $date);
         $statement->execute();
