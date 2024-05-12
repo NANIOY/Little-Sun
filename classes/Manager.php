@@ -262,7 +262,7 @@ class Manager
         }
     }
 
-    public function fetchSchedulesForLocationAndDate($locationId, $date)
+    public function fetchSchedules($locationId, $date)
     {
         $conn = Db::getInstance();
         $statement = $conn->prepare("SELECT schedules.*, tasks.title AS task_title, tasks.color AS color FROM schedules JOIN tasks ON schedules.task_id = tasks.id WHERE schedules.location_id = :locationId AND schedules.date = :date");

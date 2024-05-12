@@ -64,7 +64,7 @@ $manager->setHubLocation($_SESSION['user']['location_id']);
 
 $locationId = $manager->getHubLocation();
 
-$schedules = $manager->fetchSchedulesForLocationAndDate($locationId, "$currentYear-$currentMonth");
+$schedules = $manager->fetchSchedules($locationId, "$currentYear-$currentMonth");
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -106,7 +106,7 @@ $schedules = $manager->fetchSchedulesForLocationAndDate($locationId, "$currentYe
                         onclick="navigateToAssignment('<?php echo $day['date']; ?>')">
                         <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
                         <?php
-                        $schedules = $manager->fetchSchedulesForLocationAndDate($locationId, $day['date']);
+                        $schedules = $manager->fetchSchedules($locationId, $day['date']);
                         foreach ($schedules as $schedule):
                             ?>
                             <div class="calendar__day__card text-reg-s"
