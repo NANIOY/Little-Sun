@@ -4,6 +4,7 @@ function generateDaysForMonth($year, $month)
     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
     $firstDayOfMonth = date('N', strtotime("$year-$month-01"));
     $days = [];
+
     $daysFromPrevMonth = $firstDayOfMonth - 1;
     $prevMonth = $month - 1;
     $prevYear = $year;
@@ -11,6 +12,7 @@ function generateDaysForMonth($year, $month)
         $prevMonth = 12;
         $prevYear--;
     }
+
     $daysInPrevMonth = cal_days_in_month(CAL_GREGORIAN, $prevMonth, $prevYear);
 
     for ($i = $daysInPrevMonth - $daysFromPrevMonth + 1; $i <= $daysInPrevMonth; $i++) {
@@ -21,8 +23,22 @@ function generateDaysForMonth($year, $month)
         $days[] = sprintf('%04d-%02d-%02d', $year, $month, $day);
     }
 
+    $lastDayOfMonth = date('N', strtotime("$year-$month-$daysInMonth"));
+    $daysToEndOfMonth = 7 - $lastDayOfMonth;
+    $nextMonth = $month + 1;
+    $nextYear = $year;
+    if ($nextMonth == 13) {
+        $nextMonth = 1;
+        $nextYear++;
+    }
+
+    for ($i = 1; $i <= $daysToEndOfMonth; $i++) {
+        $days[] = sprintf('%04d-%02d-%02d', $nextYear, $nextMonth, $i);
+    }
+
     return $days;
 }
+
 $currentYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
 $currentMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
 
