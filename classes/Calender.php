@@ -86,32 +86,27 @@ class Calendar
     private function _showDay($cellNumber)
     {
         if ($this->currentDay == 0) {
-
             $firstDayOfTheWeek = date('N', strtotime($this->currentYear . '-' . $this->currentMonth . '-01'));
-
             if (intval($cellNumber) == intval($firstDayOfTheWeek)) {
-
                 $this->currentDay = 1;
-
             }
         }
 
         if (($this->currentDay != 0) && ($this->currentDay <= $this->daysInMonth)) {
-
             $this->currentDate = date('Y-m-d', strtotime($this->currentYear . '-' . $this->currentMonth . '-' . ($this->currentDay)));
-
             $cellContent = $this->currentDay;
-
             $this->currentDay++;
-
         } else {
-
             $this->currentDate = null;
-
             $cellContent = null;
         }
-        return '<li id="li-' . $this->currentDate . '" class="' . ($cellNumber % 7 == 1 ? ' start ' : ($cellNumber % 7 == 0 ? ' end ' : ' ')) .
-            ($cellContent == null ? 'mask' : '') . '">' . $cellContent . '</li>';
+
+        if ($cellContent != null) {
+            return '<li id="li-' . $this->currentDate . '" class="' . ($cellNumber % 7 == 1 ? ' start ' : ($cellNumber % 7 == 0 ? ' end ' : ' ')) . '">' .
+                '<a href="managerAssign.php?date=' . $this->currentDate . '">' . $cellContent . '</a></li>';
+        } else {
+            return '<li class="' . ($cellNumber % 7 == 1 ? ' start ' : ($cellNumber % 7 == 0 ? ' end ' : ' mask')) . '">' . $cellContent . '</li>';
+        }
     }
 
     // NAVIGATION

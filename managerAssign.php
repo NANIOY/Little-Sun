@@ -10,30 +10,48 @@ if (!isset($_GET['date'])) {
     echo 'Date not provided.';
     exit();
 }
+
 $date = $_GET['date'];
 
 if (!isset($_SESSION['user']['location_id'])) {
     echo 'Manager hub location not set.';
     exit();
 }
+
 $locationId = $_SESSION['user']['location_id'];
 
-$tasks = Task::getAll();
 $workers = User::getAllWorkers($locationId);
 
+$workerId = null;
+if (!empty($workers)) {
+    $workerId = $workers[0]['id'];
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $userId = $_POST['user_id'];
+    $workerId = $_POST['user_id'];
     $taskId = $_POST['task_id'];
     $startTime = $_POST['start_time'];
     $endTime = $_POST['end_time'];
 
-    $response = ScheduleManager::assignSchedule($userId, $taskId, $startTime, $endTime, $date, $locationId);
+    $task = Task::getTaskById($taskId);
+    if (!$task) {
+        echo 'Invalid task selected.';
+        exit();
+    }
+
+    $response = ScheduleManager::assignSchedule($workerId, $taskId, $startTime, $endTime, $date, $locationId);
 
     if ($response['success']) {
         header("Location: managerDashboard.php?success=1");
+        exit();
     } else {
         $errorMsg = $response['message'];
     }
+}
+
+$workerTasks = [];
+if ($workerId) {
+    $workerTasks = Task::getTasksByWorkerId($workerId);
 }
 ?>
 
@@ -55,20 +73,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (isset($errorMsg)): ?>
             <p class="error"><?php echo $errorMsg; ?></p>
         <?php endif; ?>
-        <form action="managerAssign.php?date=<?php echo $date; ?>" method="post" class="formContainer__form">
+        <form action="managerAssign.php?date=<?php echo $date; ?>" method="post" class="formContainer__form"
+            id="assignForm">
             <div class="formContainer__form__field">
-                <label for="user_id">User:</label>
-                <select id="user_id" name="user_id" class="formContainer__form__field__input">
+                <label for="user_id">Worker:</label>
+                <select id="user_id" name="user_id" class="formContainer__form__field__input"
+                    onchange="updateTaskList()">
                     <?php foreach ($workers as $worker): ?>
-                        <option value="<?php echo $worker['id']; ?>">
-                            <?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?></option>
+                        <option value="<?php echo $worker['id']; ?>" <?php if ($worker['id'] == $workerId)
+                               echo "selected"; ?>>
+                            <?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="formContainer__form__field">
+            <div class="formContainer__form__field" id="taskContainer">
                 <label for="task_id">Task:</label>
                 <select id="task_id" name="task_id" class="formContainer__form__field__input">
-                    <?php foreach ($tasks as $task): ?>
+                    <?php foreach ($workerTasks as $task): ?>
                         <option value="<?php echo $task['id']; ?>"><?php echo $task['title']; ?></option>
                     <?php endforeach; ?>
                 </select>
@@ -84,6 +106,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="formContainer__form__button button--primary">Assign Task</button>
         </form>
     </div>
+    <script>
+        function updateTaskList() {
+            var workerId = document.getElementById('user_id').value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'ajax/getTasks.php?worker_id=' + workerId, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var tasks = JSON.parse(xhr.responseText);
+                    var taskDropdown = document.getElementById('task_id');
+                    taskDropdown.innerHTML = '';
+                    tasks.forEach(function (task) {
+                        var option = document.createElement('option');
+                        option.value = task.id;
+                        option.textContent = task.title;
+                        taskDropdown.appendChild(option);
+                    });
+                }
+            };
+            xhr.send();
+        }
+    </script>
+
 </body>
 
 </html>
