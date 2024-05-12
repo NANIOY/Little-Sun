@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $response = ScheduleManager::assignSchedule($workerId, $taskId, $startTime, $endTime, $date, $locationId);
 
     if ($response['success']) {
-        header("Location: managerDashboard.php?success=1");
+        header("Location: managerSchedule.php");
         exit();
     } else {
         $errorMsg = $response['message'];
