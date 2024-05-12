@@ -1,5 +1,6 @@
 <?php
     include_once (__DIR__ . '/includes/auth.inc.php');
+    include_once (__DIR__ . '/classes/User.php');
 
     requireManager();
 
@@ -58,6 +59,9 @@ $currentMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
 
 $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
 
+
+
+
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -97,6 +101,16 @@ $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
                     <div class="day<?php echo $day['currentMonth'] ? '' : ' other-month'; ?>"
                         onclick="navigateToAssignment('<?php echo $day['date']; ?>')">
                         <?php echo date('d', strtotime($day['date'])); ?>
+
+                        <?php
+                        // Display tasks for this day if there are any
+                        foreach ($tasks as $task) {
+                        $workerTasks = User::getAssignedSchedule($userId); 
+                        if (date('Y-m-d', strtotime($day['date'])) == date('Y-m-d', strtotime($task['due_date']))) {
+                            echo "<div>" . $task['title'] . "</div>";
+                            }
+                        }
+                        ?>
                     </div>
                 <?php endforeach; ?>
             </div>

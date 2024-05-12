@@ -267,4 +267,31 @@ class User
             throw $e;
         }
     }
+
+    public function getAssignedTasks()
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM task_user_assignment WHERE user_id = :user_id");
+        $statement->bindValue(':user_id', $this->id, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getAssignedTasksByUserId($userId)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM task_user_assignment WHERE user_id = :user_id");
+        $statement->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getAssigneSchedule($userId)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM schedule_user_assigned WHERE user_id = :user_id");
+        $statement->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
