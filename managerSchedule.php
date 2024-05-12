@@ -2,13 +2,19 @@
 function generateDaysForMonth($year, $month)
 {
     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-
     $firstDayOfMonth = date('N', strtotime("$year-$month-01"));
-
     $days = [];
+    $daysFromPrevMonth = $firstDayOfMonth - 1;
+    $prevMonth = $month - 1;
+    $prevYear = $year;
+    if ($prevMonth == 0) {
+        $prevMonth = 12;
+        $prevYear--;
+    }
+    $daysInPrevMonth = cal_days_in_month(CAL_GREGORIAN, $prevMonth, $prevYear);
 
-    for ($i = 1; $i < $firstDayOfMonth; $i++) {
-        $days[] = '';
+    for ($i = $daysInPrevMonth - $daysFromPrevMonth + 1; $i <= $daysInPrevMonth; $i++) {
+        $days[] = sprintf('%04d-%02d-%02d', $prevYear, $prevMonth, $i);
     }
 
     for ($day = 1; $day <= $daysInMonth; $day++) {
@@ -17,14 +23,12 @@ function generateDaysForMonth($year, $month)
 
     return $days;
 }
-
 $currentYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
 $currentMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
 
 $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
-?>
 
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -61,7 +65,8 @@ $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
                 <div>Sun</div>
                 <?php foreach ($allDaysThisMonth as $day): ?>
                     <div class="day" onclick="navigateToAssignment('<?php echo $day; ?>')">
-                        <?php echo date('d', strtotime($day)); ?></div>
+                        <?php echo date('d', strtotime($day)); ?>
+                    </div>
                 <?php endforeach; ?>
             </div>
         </div>
