@@ -1,4 +1,8 @@
 <?php
+    include_once (__DIR__ . '/includes/auth.inc.php');
+
+    requireManager();
+
 function generateDaysForMonth($year, $month)
 {
     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
