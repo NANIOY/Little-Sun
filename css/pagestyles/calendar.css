@@ -25,24 +25,36 @@
 }
 
 /* WEEKDAYS */
-.day {
+.calendar__day {
     border: 1px solid var(--neutral-30);
     padding: 8px;
     height: 120px;
     border-radius: 4px;
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
     position: relative;
     overflow: hidden;
     cursor: pointer;
     transition: 0.3s;
 }
 
-.day:hover {
+.calendar__day:hover {
     background-color: var(--neutral-20);
 }
 
-.other-month {
+.calendar__day--other {
     opacity: 0.5;
+}
+
+.calendar__day__card {
+    background-color: var(--gray);
+    box-shadow: 0 2px 2px rgba(14, 14, 14, 0.1);
+    margin-top: 8px;
+    padding: 6px 8px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    position: relative;
+    width: 100%;
 }

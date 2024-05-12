@@ -102,15 +102,16 @@ $schedules = $manager->fetchSchedulesForLocationAndDate($locationId, "$currentYe
                 <div class="text-bold-normal">Sat</div>
                 <div class="text-bold-normal">Sun</div>
                 <?php foreach ($allDaysThisMonth as $day): ?>
-                    <?php
-                    $schedules = $manager->fetchSchedulesForLocationAndDate($locationId, $day['date']);
-                    ?>
-                    <div class="day<?php echo $day['currentMonth'] ? '' : ' other-month'; ?>"
+                    <div class="calendar__day<?php echo $day['currentMonth'] ? '' : ' calendar__day--other'; ?>"
                         onclick="navigateToAssignment('<?php echo $day['date']; ?>')">
-                        <?php echo date('d', strtotime($day['date'])); ?>
-                        <?php foreach ($schedules as $schedule): ?>
-                            <div class="schedule-card">
-                                <?php echo $schedule['task_title']; ?> - <?php echo $schedule['first_name']; ?>
+                        <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
+                        <?php
+                        $schedules = $manager->fetchSchedulesForLocationAndDate($locationId, $day['date']);
+                        foreach ($schedules as $schedule):
+                            ?>
+                            <div class="calendar__day__card text-reg-s">
+                                <strong><?php echo htmlspecialchars($schedule['task_title']); ?></strong><br>
+                                <small><?php echo date('H:i', strtotime($schedule['start_time'])) . ' - ' . date('H:i', strtotime($schedule['end_time'])); ?></small>
                             </div>
                         <?php endforeach; ?>
                     </div>
