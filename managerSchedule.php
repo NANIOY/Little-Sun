@@ -1,8 +1,8 @@
 <?php
-    include_once (__DIR__ . '/includes/auth.inc.php');
-    include_once (__DIR__ . '/classes/User.php');
-
-    requireManager();
+include_once (__DIR__ . '/includes/auth.inc.php');
+include_once (__DIR__ . '/classes/Manager.php');
+include_once (__DIR__ . '/classes/Calendar.php');
+requireManager();
 
 function generateDaysForMonth($year, $month)
 {
@@ -56,11 +56,15 @@ function generateDaysForMonth($year, $month)
 
 $currentYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
 $currentMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
-
 $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
 
+$manager = new Manager();
+$manager->setId($_SESSION['user']['id']);
+$manager->setHubLocation($_SESSION['user']['location_id']);
 
+$locationId = $manager->getHubLocation();
 
+$schedules = $manager->fetchSchedulesForLocationAndDate($locationId, "$currentYear-$currentMonth");
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -98,19 +102,17 @@ $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
                 <div class="text-bold-normal">Sat</div>
                 <div class="text-bold-normal">Sun</div>
                 <?php foreach ($allDaysThisMonth as $day): ?>
+                    <?php
+                    $schedules = $manager->fetchSchedulesForLocationAndDate($locationId, $day['date']);
+                    ?>
                     <div class="day<?php echo $day['currentMonth'] ? '' : ' other-month'; ?>"
                         onclick="navigateToAssignment('<?php echo $day['date']; ?>')">
                         <?php echo date('d', strtotime($day['date'])); ?>
-
-                        <?php
-                        // Display tasks for this day if there are any
-                        foreach ($tasks as $task) {
-                        $workerTasks = User::getAssignedSchedule($userId); 
-                        if (date('Y-m-d', strtotime($day['date'])) == date('Y-m-d', strtotime($task['due_date']))) {
-                            echo "<div>" . $task['title'] . "</div>";
-                            }
-                        }
-                        ?>
+                        <?php foreach ($schedules as $schedule): ?>
+                            <div class="schedule-card">
+                                <?php echo $schedule['task_title']; ?> - <?php echo $schedule['first_name']; ?>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 <?php endforeach; ?>
             </div>
