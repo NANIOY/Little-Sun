@@ -33,7 +33,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Sun | Tasks</title>
+    <title>Little Sun | Time Off Requests</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/workerschedule.css">
 </head>
@@ -42,10 +42,7 @@
     <?php include_once ("./includes/managerNav.inc.php"); ?>
 
     <div class="workers">
-    <div class="workers__header">
-            <h3>All manager tasks</h3>
-            <h4>Worker Time Off Requests</h4>
-        </div>
+        <h3>All Time Off Requests</h3>
 
         <div class="workers__list">
             <?php if (!empty($timeOffRequests)): ?>
