@@ -24,6 +24,7 @@
     width: 48px;
 }
 
+/* WEEKDAYS */
 .day {
     border: 1px solid var(--neutral-30);
     padding: 8px;

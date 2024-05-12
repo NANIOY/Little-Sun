@@ -81,14 +81,14 @@ $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
                 <button class="button--primary"
                     onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">Next</button>
             </div>
-            <div class="calendar">
-                <div>Mon</div>
-                <div>Tue</div>
-                <div>Wed</div>
-                <div>Thu</div>
-                <div>Fri</div>
-                <div>Sat</div>
-                <div>Sun</div>
+            <div class="calendar text-reg-normal">
+                <div class="text-bold-normal">Mon</div>
+                <div class="text-bold-normal">Tue</div>
+                <div class="text-bold-normal">Wed</div>
+                <div class="text-bold-normal">Thu</div>
+                <div class="text-bold-normal">Fri</div>
+                <div class="text-bold-normal">Sat</div>
+                <div class="text-bold-normal">Sun</div>
                 <?php foreach ($allDaysThisMonth as $day): ?>
                     <div class="day<?php echo $day['currentMonth'] ? '' : ' other-month'; ?>"
                         onclick="navigateToAssignment('<?php echo $day['date']; ?>')">

@@ -60,7 +60,7 @@
     margin: 0;
   }
 
-  p, a, button, label, input, textarea, span {
+  p, a, button, label, input, textarea, span, div {
     font-family: var(--font-body);
     line-height: 140%;
   }
