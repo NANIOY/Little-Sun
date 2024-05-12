@@ -16,14 +16,21 @@ function generateDaysForMonth($year, $month)
     $daysInPrevMonth = cal_days_in_month(CAL_GREGORIAN, $prevMonth, $prevYear);
 
     for ($i = $daysInPrevMonth - $daysFromPrevMonth + 1; $i <= $daysInPrevMonth; $i++) {
-        $days[] = sprintf('%04d-%02d-%02d', $prevYear, $prevMonth, $i);
+        $days[] = [
+            'date' => sprintf('%04d-%02d-%02d', $prevYear, $prevMonth, $i),
+            'currentMonth' => false,
+        ];
     }
 
     for ($day = 1; $day <= $daysInMonth; $day++) {
-        $days[] = sprintf('%04d-%02d-%02d', $year, $month, $day);
+        $days[] = [
+            'date' => sprintf('%04d-%02d-%02d', $year, $month, $day),
+            'currentMonth' => true,
+        ];
     }
 
     $lastDayOfMonth = date('N', strtotime("$year-$month-$daysInMonth"));
+
     $daysToEndOfMonth = 7 - $lastDayOfMonth;
     $nextMonth = $month + 1;
     $nextYear = $year;
@@ -33,7 +40,10 @@ function generateDaysForMonth($year, $month)
     }
 
     for ($i = 1; $i <= $daysToEndOfMonth; $i++) {
-        $days[] = sprintf('%04d-%02d-%02d', $nextYear, $nextMonth, $i);
+        $days[] = [
+            'date' => sprintf('%04d-%02d-%02d', $nextYear, $nextMonth, $i),
+            'currentMonth' => false,
+        ];
     }
 
     return $days;
@@ -80,8 +90,9 @@ $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
                 <div>Sat</div>
                 <div>Sun</div>
                 <?php foreach ($allDaysThisMonth as $day): ?>
-                    <div class="day" onclick="navigateToAssignment('<?php echo $day; ?>')">
-                        <?php echo date('d', strtotime($day)); ?>
+                    <div class="day<?php echo $day['currentMonth'] ? '' : ' other-month'; ?>"
+                        onclick="navigateToAssignment('<?php echo $day['date']; ?>')">
+                        <?php echo date('d', strtotime($day['date'])); ?>
                     </div>
                 <?php endforeach; ?>
             </div>

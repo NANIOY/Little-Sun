@@ -50,3 +50,7 @@
     font-weight: bold;
     color: #333;
 }
+
+.other-month {
+    opacity: 0.5;
+}
