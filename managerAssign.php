@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $taskId = $_POST['task_id'];
     $startTime = $_POST['start_time'];
     $endTime = $_POST['end_time'];
+    $date = $_GET['date'];
 
     $task = Task::getTaskById($taskId);
     if (!$task) {
