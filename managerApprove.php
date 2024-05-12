@@ -40,6 +40,13 @@ function getStatus($approvedCode)
     }
 }
 
+function formatDateRange($startDate, $endDate)
+{
+    $start = date("d/m", strtotime($startDate));
+    $end = date("d/m", strtotime($endDate));
+    return $start . ' - ' . $end;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = $_POST['status'] ?? 0;
     $declineReason = $_POST['declineReason'] ?? '';
@@ -78,9 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h5>Request Details</h5>
             <p><strong>Employee:</strong>
                 <?= htmlspecialchars($timeOffRequest['first_name'] . ' ' . $timeOffRequest['last_name']) ?></p>
-            <p><strong>Date Range:</strong> <?= date("Y-m-d H:i", strtotime($timeOffRequest['startDate'])) ?> to
-                <?= date("Y-m-d H:i", strtotime($timeOffRequest['endDate'])) ?>
-            </p>
+            <p><strong>Date Range:</strong>
+                <?= formatDateRange($timeOffRequest['startDate'], $timeOffRequest['endDate']) ?></p>
             <p><strong>Reason for Time Off:</strong> <?= htmlspecialchars($timeOffRequest['reason']) ?></p>
             <p><strong>Current Status:</strong> <?= getStatus($timeOffRequest['approved']) ?></p>
         </div>
