@@ -25,7 +25,7 @@ requireManager();
 
     <div class="workers">
         <div class="workers__header">
-            <h3>Workers calendar</h3>
+            <h3>Schedule</h3>
         </div>
 
         <div class="workers__calendar">
