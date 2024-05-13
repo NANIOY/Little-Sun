@@ -118,9 +118,6 @@ $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
         </div>
 
         <div class="workers">
-            <div class="workers__header">
-                <h3>Schedule</h3>
-            </div>
             <div class="calendar__navigation">
                 <button class="button--primary"
                     onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">Prev</button>
