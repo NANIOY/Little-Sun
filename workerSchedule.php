@@ -158,7 +158,7 @@ $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
 
     <script>
             function navigateToAssignment(date) {
-                window.location.href = 'managerAssign.php?date=' + date;
+                window.location.href = 'workerAssignSick.php?date=' + date;
             }
 
             function navigateMonth(year, month) {
