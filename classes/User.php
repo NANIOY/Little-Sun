@@ -285,4 +285,33 @@ class User
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function fetchSchedule($locationId, $date) {
+        $conn = Db::getInstance();
+        $sql = "SELECT 
+                    s.*, 
+                    u.first_name, 
+                    u.last_name, 
+                    u.id AS user_id, 
+                    t.color, 
+                    t.title AS task_title
+                    FROM 
+                        schedules s
+                    LEFT JOIN 
+                        schedule_user_assigned sua ON s.id = sua.schedule_id
+                    LEFT JOIN 
+                        users u ON u.id = sua.user_id
+                    LEFT JOIN 
+                        tasks t ON s.task_id = t.id
+                    WHERE 
+                        s.location_id = :locationId 
+                        AND 
+                        DATE_FORMAT(s.date, '%Y-%m-%d') = :date";
+    
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':locationId', $locationId);
+        $stmt->bindValue(':date', $date);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
