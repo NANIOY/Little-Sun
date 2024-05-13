@@ -11,9 +11,6 @@ $worker = User::getById($user_id);
 
 $timesOff = TimeOff::getAllForUser($user_id);
 
-/*$schedules = User::fetchSchedule($locationId, $date);*/
-
-
 function generateDaysForMonth($year, $month)
 {
     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
@@ -69,8 +66,13 @@ $currentMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
 $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
 
 
+$user = new User();
+$user->setId($_SESSION['user']['id']);
+$user->setHubLocation($_SESSION['user']['location_id']);
 
-/*$schedules = $worker->fetchSchedule($locationId, "$currentYear-$currentMonth");*/
+$locationId = $user->getHubLocation();
+
+$schedules = $user->fetchSchedule($locationId, "$currentYear-$currentMonth");
 
 
 ?><!DOCTYPE html>
