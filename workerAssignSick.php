@@ -1,5 +1,4 @@
 <?php
-        echo "ASSIGN SICK FORM";
 
     include_once (__DIR__ . '/classes/User.php');
     include_once (__DIR__ . '/classes/Task.php');
@@ -34,7 +33,13 @@
         <h4 class="formContainer__title">Assign sick on the day: <?php echo $date; ?></h4>
         <form action="workerAssignSick.php?date=<?php echo $date; ?>" method="post" class="formContainer__form"
             id="assignForm">
-            
+
+            <!-- Worker name set from session-->
+            <div class="formContainer__form__field">
+                <label for="user_id" class="text-reg-s">Worker:</label>
+                <?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?>
+            </div>
+
             <!-- Sick reason -->
             <div class="formContainer__form__field">
                 <label for="reason" class="text-reg-s">Sick reason:</label>
