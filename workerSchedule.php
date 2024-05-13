@@ -11,6 +11,8 @@ $worker = User::getById($user_id);
 
 $timesOff = TimeOff::getAllForUser($user_id);
 
+/*$schedules = User::fetchSchedule($locationId, $date);*/
+
 
 function generateDaysForMonth($year, $month)
 {
