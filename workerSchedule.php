@@ -74,7 +74,7 @@ $locationId = $user->getHubLocation();
 
 $schedules = $user->fetchSchedule($locationId, "$currentYear-$currentMonth");
 
-
+var_dump($schedules);
 ?><!DOCTYPE html>
 <html lang="en">
 
