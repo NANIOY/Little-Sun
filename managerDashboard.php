@@ -1,7 +1,20 @@
 <?php
     include_once (__DIR__ . '/includes/auth.inc.php');
+    include_once (__DIR__ . '/classes/Manager.php');
+    include_once (__DIR__ . '/classes/Calendar.php');
+    include_once (__DIR__ . '/classes/Task.php');
+    include_once (__DIR__ . '/classes/User.php');
 
     requireManager();
+
+    $manager = new Manager();
+    $manager->setId($_SESSION['user']['id']);
+    $manager->setHubLocation($_SESSION['user']['location_id']);
+
+    $locationId = $manager->getHubLocation();
+
+    $tasks = Task::getAll();
+    $workers = User::getAllWorkers($locationId);
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -13,6 +26,7 @@
     
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/form.css">
+    <link rel="stylesheet" href="css/pagestyles/managerdashboard.css">
 </head>
 
 <body>
@@ -21,33 +35,55 @@
     <h4 class="formContainer__title">Manager dashboard</h4>
 
     <div class="formContainer">
-            <div class="filter">
-                <!-- Location filter -->
-                <select id="location-filter">
-                    <option value="">All Locations</option>
-                    <option value="1">Location 1</option>
-                    <option value="2">Location 2</option>
-                </select>
+    <div class="filter">
+        <div class="filter__section">
+            <h4 class="filter__header">Location</h4>
+            <?php foreach ($tasks as $task): ?>
+                <div>
+                    <input type="checkbox" id="task-<?php echo $task['id']; ?>" name="tasks"
+                        value="<?php echo $task['id']; ?>">
+                    <label for="task-<?php echo $task['id']; ?>"><?php echo $task['title']; ?></label>
+                </div>
+            <?php endforeach; ?>
+        </div>
 
-                <!-- Person filter -->
-                <select id="person-filter">
-                    <option value="">All Persons</option>
-                    <option value="1">Person 1</option>
-                    <option value="2">Person 2</option>
-                </select>
+        <div class="filter__section">
+            <h4 class="filter__header">Tasks</h4>
+            <?php foreach ($tasks as $task): ?>
+                <div>
+                    <input type="checkbox" id="task-<?php echo $task['id']; ?>" name="tasks"
+                        value="<?php echo $task['id']; ?>">
+                    <label for="task-<?php echo $task['id']; ?>"><?php echo $task['title']; ?></label>
+                </div>
+            <?php endforeach; ?>
+        </div>
 
-                <!-- Task type filter -->
-                <select id="task-type-filter">
-                    <option value="">All Task Types</option>
-                    <option value="1">Task Type 1</option>
-                    <option value="2">Task Type 2</option>
-                </select>
+        <div class="filter__section">      
+            <h4 class="filter__header--two">Workers</h4>
+            <?php foreach ($workers as $worker): ?>
+                <div>
+                    <input type="checkbox" id="worker-<?php echo $worker['id']; ?>" name="workers"
+                        value="<?php echo $worker['id']; ?>">
+                    <label
+                        for="worker-<?php echo $worker['id']; ?>"><?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?></label>
+                </div>
+            <?php endforeach; ?>
+        </div>    
 
-                <!-- Overtime filter -->
-                <label for="overtime-filter">Overtime</label>
-                <input type="checkbox" id="overtime-filter">
-                <button onclick="window.location.href='#'" class="button--primary">Generate report</button>
-            </div>
+        <div class="filter__section">
+            <h4 class="filter__header">Overtime</h4>
+            <!-- OVERTIME NEEDS TO BE IMPLEMENTED AS FILTER -->
+            <input type="checkbox" id="overtime" name="overtime" value="1">
+            <label for="overtime">Show only overtime</label>
+        </div>
+                
+        <div class="filter__buttons">
+                <button class="button--secondary" onclick="applyFilters()">Apply Filters</button>
+                <button class="button--tertiary" onclick="removeFilters()">Remove Filters</button>
+        </div>
+        
+        </div>
+        <button onclick="window.location.href='#'" class="button--primary">Generate report</button>
     </div>
 
 </body>
