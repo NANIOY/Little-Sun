@@ -15,6 +15,22 @@
     $date = $_GET['date'];
 
     $worker = User::getById($_SESSION['user']['id']);
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $reason = $_POST['reason'];
+        $start_time = $_POST['start_time'];
+        $end_time = $_POST['end_time'];
+        $user_id = $worker['id'];
+    
+        // HERE SHOULD BE A USER -> ScheduleUser::assignSickDay
+        
+        if ($response['success']) {
+            header("Location: workerSchedule.php");
+            exit();
+        } else {
+            $errorMsg = $response['message'];
+        }
+    }
 ?>
 
 <!DOCTYPE html>
