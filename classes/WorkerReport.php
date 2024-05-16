@@ -37,7 +37,7 @@ class WorkerReport
 
     public function getFilteredWorkers($locations = [], $tasks = [], $workers = [], $overtime = false)
     {
-        $query = "SELECT * FROM workers WHERE 1=1";
+        $query = "SELECT * FROM users WHERE 1=1";
         $params = [];
 
         if (!empty($locations)) {
@@ -48,7 +48,7 @@ class WorkerReport
 
         if (!empty($tasks)) {
             $taskPlaceholders = implode(',', array_fill(0, count($tasks), '?'));
-            $query .= " AND task_id IN ($taskPlaceholders)";
+            $query .= " AND tasks_id IN ($taskPlaceholders)";
             $params = array_merge($params, $tasks);
         }
 

@@ -9,3 +9,4 @@ const SETTINGS = [
         'database'  => 'littlesun',
     ],
 ];
+
