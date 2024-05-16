@@ -140,7 +140,7 @@ var_dump($schedules);
                         onclick="navigateToAssignment('<?php echo htmlspecialchars($day['date']); ?>')">
                         <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
                         <?php
-                        /*$schedules = $worker->fetchSchedule($locationId, $day['date']);*/
+                        /*$schedules = $user->fetchSchedule($locationId, $day['date']);*/
                         foreach ($schedules as $schedule): ?>
                             <div class="calendar__day__card text-reg-s"
                                 style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
