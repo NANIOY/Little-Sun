@@ -14,6 +14,12 @@
     margin-bottom: 24px;
 }
 
+.calendar__navigation__month {
+    display: flex;
+    gap: 20px;
+
+}
+
 .calendar__navigation h5 {
     display: flex;
     justify-content: center;
@@ -21,8 +27,31 @@
     text-transform: uppercase;
 }
 
-.calendar__navigation button {
-    width: 48px;
+.calendar__navigation__buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.calendar__navigation__buttons button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--neutral-30);
+    border-radius: 4px;
+    background-color: var(--white);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.calendar__navigation__buttons button:hover {
+    filter: invert(1);
+    opacity: 0.75;
+}
+
+.calendar__navigation__assign {
+    max-width: 200px;
 }
 
 /* WEEKDAYS */
@@ -48,6 +77,12 @@
 
 .calendar__day--other {
     opacity: 0.5;
+}
+
+.calendar__day.selected {
+    outline: 2px solid #007bff;
+    outline-offset: -2px;
+    background-color: #cce5ff;
 }
 
 .calendar__day--sick {

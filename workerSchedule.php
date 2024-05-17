@@ -69,6 +69,7 @@ $user = new User();
 $schedules = $user->fetchSchedule($user_id, "$currentYear-$currentMonth");
 
 $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
+
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -80,6 +81,7 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
     <link rel="stylesheet" href="css/pagestyles/workers.css">
     <link rel="stylesheet" href="css/pagestyles/workerschedule.css">
     <link rel="stylesheet" href="css/pagestyles/calendar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -114,11 +116,21 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
 
         <div class="workers">
             <div class="calendar__navigation">
-                <button class="button--primary"
-                    onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">Prev</button>
-                <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
-                <button class="button--primary"
-                    onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">Next</button>
+                <div class="calendar__navigation__month">
+                    <div class="calendar__navigation__buttons">
+                        <button
+                            onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">
+                            <i class="fa fa-chevron-left"></i>
+                        </button>
+                        <button
+                            onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">
+                            <i class="fa fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
+                </div>
+                <button class="calendar__navigation__assign button--secondary" onclick="navigateToAssignment()">Assign
+                    Sick Days</button>
             </div>
             <div class="calendar text-reg-normal">
                 <div class="text-bold-normal">Mon</div>
@@ -139,7 +151,8 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                     }
                     ?>
                     <div class="calendar__day<?php echo $day['currentMonth'] ? '' : ' calendar__day--other'; ?><?php echo $isSickDay ? ' calendar__day--sick' : ''; ?>"
-                        onclick="navigateToAssignment('<?php echo htmlspecialchars($day['date']); ?>')">
+                        data-date="<?php echo htmlspecialchars($day['date']); ?>"
+                        onclick="toggleDateSelection('<?php echo htmlspecialchars($day['date']); ?>')">
                         <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
                         <?php if ($isSickDay): ?>
                             <i class="fas fa-viruses calendar__day--sick__icon"></i>
@@ -163,8 +176,25 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
     </div>
 
     <script>
-        function navigateToAssignment(date) {
-            window.location.href = 'workerAssignSick.php?date=' + date;
+        let selectedDates = [];
+
+        function toggleDateSelection(date) {
+            const index = selectedDates.indexOf(date);
+            if (index === -1) {
+                selectedDates.push(date);
+            } else {
+                selectedDates.splice(index, 1);
+            }
+
+            document.querySelector(`.calendar__day[data-date="${date}"]`).classList.toggle('selected');
+        }
+
+        function navigateToAssignment() {
+            if (selectedDates.length === 0) {
+                alert('No dates selected.');
+                return;
+            }
+            window.location.href = 'workerAssignSick.php?dates=' + selectedDates.join(',');
         }
 
         function navigateMonth(year, month) {

@@ -5,18 +5,20 @@ include_once (__DIR__ . '/includes/auth.inc.php');
 
 requireWorker();
 
-/* get date  */
-if (!isset($_GET['date'])) {
-    echo 'Date not provided.';
+/* get dates  */
+if (!isset($_GET['dates'])) {
+    echo 'Dates not provided.';
     exit();
 }
 
-$date = $_GET['date'];
+$dates = explode(',', $_GET['dates']);
 $worker = User::getById($_SESSION['user']['id']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $reason = $_POST['reason'];
-    User::assignSick($worker['id'], $date, $reason);
+    foreach ($dates as $date) {
+        User::assignSick($worker['id'], $date, $reason);
+    }
     header("Location: workerSchedule.php");
     exit();
 }
@@ -27,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assign sick on day</title>
+    <title>Assign sick on days</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/form.css">
 </head>
@@ -36,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include_once ("./includes/workerNav.inc.php"); ?>
 
     <div class="formContainer">
-        <h4 class="formContainer__title">Assign sick on the day: <?php echo htmlspecialchars($date); ?></h4>
-        <form action="workerAssignSick.php?date=<?php echo htmlspecialchars($date); ?>" method="post"
+        <h4 class="formContainer__title">Assign sick on the days: <?php echo htmlspecialchars(implode(', ', $dates)); ?></h4>
+        <form action="workerAssignSick.php?dates=<?php echo htmlspecialchars(implode(',', $dates)); ?>" method="post"
             class="formContainer__form" id="assignForm">
 
             <div class="formContainer__form__field">
