@@ -88,92 +88,75 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
     <?php include_once ("./includes/workerNav.inc.php"); ?>
 
     <div class="workers">
-        <div class="workers__list">
-            <?php
-            $timeOffRequests = TimeOff::getAllForUser($_SESSION['user']['id']);
-            if (!empty($timeOffRequests)): ?>
-                <div class="workers__list__timeoff">
-                    <?php foreach ($timeOffRequests as $request): ?>
-                        <div class="workers__list__timeoff__request">
-                            <span class="text-bold-normal">Date:
-                            </span><?= date("Y-m-d H:i", strtotime($request['startDate'])) ?> to
-                            <?= date("Y-m-d H:i", strtotime($request['endDate'])) ?><br>
-                            <span class="text-bold-normal">Reason: </span><?= htmlspecialchars($request['reason']) ?><br>
-                            <span class="text-bold-normal">Status:
-                            </span><?= isset($request['approved']) && $request['approved'] ? 'Approved' : 'Pending' ?>
-                        </div>
-                    <?php endforeach; ?>
+        <div class="calendar__navigation">
+            <div class="calendar__navigation__month">
+                <div class="calendar__navigation__buttons">
+                    <button
+                        onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">
+                        <i class="fa fa-chevron-left"></i>
+                    </button>
+                    <button
+                        onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">
+                        <i class="fa fa-chevron-right"></i>
+                    </button>
                 </div>
-            <?php else: ?>
-                <p>No time off requests found.</p>
-            <?php endif; ?>
+                <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
+            </div>
+            <div class="calendar__navigation__actions">
+                <button class="calendar__navigation__assign button--secondary" onclick="navigateToAssignment('sick')"
+                    disabled>Assign sick days</button>
+                <button class="calendar__navigation__assign button--primary" onclick="navigateToAssignment('timeoff')"
+                    disabled>Request time off</button>
+            </div>
         </div>
 
-        <div class="workers">
-            <div class="calendar__navigation">
-                <div class="calendar__navigation__month">
-                    <div class="calendar__navigation__buttons">
-                        <button
-                            onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">
-                            <i class="fa fa-chevron-left"></i>
-                        </button>
-                        <button
-                            onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">
-                            <i class="fa fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
-                </div>
-                <div class="calendar__navigation__actions">
-                    <button class="calendar__navigation__assign button--secondary"
-                        onclick="navigateToAssignment('sick')" disabled>Assign sick days</button>
-                    <button class="calendar__navigation__assign button--primary"
-                        onclick="navigateToAssignment('timeoff')" disabled>Request time off</button>
-                </div>
-            </div>
-
-
-
-            <div class="calendar text-reg-normal">
-                <div class="text-bold-normal">Mon</div>
-                <div class="text-bold-normal">Tue</div>
-                <div class="text-bold-normal">Wed</div>
-                <div class="text-bold-normal">Thu</div>
-                <div class="text-bold-normal">Fri</div>
-                <div class="text-bold-normal">Sat</div>
-                <div class="text-bold-normal">Sun</div>
-                <?php foreach ($allDaysThisMonth as $day): ?>
-                    <?php
-                    $isSickDay = false;
-                    foreach ($sickDays as $sickDay) {
-                        if ($sickDay['date'] === $day['date']) {
-                            $isSickDay = true;
-                            break;
-                        }
+        <div class="calendar text-reg-normal">
+            <div class="text-bold-normal">Mon</div>
+            <div class="text-bold-normal">Tue</div>
+            <div class="text-bold-normal">Wed</div>
+            <div class="text-bold-normal">Thu</div>
+            <div class="text-bold-normal">Fri</div>
+            <div class="text-bold-normal">Sat</div>
+            <div class="text-bold-normal">Sun</div>
+            <?php foreach ($allDaysThisMonth as $day): ?>
+                <?php
+                $isSickDay = false;
+                foreach ($sickDays as $sickDay) {
+                    if ($sickDay['date'] === $day['date']) {
+                        $isSickDay = true;
+                        break;
                     }
-                    ?>
-                    <div class="calendar__day<?php echo $day['currentMonth'] ? '' : ' calendar__day--other'; ?><?php echo $isSickDay ? ' calendar__day--sick' : ''; ?>"
-                        data-date="<?php echo htmlspecialchars($day['date']); ?>"
-                        onclick="toggleDateSelection('<?php echo htmlspecialchars($day['date']); ?>')">
-                        <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
-                        <?php if ($isSickDay): ?>
-                            <i class="fas fa-viruses calendar__day--sick__icon"></i>
-                        <?php endif; ?>
-                        <?php foreach ($schedules as $schedule):
-                            if ($schedule['date'] === $day['date']): ?>
-                                <div class="calendar__day__card text-reg-s"
-                                    style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
-                                    data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>">
-                                    <span
-                                        class="calendar__day__card__task"><?php echo htmlspecialchars($schedule['task_title']); ?></span>
-                                    <span
-                                        class="calendar__day__card__time text-reg-xs"><?php echo date('H:i', strtotime($schedule['start_time'])); ?></span>
-                                </div>
-                            <?php endif;
-                        endforeach; ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+                }
+                ?>
+                <div class="calendar__day<?php echo $day['currentMonth'] ? '' : ' calendar__day--other'; ?><?php echo $isSickDay ? ' calendar__day--sick' : ''; ?>"
+                    data-date="<?php echo htmlspecialchars($day['date']); ?>"
+                    onclick="toggleDateSelection('<?php echo htmlspecialchars($day['date']); ?>')">
+                    <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
+                    <?php if ($isSickDay): ?>
+                        <i class="fas fa-viruses calendar__day--sick__icon"></i>
+                    <?php endif; ?>
+                    <?php foreach ($schedules as $schedule):
+                        if ($schedule['date'] === $day['date']): ?>
+                            <div class="calendar__day__card text-reg-s"
+                                style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
+                                data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>">
+                                <span
+                                    class="calendar__day__card__task"><?php echo htmlspecialchars($schedule['task_title']); ?></span>
+                                <span
+                                    class="calendar__day__card__time text-reg-xs"><?php echo date('H:i', strtotime($schedule['start_time'])); ?></span>
+                            </div>
+                        <?php endif;
+                    endforeach; ?>
+                    <?php foreach ($timesOff as $timeOff):
+                        if ($timeOff['startDate'] <= $day['date'] && $timeOff['endDate'] >= $day['date']):
+                            $statusClass = ($timeOff['approved'] === 2) ? 'approved' : (($timeOff['approved'] === 1) ? 'not-approved' : 'pending'); ?>
+                            <div class="calendar__day__timeoff <?php echo $statusClass; ?>">
+                                <span><?php echo htmlspecialchars($timeOff['reason']); ?></span>
+                            </div>
+                        <?php endif;
+                    endforeach; ?>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 

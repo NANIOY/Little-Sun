@@ -59,7 +59,7 @@
 
 .calendar__navigation__assign {
     max-width: 200px;
-    height: 40px;
+    height: 40px !important;
     opacity: 0.5;
     cursor: not-allowed;
 }
@@ -144,6 +144,27 @@
 
 .calendar__day__card__time {
     opacity: 0.6;
+}
+
+.calendar__day__timeoff {
+    margin-top: 8px;
+    padding: 6px 8px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: var(--white);
+}
+
+.calendar__day__timeoff.approved {
+    background-color: var(--positive);
+    color: var(--black);
+}
+
+.calendar__day__timeoff.not-approved {
+    background-color: var(--warning);
+}
+
+.calendar__day__timeoff.pending {
+    background-color: var(--neutral-50);
 }
 
 /* FILTER */
