@@ -129,8 +129,8 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                     </div>
                     <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
                 </div>
-                <button class="calendar__navigation__assign button--secondary" onclick="navigateToAssignment()">Assign
-                    Sick Days</button>
+                <button class="calendar__navigation__assign button--secondary" onclick="navigateToAssignment()"
+                    disabled>Assign sick days</button>
             </div>
             <div class="calendar text-reg-normal">
                 <div class="text-bold-normal">Mon</div>
@@ -187,6 +187,18 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
             }
 
             document.querySelector(`.calendar__day[data-date="${date}"]`).classList.toggle('selected');
+            updateAssignButtonState();
+        }
+
+        function updateAssignButtonState() {
+            const assignButton = document.querySelector('.calendar__navigation__assign');
+            if (selectedDates.length === 0) {
+                assignButton.classList.remove('enabled');
+                assignButton.disabled = true;
+            } else {
+                assignButton.classList.add('enabled');
+                assignButton.disabled = false;
+            }
         }
 
         function navigateToAssignment() {

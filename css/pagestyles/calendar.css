@@ -52,6 +52,13 @@
 
 .calendar__navigation__assign {
     max-width: 200px;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.calendar__navigation__assign.enabled {
+    opacity: 1;
+    cursor: pointer;
 }
 
 /* WEEKDAYS */
