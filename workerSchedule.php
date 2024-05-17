@@ -136,10 +136,11 @@ $schedules = $user->fetchSchedule($user_id, "$currentYear-$currentMonth");
                             if ($schedule['date'] === $day['date']): ?>
                                 <div class="calendar__day__card text-reg-s"
                                     style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
-                                    data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>"
-                                    data-worker-id="<?php echo htmlspecialchars($schedule['user_id']); ?>">
-                                    <strong><?php echo htmlspecialchars($schedule['task_title']); ?></strong><br>
-                                    <small><?php echo date('H:i', strtotime($schedule['start_time'])) . ' - ' . date('H:i', strtotime($schedule['end_time'])); ?></small>
+                                    data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>">
+                                    <span
+                                        class="calendar__day__card__task"><?php echo htmlspecialchars($schedule['task_title']); ?></span>
+                                    <span
+                                        class="calendar__day__card__time text-reg-xs"><?php echo date('H:i', strtotime($schedule['start_time'])); ?></span>
                                 </div>
                             <?php endif;
                         endforeach; ?>
