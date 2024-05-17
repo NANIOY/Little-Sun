@@ -139,9 +139,12 @@ $workers = User::getAllWorkers($locationId);
                                 style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
                                 data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>"
                                 data-worker-id="<?php echo htmlspecialchars($schedule['user_id']); ?>">
-                                <strong><?php echo htmlspecialchars($schedule['task_title']); ?></strong><br>
-                                <span><?php echo htmlspecialchars($schedule['first_name']) . ' ' . htmlspecialchars($schedule['last_name']); ?></span><br>
-                                <small><?php echo date('H:i', strtotime($schedule['start_time'])) . ' - ' . date('H:i', strtotime($schedule['end_time'])); ?></small>
+                                <img src="<?php echo htmlspecialchars($schedule['profile_img']); ?>" alt="Profile Image"
+                                    class="calendar__day__card__img">
+                                <span
+                                    class="calendar__day__card__task"><?php echo htmlspecialchars($schedule['task_title']); ?></span>
+                                <span
+                                    class="calendar__day__card__time text-reg-xs"><?php echo date('H:i', strtotime($schedule['start_time'])); ?></span>
                             </div>
                         <?php endforeach; ?>
                     </div>

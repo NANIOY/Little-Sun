@@ -51,13 +51,31 @@
 }
 
 .calendar__day__card {
+    display: flex;
+    align-items: center;
     color: var(--white);
+    background-color: var(--gray);
     margin-top: 8px;
     padding: 6px 8px;
     box-sizing: border-box;
     border-radius: 4px;
     width: 100%;
     position: relative;
+}
+
+.calendar__day__card__img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.calendar__day__card__task {
+    flex-grow: 1;
+}
+
+.calendar__day__card__time {
+    opacity: 0.6;
 }
 
 /* FILTER */

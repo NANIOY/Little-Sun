@@ -264,7 +264,7 @@ class Manager
 
     public function fetchSchedules($locationId, $date) {
         $conn = Db::getInstance();
-        $sql = "SELECT s.*, u.first_name, u.last_name, u.id AS user_id, t.color, t.title AS task_title
+        $sql = "SELECT s.*, u.first_name, u.last_name, u.id AS user_id, u.profile_img, t.color, t.title AS task_title
                 FROM schedules s
                 LEFT JOIN schedule_user_assigned sua ON s.id = sua.schedule_id
                 LEFT JOIN users u ON u.id = sua.user_id
@@ -276,5 +276,5 @@ class Manager
         $stmt->bindValue(':date', $date);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    }    
 }
