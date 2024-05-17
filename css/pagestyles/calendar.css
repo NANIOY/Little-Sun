@@ -16,6 +16,7 @@
 
 .calendar.week-view .calendar__day {
     height: auto;
+    min-height: 200px;
 }
 
 .calendar.week-view .calendar__day .date-label {
@@ -139,16 +140,16 @@
 }
 
 .calendar__day__card {
-    display: flex;
-    align-items: center;
     color: var(--white);
     background-color: var(--gray);
-    margin-top: 8px;
     padding: 6px 8px;
-    box-sizing: border-box;
     border-radius: 4px;
+    margin-top: 4px;
     width: 100%;
-    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .calendar__day__card__img {
@@ -167,7 +168,7 @@
 }
 
 .calendar__day__timeoff {
-    margin-top: 8px;
+    margin-top: 4px;
     padding: 6px 8px;
     box-sizing: border-box;
     border-radius: 4px;
