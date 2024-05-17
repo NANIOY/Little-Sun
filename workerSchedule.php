@@ -166,10 +166,16 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                                 data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>">
                                 <span
                                     class="calendar__day__card__task"><?php echo htmlspecialchars($schedule['task_title']); ?></span>
-                                <span class="calendar__day__card__time text-reg-xs">
-                                    <?php echo date('H:i', strtotime($schedule['start_time'])); ?> -
-                                    <?php echo date('H:i', strtotime($schedule['end_time'])); ?>
-                                </span>
+                                <?php if ($view == 'week'): ?>
+                                    <span class="calendar__day__card__time text-reg-xs">
+                                        <?php echo date('H:i', strtotime($schedule['start_time'])); ?> -
+                                        <?php echo date('H:i', strtotime($schedule['end_time'])); ?>
+                                    </span>
+                                <?php elseif ($view == 'month'): ?>
+                                    <span class="calendar__day__card__time text-reg-xs">
+                                        <?php echo date('H:i', strtotime($schedule['start_time'])); ?>
+                                    </span>
+                                <?php endif; ?>
                             </div>
                         <?php endif;
                     endforeach; ?>
@@ -184,66 +190,67 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                 </div>
             <?php endforeach; ?>
         </div>
+    </div>
 
-        <script>
-            let selectedDates = [];
+    <script>
+        let selectedDates = [];
 
-            function toggleDateSelection(date) {
-                const index = selectedDates.indexOf(date);
-                if (index === -1) {
-                    selectedDates.push(date);
-                } else {
-                    selectedDates.splice(index, 1);
-                }
-
-                document.querySelector(`.calendar__day[data-date="${date}"]`).classList.toggle('selected');
-                updateAssignButtonState();
+        function toggleDateSelection(date) {
+            const index = selectedDates.indexOf(date);
+            if (index === -1) {
+                selectedDates.push(date);
+            } else {
+                selectedDates.splice(index, 1);
             }
 
-            function updateAssignButtonState() {
-                const assignButtons = document.querySelectorAll('.calendar__navigation__assign');
-                assignButtons.forEach(button => {
-                    if (selectedDates.length === 0) {
-                        button.classList.remove('enabled');
-                        button.disabled = true;
-                    } else {
-                        button.classList.add('enabled');
-                        button.disabled = false;
-                    }
-                });
-            }
+            document.querySelector(`.calendar__day[data-date="${date}"]`).classList.toggle('selected');
+            updateAssignButtonState();
+        }
 
-            function navigateToAssignment(type) {
+        function updateAssignButtonState() {
+            const assignButtons = document.querySelectorAll('.calendar__navigation__assign');
+            assignButtons.forEach(button => {
                 if (selectedDates.length === 0) {
-                    alert('No dates selected.');
-                    return;
-                }
-                let url = '';
-                if (type === 'sick') {
-                    url = 'workerAssignSick.php';
-                } else if (type === 'timeoff') {
-                    url = 'requestTime.php';
-                }
-                window.location.href = `${url}?dates=` + selectedDates.join(',');
-            }
-
-            function navigateMonth(year, month) {
-                window.location.href = '?year=' + year + '&month=' + month;
-            }
-
-            function switchView(view) {
-                let url = `?year=<?php echo $currentYear; ?>&month=<?php echo $currentMonth; ?>&view=` + view;
-                window.location.href = url;
-            }
-
-            document.addEventListener('DOMContentLoaded', function () {
-                const urlParams = new URLSearchParams(window.location.search);
-                const view = urlParams.get('view');
-                if (view === 'week') {
-                    document.querySelector('.calendar').classList.add('week-view');
+                    button.classList.remove('enabled');
+                    button.disabled = true;
+                } else {
+                    button.classList.add('enabled');
+                    button.disabled = false;
                 }
             });
-        </script>
+        }
+
+        function navigateToAssignment(type) {
+            if (selectedDates.length === 0) {
+                alert('No dates selected.');
+                return;
+            }
+            let url = '';
+            if (type === 'sick') {
+                url = 'workerAssignSick.php';
+            } else if (type === 'timeoff') {
+                url = 'requestTime.php';
+            }
+            window.location.href = `${url}?dates=` + selectedDates.join(',');
+        }
+
+        function navigateMonth(year, month) {
+            window.location.href = '?year=' + year + '&month=' + month;
+        }
+
+        function switchView(view) {
+            let url = `?year=<?php echo $currentYear; ?>&month=<?php echo $currentMonth; ?>&view=` + view;
+            window.location.href = url;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const view = urlParams.get('view');
+            if (view === 'week') {
+                document.querySelector('.calendar').classList.add('week-view');
+            }
+        });
+    </script>
 </body>
 
 </html>
