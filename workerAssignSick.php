@@ -1,40 +1,41 @@
 <?php
 
-    include_once (__DIR__ . '/classes/User.php');
-    include_once (__DIR__ . '/classes/Task.php');
-    include_once (__DIR__ . '/includes/auth.inc.php');
+include_once (__DIR__ . '/classes/User.php');
+include_once (__DIR__ . '/classes/Task.php');
+include_once (__DIR__ . '/includes/auth.inc.php');
 
-    requireWorker();
+requireWorker();
 
-    /* get date  */
-    if (!isset($_GET['date'])) {
-        echo 'Date not provided.';
+/* get date  */
+if (!isset($_GET['date'])) {
+    echo 'Date not provided.';
+    exit();
+}
+
+$date = $_GET['date'];
+
+$worker = User::getById($_SESSION['user']['id']);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $reason = $_POST['reason'];
+    $start_time = $_POST['start_time'];
+    $end_time = $_POST['end_time'];
+    $user_id = $worker['id'];
+
+    // HERE SHOULD BE A USER -> ScheduleUser::assignSickDay
+
+    if ($response['success']) {
+        header("Location: workerSchedule.php");
         exit();
+    } else {
+        $errorMsg = $response['message'];
     }
-    
-    $date = $_GET['date'];
-
-    $worker = User::getById($_SESSION['user']['id']);
-
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $reason = $_POST['reason'];
-        $start_time = $_POST['start_time'];
-        $end_time = $_POST['end_time'];
-        $user_id = $worker['id'];
-    
-        // HERE SHOULD BE A USER -> ScheduleUser::assignSickDay
-        
-        if ($response['success']) {
-            header("Location: workerSchedule.php");
-            exit();
-        } else {
-            $errorMsg = $response['message'];
-        }
-    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,6 +43,7 @@
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/form.css">
 </head>
+
 <body>
     <?php include_once ("./includes/workerNav.inc.php"); ?>
 
@@ -50,19 +52,13 @@
         <form action="workerAssignSick.php?date=<?php echo $date; ?>" method="post" class="formContainer__form"
             id="assignForm">
 
-            <!-- Worker name set from session-->
-            <div class="formContainer__form__field">
-                <label for="user_id" class="text-reg-s">Worker:</label>
-                <?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?>
-            </div>
-
             <!-- Sick reason -->
             <div class="formContainer__form__field">
                 <label for="reason" class="text-reg-s">Sick reason:</label>
                 <input type="text" id="reason" name="reason" required />
             </div>
-      
-          
+
+
             <!-- Start-End time sick  -->
 
             <div class="formContainer__form__field">
@@ -93,4 +89,5 @@
         </form>
     </div>
 </body>
+
 </html>
