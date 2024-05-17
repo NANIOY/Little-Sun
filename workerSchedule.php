@@ -108,22 +108,21 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
 
     <div class="workers">
         <div class="calendar__navigation">
+            <div class="calendar__navigation__view">
+                <button class="button--tertiary" onclick="switchView('month')">Month</button>
+                <button class="button--tertiary" onclick="switchView('week')">Week</button>
+            </div>
             <div class="calendar__navigation__month">
-                <div class="calendar__navigation__buttons">
-                    <button
-                        onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">
-                        <i class="fa fa-chevron-left"></i>
-                    </button>
-                    <button
-                        onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">
-                        <i class="fa fa-chevron-right"></i>
-                    </button>
-                </div>
+                <button
+                    onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">
+                    <i class="fa fa-chevron-left"></i>
+                </button>
                 <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
-                <div class="calendar__navigation__view-buttons">
-                    <button onclick="switchView('month')">Month View</button>
-                    <button onclick="switchView('week')">Week View</button>
-                </div>
+
+                <button
+                    onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">
+                    <i class="fa fa-chevron-right"></i>
+                </button>
             </div>
             <div class="calendar__navigation__actions">
                 <button class="calendar__navigation__assign button--secondary" onclick="navigateToAssignment('sick')"

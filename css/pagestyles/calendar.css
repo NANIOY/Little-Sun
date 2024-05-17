@@ -30,10 +30,26 @@
     margin-bottom: 24px;
 }
 
+.calendar__navigation__view {
+    display: flex;
+    flex: 0.8;
+    gap: 8px;
+}
+
 .calendar__navigation__month {
     display: flex;
-    gap: 20px;
+    gap: 16px;
+}
 
+.calendar__navigation__actions {
+    display: flex;
+    flex: 1;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.calendar__navigation__view button {
+    max-width: 96px;
 }
 
 .calendar__navigation h5 {
@@ -43,12 +59,7 @@
     text-transform: uppercase;
 }
 
-.calendar__navigation__buttons {
-    display: flex;
-    gap: 8px;
-}
-
-.calendar__navigation__buttons button {
+.calendar__navigation__month button {
     width: 32px;
     height: 32px;
     display: flex;
@@ -61,16 +72,9 @@
     transition: 0.3s;
 }
 
-.calendar__navigation__buttons button:hover {
+.calendar__navigation__month button:hover {
     filter: invert(1);
     opacity: 0.75;
-}
-
-.calendar__navigation__actions {
-    display: flex;
-    flex: 1;
-    gap: 8px;
-    justify-content: flex-end;
 }
 
 .calendar__navigation__assign {
