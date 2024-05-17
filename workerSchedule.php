@@ -129,7 +129,6 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
 
 <body>
     <?php include_once ("./includes/workerNav.inc.php"); ?>
-
     <div class="workers">
         <div class="calendar__navigation">
             <div class="calendar__navigation__view">
@@ -169,7 +168,6 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                     disabled>Request time off</button>
             </div>
         </div>
-
 
         <div class="calendar text-reg-normal <?php echo ($view == 'week') ? 'week-view' : ''; ?>">
             <div class="text-bold-normal">Mon</div>
@@ -275,13 +273,17 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
             window.location.href = '?year=' + year + '&month=' + month;
         }
 
-        function getWeekNumber($date) {
-            return date('W', strtotime($date));
-        }
-
         function navigateWeek(year, month, day, direction) {
-            const url = `?year=${year}&month=${month}&day=${day}&view=week&direction=${direction}`;
-            window.location.href = url;
+            let date = new Date(year, month - 1, day);
+            if (direction === 'prev') {
+                date.setDate(date.getDate() - 7);
+            } else {
+                date.setDate(date.getDate() + 7);
+            }
+            let newYear = date.getFullYear();
+            let newMonth = date.getMonth() + 1;
+            let newDay = date.getDate();
+            window.location.href = `?year=${newYear}&month=${newMonth}&day=${newDay}&view=week`;
         }
 
         function switchView(view) {
