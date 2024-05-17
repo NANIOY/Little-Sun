@@ -65,16 +65,9 @@ $currentYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
 $currentMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
 $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
 
-
 $user = new User();
-$user->setId($_SESSION['user']['id']);
-$user->setHubLocation($_SESSION['user']['location_id']);
+$schedules = $user->fetchSchedule($user_id, "$currentYear-$currentMonth");
 
-$locationId = $user->getHubLocation();
-
-$schedules = $user->fetchSchedule($locationId, "$currentYear-$currentMonth");
-
-var_dump($schedules);
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -86,7 +79,6 @@ var_dump($schedules);
     <link rel="stylesheet" href="css/pagestyles/workers.css">
     <link rel="stylesheet" href="css/pagestyles/workerschedule.css">
     <link rel="stylesheet" href="css/pagestyles/calendar.css">
-
 </head>
 
 <body>
@@ -105,14 +97,14 @@ var_dump($schedules);
                 <div class="workers__list__timeoff">
                     <?php foreach ($timeOffRequests as $request): ?>
                         <div class="workers__list__timeoff__request">
-                            <span class="text-bold-normal">Date: </span><?= date("Y-m-d H:i", strtotime ($request['startDate'])) ?> to 
+                            <span class="text-bold-normal">Date:
+                            </span><?= date("Y-m-d H:i", strtotime($request['startDate'])) ?> to
                             <?= date("Y-m-d H:i", strtotime($request['endDate'])) ?><br>
                             <span class="text-bold-normal">Reason: </span><?= htmlspecialchars($request['reason']) ?><br>
                             <span class="text-bold-normal">Status:
                             </span><?= isset($request['approved']) && $request['approved'] ? 'Approved' : 'Pending' ?>
                         </div>
                     <?php endforeach; ?>
-
                 </div>
             <?php else: ?>
                 <p>No time off requests found.</p>
@@ -140,33 +132,32 @@ var_dump($schedules);
                         onclick="navigateToAssignment('<?php echo htmlspecialchars($day['date']); ?>')">
                         <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
                         <?php
-                        /*$schedules = $user->fetchSchedule($locationId, $day['date']);*/
-                        foreach ($schedules as $schedule): ?>
-                            <div class="calendar__day__card text-reg-s"
-                                style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
-                                data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>"
-                                data-worker-id="<?php echo htmlspecialchars($schedule['user_id']); ?>">
-                                <strong><?php echo htmlspecialchars($schedule['task_title']); ?></strong><br>
-                                <span><?php echo htmlspecialchars($schedule['first_name']) . ' ' . htmlspecialchars($schedule['last_name']); ?></span><br>
-                                <small><?php echo date('H:i', strtotime($schedule['start_time'])) . ' - ' . date('H:i', strtotime($schedule['end_time'])); ?></small>
-                            </div>
-                        <?php endforeach; ?>
+                        foreach ($schedules as $schedule):
+                            if ($schedule['date'] === $day['date']): ?>
+                                <div class="calendar__day__card text-reg-s"
+                                    style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
+                                    data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>"
+                                    data-worker-id="<?php echo htmlspecialchars($schedule['user_id']); ?>">
+                                    <strong><?php echo htmlspecialchars($schedule['task_title']); ?></strong><br>
+                                    <small><?php echo date('H:i', strtotime($schedule['start_time'])) . ' - ' . date('H:i', strtotime($schedule['end_time'])); ?></small>
+                                </div>
+                            <?php endif;
+                        endforeach; ?>
                     </div>
                 <?php endforeach; ?>
             </div>
         </div>
     </div>
 
-
     <script>
-            function navigateToAssignment(date) {
-                window.location.href = 'workerAssignSick.php?date=' + date;
-            }
+        function navigateToAssignment(date) {
+            window.location.href = 'workerAssignSick.php?date=' + date;
+        }
 
-            function navigateMonth(year, month) {
-                window.location.href = '?year=' + year + '&month=' + month;
-            }
-        </script>
+        function navigateMonth(year, month) {
+            window.location.href = '?year=' + year + '&month=' + month;
+        }
+    </script>
 </body>
 
 </html>

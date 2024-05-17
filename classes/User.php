@@ -286,16 +286,19 @@ class User
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function fetchSchedule($locationId, $date) {
+    public function fetchSchedule($userId, $monthYear)
+    {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT schedules.*, tasks.title AS task_title, tasks.color AS color, users.first_name, users.last_name 
-                                     FROM schedules 
-                                     JOIN tasks ON schedules.task_id = tasks.id 
-                                     JOIN schedule_user_assigned ON schedules.id = schedule_user_assigned.schedule_id
-                                     JOIN users ON schedule_user_assigned.user_id = users.id
-                                     WHERE schedules.location_id = :locationId AND schedules.date = :date");
-        $statement->bindValue(':locationId', $locationId);
-        $statement->bindValue(':date', $date);
+        $statement = $conn->prepare("
+            SELECT schedules.*, tasks.title as task_title, tasks.color, users.first_name, users.last_name
+            FROM schedules
+            INNER JOIN schedule_user_assigned ON schedules.id = schedule_user_assigned.schedule_id
+            INNER JOIN tasks ON schedules.task_id = tasks.id
+            INNER JOIN users ON schedule_user_assigned.user_id = users.id
+            WHERE schedules.date LIKE :monthYear AND users.id = :userId
+        ");
+        $statement->bindValue(':monthYear', $monthYear . '%');
+        $statement->bindValue(':userId', $userId);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
