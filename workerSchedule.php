@@ -88,11 +88,6 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
     <?php include_once ("./includes/workerNav.inc.php"); ?>
 
     <div class="workers">
-        <div class="workers__header">
-            <h3>My Schedule</h3>
-            <button onclick="window.location.href='requestTime.php'" class="button--primary">Request time off</button>
-        </div>
-
         <div class="workers__list">
             <?php
             $timeOffRequests = TimeOff::getAllForUser($_SESSION['user']['id']);
@@ -129,9 +124,16 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                     </div>
                     <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
                 </div>
-                <button class="calendar__navigation__assign button--secondary" onclick="navigateToAssignment()"
-                    disabled>Assign sick days</button>
+                <div class="calendar__navigation__actions">
+                    <button class="calendar__navigation__assign button--secondary"
+                        onclick="navigateToAssignment('sick')" disabled>Assign sick days</button>
+                    <button class="calendar__navigation__assign button--secondary"
+                        onclick="navigateToAssignment('timeoff')" disabled>Request time off</button>
+                </div>
             </div>
+
+
+
             <div class="calendar text-reg-normal">
                 <div class="text-bold-normal">Mon</div>
                 <div class="text-bold-normal">Tue</div>
@@ -191,22 +193,30 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
         }
 
         function updateAssignButtonState() {
-            const assignButton = document.querySelector('.calendar__navigation__assign');
-            if (selectedDates.length === 0) {
-                assignButton.classList.remove('enabled');
-                assignButton.disabled = true;
-            } else {
-                assignButton.classList.add('enabled');
-                assignButton.disabled = false;
-            }
+            const assignButtons = document.querySelectorAll('.calendar__navigation__assign');
+            assignButtons.forEach(button => {
+                if (selectedDates.length === 0) {
+                    button.classList.remove('enabled');
+                    button.disabled = true;
+                } else {
+                    button.classList.add('enabled');
+                    button.disabled = false;
+                }
+            });
         }
 
-        function navigateToAssignment() {
+        function navigateToAssignment(type) {
             if (selectedDates.length === 0) {
                 alert('No dates selected.');
                 return;
             }
-            window.location.href = 'workerAssignSick.php?dates=' + selectedDates.join(',');
+            let url = '';
+            if (type === 'sick') {
+                url = 'workerAssignSick.php';
+            } else if (type === 'timeoff') {
+                url = 'requestTime.php';
+            }
+            window.location.href = `${url}?dates=` + selectedDates.join(',');
         }
 
         function navigateMonth(year, month) {
