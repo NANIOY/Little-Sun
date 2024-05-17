@@ -51,13 +51,21 @@
 }
 
 .calendar__day--sick {
-    background-color: var(--warning);
-    opacity: 0.6;
+    background-color: #f5abab;
+    position: relative;
 }
 
 .calendar__day--sick:hover {
-    background-color: var(--warning);
-    opacity: 0.4;
+    background-color: #f5abab;
+    opacity: 0.75;
+}
+
+.calendar__day--sick__icon {
+    font-size: 48px !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .calendar__day__card {

@@ -141,8 +141,10 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                     <div class="calendar__day<?php echo $day['currentMonth'] ? '' : ' calendar__day--other'; ?><?php echo $isSickDay ? ' calendar__day--sick' : ''; ?>"
                         onclick="navigateToAssignment('<?php echo htmlspecialchars($day['date']); ?>')">
                         <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
-                        <?php
-                        foreach ($schedules as $schedule):
+                        <?php if ($isSickDay): ?>
+                            <i class="fas fa-viruses calendar__day--sick__icon"></i>
+                        <?php endif; ?>
+                        <?php foreach ($schedules as $schedule):
                             if ($schedule['date'] === $day['date']): ?>
                                 <div class="calendar__day__card text-reg-s"
                                     style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
