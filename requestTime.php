@@ -10,12 +10,16 @@ $worker = User::getById($_SESSION['user']['id']);
 
 if (!empty($_POST)) {
     try {
+        $dates = explode(',', $_POST['dates']);
+        $reason = $_POST['reason'];
 
-        $timeOff = new TimeOff();
-        $timeOff->setStartDate($_POST['startDate']);
-        $timeOff->setEndDate($_POST['endDate']);
-        $timeOff->setReason($_POST['reason']);
-        $timeOff->save();
+        foreach ($dates as $date) {
+            $timeOff = new TimeOff();
+            $timeOff->setStartDate($date);
+            $timeOff->setEndDate($date);
+            $timeOff->setReason($reason);
+            $timeOff->save();
+        }
 
         header('Location: workerSchedule.php');
         exit();
@@ -24,6 +28,8 @@ if (!empty($_POST)) {
         echo "Error: " . $error;
     }
 }
+
+$dates = isset($_GET['dates']) ? $_GET['dates'] : '';
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -34,27 +40,16 @@ if (!empty($_POST)) {
     <title>Little Sun | Request Time Off</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/form.css">
-    <style>
-
-    </style>
 </head>
 
 <?php include_once ("./includes/workerNav.inc.php"); ?>
 
 <body>
     <div class="formContainer">
-        <h4 class="formContainer__title">Request time off</h4>
+        <h4 class="formContainer__title">Request time off for the days: <?php echo htmlspecialchars($dates); ?></h4>
 
         <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
-            <div class="formContainer__form__field">
-                <label for="start_date" class="text-reg-s">Start date</label>
-                <input type="date" id="start_date" name="startDate" required />
-            </div>
-
-            <div class="formContainer__form__field">
-                <label for="end_date" class="text-reg-s">End date</label>
-                <input type="date" id="end_date" name="endDate" required />
-            </div>
+            <input type="hidden" name="dates" value="<?php echo htmlspecialchars($dates); ?>" />
 
             <div class="formContainer__form__field">
                 <label for="reason" class="text-reg-s">Reason:</label>
