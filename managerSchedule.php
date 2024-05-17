@@ -56,9 +56,28 @@ function generateDaysForMonth($year, $month)
     return $days;
 }
 
+function generateDaysForWeek($year, $month, $day)
+{
+    $startOfWeek = strtotime("last monday", strtotime("$year-$month-$day"));
+    $days = [];
+
+    for ($i = 0; $i < 7; $i++) {
+        $currentDay = strtotime("+$i days", $startOfWeek);
+        $days[] = [
+            'date' => date('Y-m-d', $currentDay),
+            'currentMonth' => (date('m', $currentDay) == $month)
+        ];
+    }
+
+    return $days;
+}
+
 $currentYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
 $currentMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
-$allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
+$currentDay = isset($_GET['day']) ? $_GET['day'] : date('d');
+$view = isset($_GET['view']) ? $_GET['view'] : 'month';
+
+$days = ($view == 'week') ? generateDaysForWeek($currentYear, $currentMonth, $currentDay) : generateDaysForMonth($currentYear, $currentMonth);
 
 $manager = new Manager();
 $manager->setId($_SESSION['user']['id']);
@@ -81,6 +100,7 @@ $workers = User::getAllWorkers($locationId);
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/workerschedule.css">
     <link rel="stylesheet" href="css/pagestyles/calendar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -110,17 +130,26 @@ $workers = User::getAllWorkers($locationId);
             </div>
         </div>
         <div class="workers">
-            <div class="workers__header">
-                <h3>Schedule</h3>
-            </div>
             <div class="calendar__navigation">
-                <button class="button--primary"
-                    onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">Prev</button>
-                <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
-                <button class="button--primary"
-                    onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">Next</button>
+                <div class="calendar__navigation__view">
+                    <button class="button--tertiary <?php echo ($view == 'month') ? 'active' : ''; ?>"
+                        onclick="switchView('month')">Month</button>
+                    <button class="button--tertiary <?php echo ($view == 'week') ? 'active' : ''; ?>"
+                        onclick="switchView('week')">Week</button>
+                </div>
+                <div class="calendar__navigation__month">
+                    <button
+                        onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">
+                        <i class="fa fa-chevron-left"></i>
+                    </button>
+                    <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
+                    <button
+                        onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">
+                        <i class="fa fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
-            <div class="calendar text-reg-normal">
+            <div class="calendar text-reg-normal <?php echo ($view == 'week') ? 'week-view' : ''; ?>">
                 <div class="text-bold-normal">Mon</div>
                 <div class="text-bold-normal">Tue</div>
                 <div class="text-bold-normal">Wed</div>
@@ -128,7 +157,7 @@ $workers = User::getAllWorkers($locationId);
                 <div class="text-bold-normal">Fri</div>
                 <div class="text-bold-normal">Sat</div>
                 <div class="text-bold-normal">Sun</div>
-                <?php foreach ($allDaysThisMonth as $day): ?>
+                <?php foreach ($days as $day): ?>
                     <div class="calendar__day<?php echo $day['currentMonth'] ? '' : ' calendar__day--other'; ?>"
                         onclick="navigateToAssignment('<?php echo htmlspecialchars($day['date']); ?>')">
                         <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
@@ -143,8 +172,16 @@ $workers = User::getAllWorkers($locationId);
                                     class="calendar__day__card__img">
                                 <span
                                     class="calendar__day__card__task"><?php echo htmlspecialchars($schedule['task_title']); ?></span>
-                                <span
-                                    class="calendar__day__card__time text-reg-xs"><?php echo date('H:i', strtotime($schedule['start_time'])); ?></span>
+                                <?php if ($view == 'week'): ?>
+                                    <span class="calendar__day__card__time text-reg-xs">
+                                        <?php echo date('H:i', strtotime($schedule['start_time'])); ?> -
+                                        <?php echo date('H:i', strtotime($schedule['end_time'])); ?>
+                                    </span>
+                                <?php elseif ($view == 'month'): ?>
+                                    <span class="calendar__day__card__time text-reg-xs">
+                                        <?php echo date('H:i', strtotime($schedule['start_time'])); ?>
+                                    </span>
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -158,6 +195,11 @@ $workers = User::getAllWorkers($locationId);
 
             function navigateMonth(year, month) {
                 window.location.href = '?year=' + year + '&month=' + month;
+            }
+
+            function switchView(view) {
+                let url = `?year=<?php echo $currentYear; ?>&month=<?php echo $currentMonth; ?>&view=` + view;
+                window.location.href = url;
             }
 
             function applyFilters() {
@@ -185,6 +227,14 @@ $workers = User::getAllWorkers($locationId);
                     card.style.display = '';
                 });
             }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const view = urlParams.get('view');
+                if (view === 'week') {
+                    document.querySelector('.calendar').classList.add('week-view');
+                }
+            });
         </script>
     </div>
 </body>
