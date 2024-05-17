@@ -77,9 +77,11 @@ function generateDaysForWeek($year, $month, $day)
     return $days;
 }
 
-function getWeekNumber($date)
-{
-    return date('W', strtotime($date));
+function getWeekNumber($date) {
+    $timestamp = strtotime($date);
+    $firstDayOfMonth = date('Y-m-01', $timestamp);
+    $weekNumber = intval(date('W', $timestamp)) - intval(date('W', strtotime($firstDayOfMonth))) + 1;
+    return $weekNumber;
 }
 
 function navigateWeek($year, $month, $day, $direction)
