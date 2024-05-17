@@ -85,7 +85,11 @@ $view = isset($_GET['view']) ? $_GET['view'] : 'month';
 $days = ($view == 'week') ? generateDaysForWeek($currentYear, $currentMonth, $currentDay) : generateDaysForMonth($currentYear, $currentMonth);
 
 $user = new User();
-$schedules = $user->fetchSchedule($user_id, "$currentYear-$currentMonth");
+$schedules = [];
+foreach ($days as $day) {
+    $daySchedules = $user->fetchSchedule($user_id, $day['date']);
+    $schedules = array_merge($schedules, $daySchedules);
+}
 
 $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
 
