@@ -120,11 +120,9 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                     </button>
                 </div>
                 <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
-                <div class="calendar__navigation__view">
-                    <button onclick="switchView('month')" <?php echo $view == 'month' ? 'disabled' : ''; ?>>Month
-                        View</button>
-                    <button onclick="switchView('week')" <?php echo $view == 'week' ? 'disabled' : ''; ?>>Week
-                        View</button>
+                <div class="calendar__navigation__view-buttons">
+                    <button onclick="switchView('month')">Month View</button>
+                    <button onclick="switchView('week')">Week View</button>
                 </div>
             </div>
             <div class="calendar__navigation__actions">
@@ -134,6 +132,7 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                     disabled>Request time off</button>
             </div>
         </div>
+
 
         <div class="calendar text-reg-normal">
             <div class="text-bold-normal">Mon</div>
@@ -233,11 +232,16 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
 
         function switchView(view) {
             let url = `?year=<?php echo $currentYear; ?>&month=<?php echo $currentMonth; ?>&view=` + view;
-            if (view === 'week') {
-                url += `&day=<?php echo $currentDay; ?>`;
-            }
             window.location.href = url;
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const view = urlParams.get('view');
+            if (view === 'week') {
+                document.querySelector('.calendar').classList.add('week-view');
+            }
+        });
     </script>
 </body>
 

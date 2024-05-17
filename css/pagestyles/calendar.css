@@ -6,6 +6,22 @@
     margin-bottom: 12px;
 }
 
+/* WEEK VIEW */
+.calendar.week-view {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: auto 1fr;
+    height: calc(100vh - 136px);
+}
+
+.calendar.week-view .calendar__day {
+    height: auto;
+}
+
+.calendar.week-view .calendar__day .date-label {
+    margin-bottom: 10px;
+}
+
 /* NAVIGATION */
 .calendar__navigation {
     display: flex;
