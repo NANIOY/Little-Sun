@@ -77,6 +77,26 @@ function generateDaysForWeek($year, $month, $day)
     return $days;
 }
 
+function getWeekNumber($date)
+{
+    return date('W', strtotime($date));
+}
+
+function navigateWeek($year, $month, $day, $direction)
+{
+    $date = strtotime("$year-$month-$day");
+    if ($direction === 'prev') {
+        $newDate = strtotime('-1 week', $date);
+    } else {
+        $newDate = strtotime('+1 week', $date);
+    }
+    $newYear = date('Y', $newDate);
+    $newMonth = date('m', $newDate);
+    $newDay = date('d', $newDate);
+    header("Location: ?year=$newYear&month=$newMonth&day=$newDay&view=week");
+    exit();
+}
+
 $currentYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
 $currentMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
 $currentDay = isset($_GET['day']) ? $_GET['day'] : date('d');
@@ -119,15 +139,28 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                     onclick="switchView('week')">Week</button>
             </div>
             <div class="calendar__navigation__month">
-                <button
-                    onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">
-                    <i class="fa fa-chevron-left"></i>
-                </button>
-                <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
-                <button
-                    onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">
-                    <i class="fa fa-chevron-right"></i>
-                </button>
+                <?php if ($view == 'month'): ?>
+                    <button
+                        onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">
+                        <i class="fa fa-chevron-left"></i>
+                    </button>
+                    <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
+                    <button
+                        onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">
+                        <i class="fa fa-chevron-right"></i>
+                    </button>
+                <?php else: ?>
+                    <button
+                        onclick="navigateWeek(<?php echo $currentYear; ?>, <?php echo $currentMonth; ?>, <?php echo $currentDay; ?>, 'prev')">
+                        <i class="fa fa-chevron-left"></i>
+                    </button>
+                    <h5><?php echo "Week " . getWeekNumber("$currentYear-$currentMonth-$currentDay") . " of " . date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?>
+                    </h5>
+                    <button
+                        onclick="navigateWeek(<?php echo $currentYear; ?>, <?php echo $currentMonth; ?>, <?php echo $currentDay; ?>, 'next')">
+                        <i class="fa fa-chevron-right"></i>
+                    </button>
+                <?php endif; ?>
             </div>
             <div class="calendar__navigation__actions">
                 <button class="calendar__navigation__assign button--secondary" onclick="navigateToAssignment('sick')"
@@ -242,8 +275,17 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
             window.location.href = '?year=' + year + '&month=' + month;
         }
 
+        function getWeekNumber($date) {
+            return date('W', strtotime($date));
+        }
+
+        function navigateWeek(year, month, day, direction) {
+            const url = `?year=${year}&month=${month}&day=${day}&view=week&direction=${direction}`;
+            window.location.href = url;
+        }
+
         function switchView(view) {
-            let url = `?year=<?php echo $currentYear; ?>&month=<?php echo $currentMonth; ?>&view=` + view;
+            let url = `?year=<?php echo $currentYear; ?>&month=<?php echo $currentMonth; ?>&day=<?php echo $currentDay; ?>&view=` + view;
             window.location.href = url;
         }
 
