@@ -50,8 +50,16 @@
     opacity: 0.75;
 }
 
+.calendar__navigation__actions {
+    display: flex;
+    flex: 1;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
 .calendar__navigation__assign {
     max-width: 200px;
+    height: 40px;
     opacity: 0.5;
     cursor: not-allowed;
 }

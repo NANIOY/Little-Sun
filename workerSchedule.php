@@ -127,7 +127,7 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                 <div class="calendar__navigation__actions">
                     <button class="calendar__navigation__assign button--secondary"
                         onclick="navigateToAssignment('sick')" disabled>Assign sick days</button>
-                    <button class="calendar__navigation__assign button--secondary"
+                    <button class="calendar__navigation__assign button--primary"
                         onclick="navigateToAssignment('timeoff')" disabled>Request time off</button>
                 </div>
             </div>
