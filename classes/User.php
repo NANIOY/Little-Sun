@@ -303,12 +303,24 @@ class User
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function assignSick($userId, $date, $reason) {
+    public static function assignSick($userId, $date, $reason)
+    {
         $conn = Db::getInstance();
         $statement = $conn->prepare("INSERT INTO sick_days (user_id, date, reason) VALUES (:user_id, :date, :reason)");
         $statement->bindValue(':user_id', $userId);
         $statement->bindValue(':date', $date);
         $statement->bindValue(':reason', $reason);
         $statement->execute();
+    }
+
+    public static function getSickDays($userId, $year, $month)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT date FROM sick_days WHERE user_id = :user_id AND YEAR(date) = :year AND MONTH(date) = :month");
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':year', $year);
+        $statement->bindValue(':month', $month);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }
