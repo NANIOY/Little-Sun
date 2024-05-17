@@ -72,6 +72,13 @@ function generateDaysForWeek($year, $month, $day)
     return $days;
 }
 
+function getWeekNumber($date) {
+    $timestamp = strtotime($date);
+    $firstDayOfMonth = date('Y-m-01', $timestamp);
+    $weekNumber = intval(date('W', $timestamp)) - intval(date('W', strtotime($firstDayOfMonth))) + 1;
+    return $weekNumber;
+}
+
 $currentYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
 $currentMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
 $currentDay = isset($_GET['day']) ? $_GET['day'] : date('d');
@@ -139,12 +146,21 @@ $workers = User::getAllWorkers($locationId);
                 </div>
                 <div class="calendar__navigation__month">
                     <button
-                        onclick="navigateMonth(<?php echo ($currentMonth == 1) ? $currentYear - 1 : $currentYear; ?>, <?php echo ($currentMonth == 1) ? 12 : $currentMonth - 1; ?>)">
+                        onclick="<?php if ($view == 'week') {
+                            echo "navigateWeek($currentYear, $currentMonth, $currentDay, 'prev')";
+                        } else {
+                            echo "navigateMonth($currentYear, $currentMonth - 1)";
+                        } ?>">
                         <i class="fa fa-chevron-left"></i>
                     </button>
-                    <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
+                    <h5><?php echo ($view == 'week') ? "Week " . getWeekNumber("$currentYear-$currentMonth-$currentDay") . " of " . date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')) : date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?>
+                    </h5>
                     <button
-                        onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">
+                        onclick="<?php if ($view == 'week') {
+                            echo "navigateWeek($currentYear, $currentMonth, $currentDay, 'next')";
+                        } else {
+                            echo "navigateMonth($currentYear, $currentMonth + 1)";
+                        } ?>">
                         <i class="fa fa-chevron-right"></i>
                     </button>
                 </div>
@@ -195,6 +211,19 @@ $workers = User::getAllWorkers($locationId);
 
             function navigateMonth(year, month) {
                 window.location.href = '?year=' + year + '&month=' + month;
+            }
+
+            function navigateWeek(year, month, day, direction) {
+                let date = new Date(year, month - 1, day);
+                if (direction === 'prev') {
+                    date.setDate(date.getDate() - 7);
+                } else {
+                    date.setDate(date.getDate() + 7);
+                }
+                let newYear = date.getFullYear();
+                let newMonth = date.getMonth() + 1;
+                let newDay = date.getDate();
+                window.location.href = `?year=${newYear}&month=${newMonth}&day=${newDay}&view=week`;
             }
 
             function switchView(view) {
