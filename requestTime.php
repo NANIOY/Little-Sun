@@ -7,11 +7,19 @@ include_once (__DIR__ . '/includes/auth.inc.php');
 requireWorker();
 
 $worker = User::getById($_SESSION['user']['id']);
+$error = '';
 
 if (!empty($_POST)) {
     try {
         $dates = explode(',', $_POST['dates']);
         $reason = $_POST['reason'];
+
+        foreach ($dates as $date) {
+            $existingTimeOff = TimeOff::getByDate($worker['id'], $date);
+            if (!empty($existingTimeOff)) {
+                throw new Exception("Can not ask time off multiple times for: $date");
+            }
+        }
 
         foreach ($dates as $date) {
             $timeOff = new TimeOff();
@@ -25,7 +33,6 @@ if (!empty($_POST)) {
         exit();
     } catch (Throwable $th) {
         $error = $th->getMessage();
-        echo "Error: " . $error;
     }
 }
 
@@ -47,6 +54,11 @@ $dates = isset($_GET['dates']) ? $_GET['dates'] : '';
 <body>
     <div class="formContainer">
         <h4 class="formContainer__title">Request time off for the days: <?php echo htmlspecialchars($dates); ?></h4>
+        <?php if ($error): ?>
+            <div class="formContainer__error">
+                <p><?php echo htmlspecialchars($error); ?></p>
+            </div>
+        <?php endif; ?>
 
         <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
             <input type="hidden" name="dates" value="<?php echo htmlspecialchars($dates); ?>" />

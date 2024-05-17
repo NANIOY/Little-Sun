@@ -198,6 +198,14 @@ class TimeOff
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
+    public static function getByDate($userId, $date)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM time_off WHERE user_id = :user_id AND startDate <= :date AND endDate >= :date");
+        $statement->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $statement->bindValue(':date', $date);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
 
 }
