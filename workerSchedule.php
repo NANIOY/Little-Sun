@@ -61,9 +61,28 @@ function generateDaysForMonth($year, $month)
     return $days;
 }
 
+function generateDaysForWeek($year, $month, $day)
+{
+    $startOfWeek = strtotime("last monday", strtotime("$year-$month-$day"));
+    $days = [];
+
+    for ($i = 0; $i < 7; $i++) {
+        $currentDay = strtotime("+$i days", $startOfWeek);
+        $days[] = [
+            'date' => date('Y-m-d', $currentDay),
+            'currentMonth' => (date('m', $currentDay) == $month)
+        ];
+    }
+
+    return $days;
+}
+
 $currentYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
 $currentMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
-$allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
+$currentDay = isset($_GET['day']) ? $_GET['day'] : date('d');
+$view = isset($_GET['view']) ? $_GET['view'] : 'month';
+
+$days = ($view == 'week') ? generateDaysForWeek($currentYear, $currentMonth, $currentDay) : generateDaysForMonth($currentYear, $currentMonth);
 
 $user = new User();
 $schedules = $user->fetchSchedule($user_id, "$currentYear-$currentMonth");
@@ -101,6 +120,12 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                     </button>
                 </div>
                 <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
+                <div class="calendar__navigation__view">
+                    <button onclick="switchView('month')" <?php echo $view == 'month' ? 'disabled' : ''; ?>>Month
+                        View</button>
+                    <button onclick="switchView('week')" <?php echo $view == 'week' ? 'disabled' : ''; ?>>Week
+                        View</button>
+                </div>
             </div>
             <div class="calendar__navigation__actions">
                 <button class="calendar__navigation__assign button--secondary" onclick="navigateToAssignment('sick')"
@@ -118,7 +143,7 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
             <div class="text-bold-normal">Fri</div>
             <div class="text-bold-normal">Sat</div>
             <div class="text-bold-normal">Sun</div>
-            <?php foreach ($allDaysThisMonth as $day): ?>
+            <?php foreach ($days as $day): ?>
                 <?php
                 $isSickDay = false;
                 foreach ($sickDays as $sickDay) {
@@ -204,6 +229,14 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
 
         function navigateMonth(year, month) {
             window.location.href = '?year=' + year + '&month=' + month;
+        }
+
+        function switchView(view) {
+            let url = `?year=<?php echo $currentYear; ?>&month=<?php echo $currentMonth; ?>&view=` + view;
+            if (view === 'week') {
+                url += `&day=<?php echo $currentDay; ?>`;
+            }
+            window.location.href = url;
         }
     </script>
 </body>
