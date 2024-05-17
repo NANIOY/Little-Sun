@@ -68,6 +68,7 @@ $allDaysThisMonth = generateDaysForMonth($currentYear, $currentMonth);
 $user = new User();
 $schedules = $user->fetchSchedule($user_id, "$currentYear-$currentMonth");
 
+$sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -128,7 +129,16 @@ $schedules = $user->fetchSchedule($user_id, "$currentYear-$currentMonth");
                 <div class="text-bold-normal">Sat</div>
                 <div class="text-bold-normal">Sun</div>
                 <?php foreach ($allDaysThisMonth as $day): ?>
-                    <div class="calendar__day<?php echo $day['currentMonth'] ? '' : ' calendar__day--other'; ?>"
+                    <?php
+                    $isSickDay = false;
+                    foreach ($sickDays as $sickDay) {
+                        if ($sickDay['date'] === $day['date']) {
+                            $isSickDay = true;
+                            break;
+                        }
+                    }
+                    ?>
+                    <div class="calendar__day<?php echo $day['currentMonth'] ? '' : ' calendar__day--other'; ?><?php echo $isSickDay ? ' calendar__day--sick' : ''; ?>"
                         onclick="navigateToAssignment('<?php echo htmlspecialchars($day['date']); ?>')">
                         <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
                         <?php

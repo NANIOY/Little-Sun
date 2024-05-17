@@ -50,6 +50,16 @@
     opacity: 0.5;
 }
 
+.calendar__day--sick {
+    background-color: var(--warning);
+    opacity: 0.6;
+}
+
+.calendar__day--sick:hover {
+    background-color: var(--warning);
+    opacity: 0.4;
+}
+
 .calendar__day__card {
     display: flex;
     align-items: center;
