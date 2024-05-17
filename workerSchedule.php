@@ -109,8 +109,10 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
     <div class="workers">
         <div class="calendar__navigation">
             <div class="calendar__navigation__view">
-                <button class="button--tertiary" onclick="switchView('month')">Month</button>
-                <button class="button--tertiary" onclick="switchView('week')">Week</button>
+                <button class="button--tertiary <?php echo ($view == 'month') ? 'active' : ''; ?>"
+                    onclick="switchView('month')">Month</button>
+                <button class="button--tertiary <?php echo ($view == 'week') ? 'active' : ''; ?>"
+                    onclick="switchView('week')">Week</button>
             </div>
             <div class="calendar__navigation__month">
                 <button
@@ -118,7 +120,6 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                     <i class="fa fa-chevron-left"></i>
                 </button>
                 <h5><?php echo date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?></h5>
-
                 <button
                     onclick="navigateMonth(<?php echo ($currentMonth == 12) ? $currentYear + 1 : $currentYear; ?>, <?php echo ($currentMonth == 12) ? 1 : $currentMonth + 1; ?>)">
                     <i class="fa fa-chevron-right"></i>

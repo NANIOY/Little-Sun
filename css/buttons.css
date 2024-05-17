@@ -39,6 +39,11 @@ button {
   height: 36px;
 }
 
+.button--tertiary.active {
+  background-color: var(--blurple);
+  color: var(--white);
+}
+
 .button--disabled {
   background-color: var(--neutral-50);
 }
