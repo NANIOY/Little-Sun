@@ -323,4 +323,14 @@ class User
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function checkExistingSickDay($userId, $date)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT * FROM sick_days WHERE user_id = :user_id AND date = :date");
+        $statement->bindValue(':user_id', $userId);
+        $statement->bindValue(':date', $date);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
 }

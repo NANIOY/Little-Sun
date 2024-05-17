@@ -5,7 +5,6 @@ include_once (__DIR__ . '/includes/auth.inc.php');
 
 requireWorker();
 
-/* get dates  */
 if (!isset($_GET['dates'])) {
     echo 'Dates not provided.';
     exit();
@@ -13,14 +12,28 @@ if (!isset($_GET['dates'])) {
 
 $dates = explode(',', $_GET['dates']);
 $worker = User::getById($_SESSION['user']['id']);
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $reason = $_POST['reason'];
-    foreach ($dates as $date) {
-        User::assignSick($worker['id'], $date, $reason);
+    try {
+        $reason = $_POST['reason'];
+
+        foreach ($dates as $date) {
+            $existingSickDay = User::checkExistingSickDay($worker['id'], $date);
+            if ($existingSickDay) {
+                throw new Exception("Sick day already assigned for the date: $date");
+            }
+        }
+
+        foreach ($dates as $date) {
+            User::assignSick($worker['id'], $date, $reason);
+        }
+
+        header("Location: workerSchedule.php");
+        exit();
+    } catch (Throwable $th) {
+        $error = $th->getMessage();
     }
-    header("Location: workerSchedule.php");
-    exit();
 }
 
 ?><!DOCTYPE html>
@@ -38,7 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include_once ("./includes/workerNav.inc.php"); ?>
 
     <div class="formContainer">
-        <h4 class="formContainer__title">Assign sick on the days: <?php echo htmlspecialchars(implode(', ', $dates)); ?></h4>
+        <h4 class="formContainer__title">Assign sick on the days: <?php echo htmlspecialchars(implode(', ', $dates)); ?>
+        </h4>
+        <?php if ($error): ?>
+            <div class="formContainer__error">
+                <p><?php echo htmlspecialchars($error); ?></p>
+            </div>
+        <?php endif; ?>
         <form action="workerAssignSick.php?dates=<?php echo htmlspecialchars(implode(',', $dates)); ?>" method="post"
             class="formContainer__form" id="assignForm">
 
