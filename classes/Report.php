@@ -55,7 +55,7 @@ class Report
     public static function getTodaySchedule($locationId)
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT s.*, u.first_name, u.last_name, t.title AS task_title FROM schedules s LEFT JOIN schedule_user_assigned sua ON s.id = sua.schedule_id LEFT JOIN users u ON sua.user_id = u.id LEFT JOIN tasks t ON s.task_id = t.id WHERE s.location_id = ? AND s.date = CURDATE()");
+        $statement = $conn->prepare("SELECT s.*, u.first_name, u.last_name, u.profile_img, t.color, t.title AS task_title FROM schedules s LEFT JOIN schedule_user_assigned sua ON s.id = sua.schedule_id LEFT JOIN users u ON sua.user_id = u.id LEFT JOIN tasks t ON s.task_id = t.id WHERE s.location_id = ? AND s.date = CURDATE()");
         $statement->execute([$locationId]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }

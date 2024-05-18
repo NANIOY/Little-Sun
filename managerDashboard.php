@@ -80,14 +80,21 @@ function formatDateRange($startDate, $endDate)
         <div class="dashboard__section">
             <h5 class="formContainer__title">Today's Schedule</h5>
             <?php if (!empty($todaySchedule)): ?>
-                <ul>
+                <div class="calendar">
                     <?php foreach ($todaySchedule as $schedule): ?>
-                        <li><?php echo $schedule['start_time']; ?> to <?php echo $schedule['end_time']; ?>:
-                            <?php echo $schedule['first_name'] . ' ' . $schedule['last_name']; ?> -
-                            <?php echo $schedule['task_title']; ?>
-                        </li>
+                        <div class="calendar__day__card"
+                            style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>;">
+                            <img src="<?php echo htmlspecialchars($schedule['profile_img']); ?>" alt="Profile Image"
+                                class="calendar__day__card__img">
+                            <span
+                                class="calendar__day__card__task"><?php echo htmlspecialchars($schedule['task_title']); ?></span>
+                            <span class="calendar__day__card__time">
+                                <?php echo date('H:i', strtotime($schedule['start_time'])); ?> -
+                                <?php echo date('H:i', strtotime($schedule['end_time'])); ?>
+                            </span>
+                        </div>
                     <?php endforeach; ?>
-                </ul>
+                </div>
             <?php else: ?>
                 <p>No scheduled tasks for today.</p>
             <?php endif; ?>

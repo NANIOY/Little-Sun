@@ -17,6 +17,7 @@
 .dashboard__section h5 {
     margin-top: 0;
     color: var(--neutral-70);
+    margin-bottom: 12px;
 }
 
 .dashboard__section ul {
@@ -34,4 +35,36 @@
 
 .formContainer {
     width: 100%;
+}
+
+.calendar__day__card {
+    color: var(--white);
+    background-color: var(--gray);
+    padding: 6px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.calendar__day__card__img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.calendar__day__card__task {
+    flex-grow: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.calendar__day__card__time {
+    opacity: 0.6;
+    text-align: right;
 }
