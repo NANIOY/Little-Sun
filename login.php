@@ -3,7 +3,7 @@ session_save_path(__DIR__ . '/sessions');
 session_start();
 include_once (__DIR__ . '/classes/User.php');
 
-echo 'test session 3';
+echo 'test session 3<br>';
 error_log('Session path: ' . session_save_path());
 error_log('Session ID: ' . session_id());
 error_log('Session data at start: ' . print_r($_SESSION, true));
@@ -14,28 +14,33 @@ if (!empty($_POST)) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $user = User::getByEmail($email, $_POST['password']);
+    error_log('Form submitted: ' . print_r($_POST, true));
+
+    $user = User::getByEmail($email, $password);
 
     if ($user) {
         if (password_verify($password, $user['password'])) {
             $_SESSION["user"] = $user;
 
-            // Debugging statements
             error_log('User authenticated: ' . print_r($user, true));
             error_log('Session data after login: ' . print_r($_SESSION, true));
 
             if ($user['role'] === 'admin') {
                 header('Location: managers.php');
+                exit();
             } elseif ($user['role'] === 'manager') {
                 header('Location: managerDashboard.php');
+                exit();
             } elseif ($user['role'] === 'worker') {
                 header('Location: workerDashboard.php');
+                exit();
             }
-            exit();
         } else {
+            error_log('Password verification failed for user: ' . $email);
             $error = true;
         }
     } else {
+        error_log('No user found with email: ' . $email);
         $error = true;
     }
 }
