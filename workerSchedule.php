@@ -77,7 +77,8 @@ function generateDaysForWeek($year, $month, $day)
     return $days;
 }
 
-function getWeekNumber($date) {
+function getWeekNumber($date)
+{
     $timestamp = strtotime($date);
     $firstDayOfMonth = date('Y-m-01', $timestamp);
     $weekNumber = intval(date('W', $timestamp)) - intval(date('W', strtotime($firstDayOfMonth))) + 1;
@@ -112,6 +113,10 @@ foreach ($days as $day) {
     $daySchedules = $user->fetchSchedule($user_id, $day['date']);
     $schedules = array_merge($schedules, $daySchedules);
 }
+
+usort($schedules, function ($a, $b) {
+    return strtotime($a['start_time']) - strtotime($b['start_time']);
+});
 
 $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
 
