@@ -20,10 +20,12 @@ if (!empty($_POST)) {
         } elseif ($user['role'] === 'manager') {
             header('Location: managerDashboard.php');
             exit();
+        } elseif ($user['role'] === 'worker') {
+            header('Location: workerDashboard.php');
+            exit();
         }
     } else {
         $error = "Invalid email or password.";
-        // Redirect back to login page with error
         header('Location: login.php?error=' . urlencode($error));
         exit();
     }
