@@ -1,6 +1,5 @@
 <?php
 
-require __DIR__ . '/env_loader.php';
 
 $settings = [
     'db' => [
