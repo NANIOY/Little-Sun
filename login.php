@@ -3,7 +3,10 @@ session_save_path(__DIR__ . '/sessions');
 session_start();
 include_once (__DIR__ . '/classes/User.php');
 
-echo 'test session 2';
+echo 'test session 3';
+error_log('Session path: ' . session_save_path());
+error_log('Session ID: ' . session_id());
+error_log('Session data at start: ' . print_r($_SESSION, true));
 
 $users = User::getAll();
 

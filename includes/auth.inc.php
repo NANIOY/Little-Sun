@@ -1,7 +1,10 @@
 <?php
-
 session_save_path(__DIR__ . '/../sessions');
 session_start();
+
+error_log('Session path: ' . session_save_path());
+error_log('Session ID: ' . session_id());
+error_log('Session data in auth.inc.php: ' . print_r($_SESSION, true));
 
 function isAuthenticated()
 {
@@ -57,3 +60,4 @@ function requireWorker()
         exit();
     }
 }
+?>
