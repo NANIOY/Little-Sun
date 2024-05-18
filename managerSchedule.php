@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once (__DIR__ . '/includes/auth.inc.php');
 include_once (__DIR__ . '/classes/Manager.php');
 include_once (__DIR__ . '/classes/Calendar.php');
