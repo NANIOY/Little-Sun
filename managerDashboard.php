@@ -225,9 +225,32 @@ function formatDateRange($startDate, $endDate)
                         <tbody>
                             <?php foreach ($reportData as $entry): ?>
                                 <tr>
-                                    <td><?php echo date('d/m/Y', strtotime($entry['sick_date'])); ?></td>
+                                    <td><?php echo date('d/m/Y', strtotime($entry['date'])); ?></td>
                                     <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
                                     <td><?php echo htmlspecialchars($entry['reason']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php elseif ($reportType == 'timeOffRequests'): ?>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Worker</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($reportData as $entry): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
+                                    <td><?php echo date('d/m/Y', strtotime($entry['startDate'])); ?></td>
+                                    <td><?php echo date('d/m/Y', strtotime($entry['endDate'])); ?></td>
+                                    <td><?php echo htmlspecialchars($entry['reason']); ?></td>
+                                    <td><?php echo getStatus($entry['approved']); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -241,40 +264,19 @@ function formatDateRange($startDate, $endDate)
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><?php echo htmlspecialchars($reportData['first_name'] . ' ' . $reportData['last_name']); ?>
-                                </td>
-                                <td><?php echo number_format($reportData['missed_hours'], 2); ?></td>
-                            </tr>
-                        </tbody>
-                        </table>
-                    <?php elseif ($reportType == 'timeOffRequests'): ?>
-                        <table>
-                            <thead>
+                            <?php foreach ($reportData as $entry): ?>
                                 <tr>
-                                    <th>Worker</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Reason</th>
-                                    <th>Status</th>
+                                    <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
+                                    <td><?php echo number_format($entry['missed_hours'], 2); ?></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($reportData as $entry): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
-                                        <td><?php echo date('d/m/Y', strtotime($entry['startDate'])); ?></td>
-                                        <td><?php echo date('d/m/Y', strtotime($entry['endDate'])); ?></td>
-                                        <td><?php echo htmlspecialchars($entry['reason']); ?></td>
-                                        <td><?php echo getStatus($entry['approved']); ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    <?php endif; ?>
-                <?php else: ?>
-                    <p>No data available for the selected report type and date range.</p>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 <?php endif; ?>
+            <?php else: ?>
+                <p>No data available for the selected report type and date range.</p>
+            <?php endif; ?>
+
         </div>
 
     </div>
