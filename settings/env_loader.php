@@ -1,29 +1,17 @@
 <?php
 
 if (!function_exists('loadEnv')) {
-    function loadEnv($path)
+    function loadEnv()
     {
-        if (!file_exists($path)) {
-            throw new Exception('The .env file does not exist.');
-        }
 
-        $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        foreach ($lines as $line) {
-            if (strpos(trim($line), '#') === 0) {
-                continue;
-            }
+        error_log('env_loader.php is loaded');
 
-            list($name, $value) = explode('=', $line, 2);
-            $name = trim($name);
-            $value = trim($value);
-
-            if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
-                putenv(sprintf('%s=%s', $name, $value));
-                $_ENV[$name] = $value;
-                $_SERVER[$name] = $value;
-            }
-        }
+        error_log('DB_USER: ' . getenv('DB_USER'));
+        error_log('DB_PASSWORD: ' . getenv('DB_PASSWORD'));
+        error_log('DB_HOST: ' . getenv('DB_HOST'));
+        error_log('DB_PORT: ' . getenv('DB_PORT'));
+        error_log('DB_DATABASE: ' . getenv('DB_DATABASE'));
     }
 
-    loadEnv(__DIR__ . '/../.env');
+    loadEnv();
 }

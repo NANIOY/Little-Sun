@@ -1,5 +1,6 @@
 <?php
 
+require __DIR__ . '/env_loader.php';
 
 $settings = [
     'db' => [
@@ -15,3 +16,5 @@ $settings = [
         ],
     ],
 ];
+
+error_log('Database settings: ' . print_r($settings, true));
