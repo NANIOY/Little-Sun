@@ -119,7 +119,7 @@ $workers = User::getAllWorkers($locationId);
             <?php foreach ($tasks as $task): ?>
                 <div>
                     <input type="checkbox" id="task-<?php echo $task['id']; ?>" name="tasks"
-                        value="<?php echo $task['id']; ?>">
+                        value="<?php echo $task['id']; ?>" class="filter-task" data-task-id="<?php echo $task['id']; ?>">
                     <label for="task-<?php echo $task['id']; ?>"><?php echo $task['title']; ?></label>
                 </div>
             <?php endforeach; ?>
@@ -127,7 +127,8 @@ $workers = User::getAllWorkers($locationId);
             <?php foreach ($workers as $worker): ?>
                 <div>
                     <input type="checkbox" id="worker-<?php echo $worker['id']; ?>" name="workers"
-                        value="<?php echo $worker['id']; ?>">
+                        value="<?php echo $worker['id']; ?>" class="filter-worker"
+                        data-worker-id="<?php echo $worker['id']; ?>">
                     <label
                         for="worker-<?php echo $worker['id']; ?>"><?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?></label>
                 </div>
@@ -200,12 +201,12 @@ $workers = User::getAllWorkers($locationId);
 
                         foreach ($schedules as $schedule): ?>
                             <div class="calendar__day__card text-reg-s <?php echo $schedule['sick_date'] ? 'calendar__day__card--sick' : ''; ?>"
-                                 style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
-                                 data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>"
-                                 data-worker-id="<?php echo htmlspecialchars($schedule['user_id']); ?>"
-                                 onclick="event.stopPropagation(); window.location.href='editSchedule.php?schedule_id=<?php echo htmlspecialchars($schedule['id']); ?>'">
+                                style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
+                                data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>"
+                                data-worker-id="<?php echo htmlspecialchars($schedule['user_id']); ?>"
+                                onclick="event.stopPropagation(); window.location.href='editSchedule.php?schedule_id=<?php echo htmlspecialchars($schedule['id']); ?>'">
                                 <img src="<?php echo htmlspecialchars($schedule['profile_img']); ?>" alt="Profile Image"
-                                     class="calendar__day__card__img">
+                                    class="calendar__day__card__img">
                                 <span
                                     class="calendar__day__card__task"><?php echo htmlspecialchars($schedule['task_title']); ?></span>
                                 <?php if ($view == 'week'): ?>
@@ -375,6 +376,30 @@ $workers = User::getAllWorkers($locationId);
                     card.addEventListener('mouseout', hideTooltip);
                 });
             });
+
+            function applyFilters() {
+                const selectedTasks = Array.from(document.querySelectorAll('.filter-task:checked')).map(cb => cb.dataset.taskId);
+                const selectedWorkers = Array.from(document.querySelectorAll('.filter-worker:checked')).map(cb => cb.dataset.workerId);
+
+                document.querySelectorAll('.calendar__day__card').forEach(card => {
+                    const taskId = card.dataset.taskId;
+                    const workerId = card.dataset.workerId;
+
+                    const taskMatch = selectedTasks.length === 0 || selectedTasks.includes(taskId);
+                    const workerMatch = selectedWorkers.length === 0 || selectedWorkers.includes(workerId);
+
+                    if (taskMatch && workerMatch) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            function removeFilters() {
+                document.querySelectorAll('.filter-task, .filter-worker').forEach(cb => cb.checked = false);
+                document.querySelectorAll('.calendar__day__card').forEach(card => card.style.display = '');
+            }
         </script>
 </body>
 
