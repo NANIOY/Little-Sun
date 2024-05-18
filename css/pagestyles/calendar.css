@@ -90,11 +90,16 @@
     cursor: pointer;
 }
 
+.calendar__navigation__copy {
+    max-width: 200px;
+    height: 40px !important;
+}
+
 /* WEEKDAYS */
 .calendar__day {
     border: 1px solid var(--neutral-30);
     padding: 8px;
-    height: 112px;
+    height: 136px;
     border-radius: 4px;
     display: flex;
     flex-direction: column;

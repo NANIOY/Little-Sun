@@ -169,10 +169,10 @@ $workers = User::getAllWorkers($locationId);
                 </div>
                 <div class="calendar__navigation__actions">
                     <?php if ($view == 'week'): ?>
-                        <button class="button--secondary" id="copyWeekButton" onclick="copyWeekTasks()">Copy Week
-                            Tasks</button>
-                        <button class="button--secondary" id="pasteWeekButton" onclick="pasteWeekTasks()" disabled>Paste
-                            Week Tasks</button>
+                        <button class="calendar__navigation__copy button--secondary" id="copyWeekButton" onclick="copyWeekTasks()">Copy week
+                            tasks</button>
+                        <button class="calendar__navigation__copy button--secondary" id="pasteWeekButton" onclick="pasteWeekTasks()" disabled>Paste
+                            week tasks</button>
                     <?php endif; ?>
                 </div>
             </div>
@@ -306,7 +306,7 @@ $workers = User::getAllWorkers($locationId);
                 const sourceWeek = JSON.parse(localStorage.getItem('sourceWeek'));
 
                 if (!sourceWeek) {
-                    alert('Please copy a source week first by clicking "Copy Week Tasks".');
+                    alert('Please copy a source week first by clicking "Copy week tasks".');
                     return;
                 }
 
