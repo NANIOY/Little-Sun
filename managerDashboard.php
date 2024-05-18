@@ -1,107 +1,100 @@
 <?php
-include_once(__DIR__ . '/includes/auth.inc.php');
-include_once(__DIR__ . '/classes/Manager.php');
-include_once(__DIR__ . '/classes/Calendar.php');
-include_once(__DIR__ . '/classes/Task.php');
-include_once(__DIR__ . '/classes/User.php');
-include_once(__DIR__ . '/classes/WorkerReport.php');
-include_once(__DIR__ . '/classes/Location.php');
+include_once (__DIR__ . '/includes/auth.inc.php');
+include_once (__DIR__ . '/classes/Manager.php');
+include_once (__DIR__ . '/classes/Report.php');
+include_once (__DIR__ . '/classes/User.php');
 
 requireManager();
 
-$manager = new Manager();
-$manager->setId($_SESSION['user']['id']);
-$manager->setHubLocation($_SESSION['user']['location_id']);
+$locationId = $_SESSION['user']['location_id'];
+$workers = User::getAllWorkers($locationId);
 
-$locationId = $manager->getHubLocation();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $reportType = $_POST['reportType'];
+    $startDate = $_POST['startDate'];
+    $endDate = $_POST['endDate'];
+    $userId = $_POST['user_id'] ?? null;
 
-$tasks = Task::getAll();
-$users = User::getAllWorkers($locationId); 
-$locations = Location::getAll();
-
-// Process form submission
-$filteredUsers = [];
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $selectedLocations = isset($_POST['locations']) ? $_POST['locations'] : [];
-    $selectedTasks = isset($_POST['tasks']) ? $_POST['tasks'] : [];
-    $selectedUsers = isset($_POST['users']) ? $_POST['users'] : [];
-    $overtime = isset($_POST['overtime']) ? true : false;
-
-    $report = new WorkerReport();
-    $filteredUsers = $report->getFilteredUsers($selectedLocations, $selectedTasks, $selectedUsers, $overtime);
+    switch ($reportType) {
+        case 'hoursWorked':
+            $reportData = Report::getHoursWorked($userId, $startDate, $endDate);
+            break;
+        case 'totalHoursWorked':
+            $reportData = Report::getTotalHoursWorked($startDate, $endDate);
+            break;
+        case 'overtimeHours':
+            $reportData = Report::getOvertimeHours($userId, $startDate, $endDate);
+            break;
+        case 'sickHours':
+            $reportData = Report::getSickHours($userId, $startDate, $endDate);
+            break;
+        case 'timeOffRequests':
+            $reportData = Report::getTimeOffRequests($startDate, $endDate);
+            break;
+        default:
+            $reportData = [];
+    }
 }
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Sun | Dashboard</title>
+    <title>Little Sun | Manager Dashboard</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/form.css">
     <link rel="stylesheet" href="css/pagestyles/managerdashboard.css">
 </head>
-<body>
-    <?php include_once("./includes/managerNav.inc.php"); ?>
 
-    <h4 class="formContainer__title">Manager dashboard</h4>
+<body>
+    <?php include_once ("./includes/managerNav.inc.php"); ?>
+    <h4>Manager Dashboard</h4>
+
 
     <div class="formContainer">
-        <form method="POST" action="managerdashboard.php">
-            <div class="filter">
-                <div class="filter__section">
-                    <h4 class="filter__header">Location</h4>
-                    <?php foreach ($locations as $location): ?>
-                        <div>
-                            <input type="checkbox" id="location-<?php echo $location['id']; ?>" name="locations[]" value="<?php echo $location['id']; ?>">
-                            <label for="location-<?php echo $location['id']; ?>"><?php echo $location['name']; ?></label>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-
-                <div class="filter__section">
-                    <h4 class="filter__header">Tasks</h4>
-                    <?php foreach ($tasks as $task): ?>
-                        <div>
-                            <input type="checkbox" id="task-<?php echo $task['id']; ?>" name="tasks[]" value="<?php echo $task['id']; ?>">
-                            <label for="task-<?php echo $task['id']; ?>"><?php echo $task['title']; ?></label>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-
-                <div class="filter__section">
-                    <h4 class="filter__header--two">Users</h4>
-                    <?php foreach ($users as $user): ?>
-                        <div>
-                            <input type="checkbox" id="user-<?php echo $user['id']; ?>" name="users[]" value="<?php echo $user['id']; ?>">
-                            <label for="user-<?php echo $user['id']; ?>"><?php echo $user['first_name'] . ' ' . $user['last_name']; ?></label>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-
-                <div class="filter__section">
-                    <h4 class="filter__header">Overtime</h4>
-                    <input type="checkbox" id="overtime" name="overtime" value="1">
-                    <label for="overtime">Show only overtime</label>
-                </div>
-
-                <div class="filter__buttons">
-                    <button type="submit" class="button--primary">Generate report</button>
-                    <button type="reset" class="button--secondary">Remove Filters</button>
-                </div>
+        <h5 class="formContainer__title">Generate report</h5>
+        <form method="POST" action="managerDashboard.php" class="formContainer__form">
+            <div class="formContainer__form__field">
+                <label for="reportType">Select Report Type:</label>
+                <select name="reportType" id="reportType" class="formContainer__form__field__input">
+                    <option value="hoursWorked">Hours Worked</option>
+                    <option value="totalHoursWorked">Total Hours Worked</option>
+                    <option value="overtimeHours">Overtime Hours</option>
+                    <option value="sickHours">Sick Hours</option>
+                    <option value="timeOffRequests">Time Off Requests</option>
+                </select>
             </div>
-        </form>
 
-        <?php if (!empty($filteredUsers)): ?>
-            <h2>Filtered Users Report</h2>
-            <ul>
-                <?php foreach ($filteredUsers as $user): ?>
-                    <li><?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?></li>
-                <?php endforeach; ?>
-            </ul>
-        <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
-            <p>No users found for the selected filters.</p>
-        <?php endif; ?>
+            <div class="formContainer__form__field">
+                <label for="user_id">Worker:</label>
+                <select id="user_id" name="user_id" class="formContainer__form__field__input">
+                    <?php foreach ($workers as $worker): ?>
+                        <option value="<?php echo $worker['id']; ?>">
+                            <?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="formContainer__form__field">
+                <label for="startDate">Start Date:</label>
+                <input type="date" name="startDate" id="startDate" class="formContainer__form__field__input" required>
+            </div>
+
+            <div class="formContainer__form__field">
+                <label for="endDate">End Date:</label>
+                <input type="date" name="endDate" id="endDate" class="formContainer__form__field__input" required>
+            </div>
+
+            <button type="submit" class="formContainer__form__button button--primary">Generate Report</button>
+        </form>
     </div>
+
+    <?php if (isset($reportData)): ?>
+        <h2>Report Results</h2>
+        <pre><?php print_r($reportData); ?></pre>
+    <?php endif; ?>
 </body>
+
 </html>
