@@ -6,8 +6,13 @@ class Report
     public static function getHoursWorked($userId, $startDate, $endDate)
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT date(clock_in_time) AS date, u.first_name, u.last_name, clock_in_time, clock_out_time, TIMESTAMPDIFF(MINUTE, clock_in_time, clock_out_time) / 60 AS hours_worked FROM attendance a LEFT JOIN users u ON a.user_id = u.id WHERE a.user_id = ? AND clock_in_time BETWEEN ? AND ?");
-        $statement->execute([$userId, $startDate, $endDate]);
+        if ($userId == 'all') {
+            $statement = $conn->prepare("SELECT date(clock_in_time) AS date, u.first_name, u.last_name, clock_in_time, clock_out_time, TIMESTAMPDIFF(MINUTE, clock_in_time, clock_out_time) / 60 AS hours_worked FROM attendance a LEFT JOIN users u ON a.user_id = u.id WHERE clock_in_time BETWEEN ? AND ?");
+            $statement->execute([$startDate, $endDate]);
+        } else {
+            $statement = $conn->prepare("SELECT date(clock_in_time) AS date, u.first_name, u.last_name, clock_in_time, clock_out_time, TIMESTAMPDIFF(MINUTE, clock_in_time, clock_out_time) / 60 AS hours_worked FROM attendance a LEFT JOIN users u ON a.user_id = u.id WHERE a.user_id = ? AND clock_in_time BETWEEN ? AND ?");
+            $statement->execute([$userId, $startDate, $endDate]);
+        }
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
