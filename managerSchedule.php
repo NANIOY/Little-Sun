@@ -187,7 +187,8 @@ $workers = User::getAllWorkers($locationId);
                             <div class="calendar__day__card text-reg-s"
                                 style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
                                 data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>"
-                                data-worker-id="<?php echo htmlspecialchars($schedule['user_id']); ?>">
+                                data-worker-id="<?php echo htmlspecialchars($schedule['user_id']); ?>"
+                                onclick="event.stopPropagation(); window.location.href='editSchedule.php?schedule_id=<?php echo htmlspecialchars($schedule['id']); ?>'">
                                 <img src="<?php echo htmlspecialchars($schedule['profile_img']); ?>" alt="Profile Image"
                                     class="calendar__day__card__img">
                                 <span
