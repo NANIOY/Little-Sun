@@ -1,10 +1,12 @@
 <?php
-session_save_path(__DIR__ . '/../sessions');
 session_start();
 include_once (__DIR__ . '/classes/Manager.php');
 include_once (__DIR__ . '/includes/auth.inc.php');
 
-error_log('Session data in managers.php: ' . print_r($_SESSION, true));
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+    header('Location: login.php');
+    exit();
+}
 
 requireAdmin();
 

@@ -1,23 +1,15 @@
 <?php
-// Start session using built-in handler
 session_start();
+echo 'test fuck do I know';
 
 include_once(__DIR__ . '/classes/Db.php');
 include_once(__DIR__ . '/classes/User.php');
 
 $db = Db::getInstance();
 
-error_log('Session path: ' . session_save_path());
-error_log('Session ID: ' . session_id());
-error_log('Session data at start: ' . print_r($_SESSION, true));
-
-$users = User::getAll();
-
 if (!empty($_POST)) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
-    error_log('Form submitted: ' . print_r($_POST, true));
 
     $user = User::getByEmail($email, $users);
 
@@ -25,29 +17,22 @@ if (!empty($_POST)) {
         if (password_verify($password, $user['password'])) {
             $_SESSION["user"] = $user;
 
-            error_log('User authenticated: ' . print_r($user, true));
-            error_log('Session data after login: ' . print_r($_SESSION, true));
-
             if ($user['role'] === 'admin') {
                 header('Location: managers.php');
                 exit();
             } elseif ($user['role'] === 'manager') {
                 header('Location: managerDashboard.php');
                 exit();
-            } elseif ($user['role'] === 'worker') {
-                header('Location: workerDashboard.php');
-                exit();
             }
         } else {
-            error_log('Password verification failed for user: ' . $email);
-            $error = true;
+            echo "Invalid password.";
         }
     } else {
-        error_log('No user found with email: ' . $email);
-        $error = true;
+        echo "Invalid email.";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
