@@ -1,9 +1,9 @@
 <?php
+session_save_path(__DIR__ . '/sessions');
 include_once (__DIR__ . '/classes/User.php');
 
 $users = User::getAll();
 
-// Logging form data
 if (!empty($_POST)) {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -12,12 +12,11 @@ if (!empty($_POST)) {
 
     if ($user) {
         if (password_verify($password, $user['password'])) {
-            session_start();
             $_SESSION["user"] = $user;
 
             // Debugging statements
             error_log('User authenticated: ' . print_r($user, true));
-            error_log('User role: ' . $user['role']);
+            error_log('Session data after login: ' . print_r($_SESSION, true));
 
             if ($user['role'] === 'admin') {
                 header('Location: managers.php');
@@ -58,38 +57,39 @@ if (!empty($_POST)) {
                 selecting preferred work locations. Our user-friendly interface allows workers to plan their
                 availability
                 for shifts and even schedule well-deserved vacations with ease.</p>
-        </div> 
+        </div>
 
         <div class="formContainer">
-        <h4 class="formContainer__title">Welcome</h4>
-        <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
+            <h4 class="formContainer__title">Welcome</h4>
+            <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
 
-            <?php if (isset($error)): ?>
-                <div class="form__error">
-                    <p>
-                        Sorry, we can't log you in with that email address and password. Can you try again?
-                    </p>
+                <?php if (isset($error)): ?>
+                    <div class="form__error">
+                        <p>
+                            Sorry, we can't log you in with that email address and password. Can you try again?
+                        </p>
+                    </div>
+                <?php endif; ?>
+
+                <div class="formContainer__form__field">
+                    <label for="email" class="text-reg-s">Email:</label>
+                    <input type="email" id="email" name="email"
+                        class="formContainer__form__field__input text-reg-normal" required>
                 </div>
-            <?php endif; ?>
 
-            <div class="formContainer__form__field">
-                <label for="email" class="text-reg-s">Email:</label>
-                <input type="email" id="email" name="email" class="formContainer__form__field__input text-reg-normal" required>
-            </div>
-            
-            <div class="formContainer__form__field">
-                <label for="password" class="text-reg-s">Password:</label>
-                <input type="password" id="password" name="password"
-                    class="formContainer__form__field__input text-reg-normal" required>
-            </div>
+                <div class="formContainer__form__field">
+                    <label for="password" class="text-reg-s">Password:</label>
+                    <input type="password" id="password" name="password"
+                        class="formContainer__form__field__input text-reg-normal" required>
+                </div>
 
-            <div class="formContainer__form__field">
-                <a href="#">Forgot password?</a>
-            </div>
-           
-            <button type="submit" class="formContainer__form__button button--primary">Log In</button>
-        </form>
-    </div>
+                <div class="formContainer__form__field">
+                    <a href="#">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="formContainer__form__button button--primary">Log In</button>
+            </form>
+        </div>
 
 
     </main>

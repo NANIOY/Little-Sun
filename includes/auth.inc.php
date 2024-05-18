@@ -1,17 +1,16 @@
 <?php
 
+session_save_path(__DIR__ . '/../sessions');
 session_start();
 
 function isAuthenticated()
 {
-    // Debugging statement
     error_log('isAuthenticated: ' . isset($_SESSION['user']));
     return isset($_SESSION['user']);
 }
 
 function isAdmin()
 {
-    // Debugging statement
     error_log('isAdmin: ' . (isAuthenticated() && $_SESSION['user']['role'] === 'admin'));
     return isAuthenticated() && $_SESSION['user']['role'] === 'admin';
 }
@@ -36,7 +35,6 @@ function requireAuth()
 
 function requireAdmin()
 {
-    // Debugging statement
     error_log('requireAdmin');
     if (!isAdmin()) {
         header('Location: login.php');
@@ -59,4 +57,3 @@ function requireWorker()
         exit();
     }
 }
-?>
