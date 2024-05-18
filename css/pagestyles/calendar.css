@@ -238,8 +238,6 @@
     z-index: 1000;
 }
 
-
-
 @media (max-width: 768px) {
     .container {
         grid-template-columns: 1fr;

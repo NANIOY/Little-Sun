@@ -288,7 +288,7 @@ $workers = User::getAllWorkers($locationId);
 
                 document.querySelectorAll('.calendar__day').forEach(day => {
                     day.addEventListener('mouseover', (event) => {
-                        showTooltip('Click to add task');
+                        showTooltip('click to add task');
                         moveTooltip(event);
                     });
                     day.addEventListener('mousemove', moveTooltip);
@@ -298,7 +298,7 @@ $workers = User::getAllWorkers($locationId);
                 document.querySelectorAll('.calendar__day__card').forEach(card => {
                     card.addEventListener('mouseover', (event) => {
                         event.stopPropagation();
-                        showTooltip('Click to edit task');
+                        showTooltip('click to edit task');
                         moveTooltip(event);
                     });
                     card.addEventListener('mousemove', moveTooltip);
