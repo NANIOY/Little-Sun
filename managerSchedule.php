@@ -137,6 +137,7 @@ $workers = User::getAllWorkers($locationId);
                 <button class="button--tertiary" onclick="removeFilters()">Remove Filters</button>
             </div>
         </div>
+        <div class="tooltip text-reg-xs" id="tooltip"></div>
         <div class="workers">
             <div class="calendar__navigation">
                 <div class="calendar__navigation__view">
@@ -210,6 +211,34 @@ $workers = User::getAllWorkers($locationId);
             </div>
         </div>
         <script>
+            let selectedDates = [];
+            const tooltip = document.getElementById('tooltip');
+
+            function toggleDateSelection(date) {
+                const index = selectedDates.indexOf(date);
+                if (index === -1) {
+                    selectedDates.push(date);
+                } else {
+                    selectedDates.splice(index, 1);
+                }
+
+                document.querySelector(`.calendar__day[data-date="${date}"]`).classList.toggle('selected');
+                updateAssignButtonState();
+            }
+
+            function updateAssignButtonState() {
+                const assignButtons = document.querySelectorAll('.calendar__navigation__assign');
+                assignButtons.forEach(button => {
+                    if (selectedDates.length === 0) {
+                        button.classList.remove('enabled');
+                        button.disabled = true;
+                    } else {
+                        button.classList.add('enabled');
+                        button.disabled = false;
+                    }
+                });
+            }
+
             function navigateToAssignment(date) {
                 window.location.href = 'managerAssign.php?date=' + date;
             }
@@ -232,34 +261,22 @@ $workers = User::getAllWorkers($locationId);
             }
 
             function switchView(view) {
-                let url = `?year=<?php echo $currentYear; ?>&month=<?php echo $currentMonth; ?>&view=` + view;
+                let url = `?year=<?php echo $currentYear; ?>&month=<?php echo $currentMonth; ?>&day=<?php echo $currentDay; ?>&view=` + view;
                 window.location.href = url;
             }
 
-            function applyFilters() {
-                var tasksChecked = Array.from(document.querySelectorAll('[name="tasks"]:checked')).map(input => input.value);
-                var workersChecked = Array.from(document.querySelectorAll('[name="workers"]:checked')).map(input => input.value);
-
-                document.querySelectorAll('.calendar__day__card').forEach(card => {
-                    var taskMatch = tasksChecked.length === 0 || tasksChecked.includes(card.getAttribute('data-task-id'));
-                    var workerMatch = workersChecked.length === 0 || (card.getAttribute('data-worker-id') && workersChecked.includes(card.getAttribute('data-worker-id')));
-
-                    if (taskMatch && workerMatch) {
-                        card.style.display = '';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+            function showTooltip(text) {
+                tooltip.innerHTML = text;
+                tooltip.style.display = 'block';
             }
 
-            function removeFilters() {
-                document.querySelectorAll('input[type="checkbox"][name="tasks"], input[type="checkbox"][name="workers"]').forEach(checkbox => {
-                    checkbox.checked = false;
-                });
+            function hideTooltip() {
+                tooltip.style.display = 'none';
+            }
 
-                document.querySelectorAll('.calendar__day__card').forEach(card => {
-                    card.style.display = '';
-                });
+            function moveTooltip(event) {
+                tooltip.style.left = event.pageX + 10 + 'px';
+                tooltip.style.top = event.pageY + 10 + 'px';
             }
 
             document.addEventListener('DOMContentLoaded', function () {
@@ -268,9 +285,26 @@ $workers = User::getAllWorkers($locationId);
                 if (view === 'week') {
                     document.querySelector('.calendar').classList.add('week-view');
                 }
+
+                document.querySelectorAll('.calendar__day').forEach(day => {
+                    day.addEventListener('mouseover', (event) => {
+                        showTooltip('Click to add task');
+                        moveTooltip(event);
+                    });
+                    day.addEventListener('mousemove', moveTooltip);
+                    day.addEventListener('mouseout', hideTooltip);
+                });
+
+                document.querySelectorAll('.calendar__day__card').forEach(card => {
+                    card.addEventListener('mouseover', (event) => {
+                        showTooltip('Click to edit task');
+                        moveTooltip(event);
+                    });
+                    card.addEventListener('mousemove', moveTooltip);
+                    card.addEventListener('mouseout', hideTooltip);
+                });
             });
         </script>
-    </div>
 </body>
 
 </html>
