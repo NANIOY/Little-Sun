@@ -1,6 +1,6 @@
 <?php
 session_start();
-echo 'test fuck do I know';
+echo 'still dont know';
 
 include_once(__DIR__ . '/classes/Db.php');
 include_once(__DIR__ . '/classes/User.php');
@@ -11,29 +11,23 @@ if (!empty($_POST)) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $user = User::getByEmail($email, $users);
+    $user = User::getByEmail($email, $password);
 
     if ($user) {
-        if (password_verify($password, $user['password'])) {
-            $_SESSION["user"] = $user;
+        $_SESSION["user"] = $user;
 
-            if ($user['role'] === 'admin') {
-                header('Location: managers.php');
-                exit();
-            } elseif ($user['role'] === 'manager') {
-                header('Location: managerDashboard.php');
-                exit();
-            }
-        } else {
-            echo "Invalid password.";
+        if ($user['role'] === 'admin') {
+            header('Location: managers.php');
+            exit();
+        } elseif ($user['role'] === 'manager') {
+            header('Location: managerDashboard.php');
+            exit();
         }
     } else {
-        echo "Invalid email.";
+        echo "Invalid email or password.";
     }
 }
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
