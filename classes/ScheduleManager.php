@@ -73,4 +73,60 @@ class ScheduleManager
 
         return $timeOffRecord !== false;
     }
+
+    public static function getScheduleById($scheduleId)
+    {
+        $conn = Db::getInstance();
+
+        $statement = $conn->prepare('
+        SELECT s.*, sua.user_id 
+        FROM schedules s 
+        LEFT JOIN schedule_user_assigned sua ON s.id = sua.schedule_id 
+        WHERE s.id = :scheduleId
+    ');
+        $statement->bindValue(':scheduleId', $scheduleId);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public static function deleteSchedule($scheduleId)
+    {
+        $conn = Db::getInstance();
+
+        $statement = $conn->prepare('DELETE FROM schedules WHERE id = :scheduleId');
+        $statement->bindValue(':scheduleId', $scheduleId);
+        $statement->execute();
+
+        return ['success' => true, 'message' => 'Schedule deleted successfully.'];
+    }
+
+    public static function updateSchedule($scheduleId, $userId, $taskId, $startTime, $endTime, $date, $locationId)
+    {
+        if (self::isUserOnTimeOff($userId, $date)) {
+            return ['success' => false, 'message' => '<span style="color: red;">User is on time off on the requested date.</span>'];
+        }
+
+        if (!self::isUserAvailableDuringTimeOff($userId, $startTime, $endTime, $date)) {
+            return ['success' => false, 'message' => '<span style="color: red;">User is not available during the requested time period.</span>'];
+        }
+
+        $conn = Db::getInstance();
+
+        $statement = $conn->prepare('UPDATE schedules SET start_time = :startTime, end_time = :endTime, date = :date, task_id = :taskId, location_id = :locationId WHERE id = :scheduleId');
+        $statement->bindValue(':startTime', $startTime);
+        $statement->bindValue(':endTime', $endTime);
+        $statement->bindValue(':date', $date);
+        $statement->bindValue(':taskId', $taskId);
+        $statement->bindValue(':locationId', $locationId);
+        $statement->bindValue(':scheduleId', $scheduleId);
+        $statement->execute();
+
+        $statement = $conn->prepare('UPDATE schedule_user_assigned SET user_id = :userId WHERE schedule_id = :scheduleId');
+        $statement->bindValue(':userId', $userId);
+        $statement->bindValue(':scheduleId', $scheduleId);
+        $statement->execute();
+
+        return ['success' => true, 'message' => 'Schedule updated successfully.'];
+    }
 }
