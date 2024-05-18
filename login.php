@@ -1,75 +1,12 @@
 <?php
-
-include_once(__DIR__ . '/classes/Db.php');
-
-// Set up database connection using the Db class
-$db = Db::getInstance();
-
-// Custom session handler class
-class DBSessionHandler implements SessionHandlerInterface
-{
-    private $pdo;
-    private $table;
-
-    public function __construct(PDO $pdo, $table = 'sessions')
-    {
-        $this->pdo = $pdo;
-        $this->table = $table;
-    }
-
-    public function open($savePath, $sessionName)
-    {
-        return true;
-    }
-
-    public function close()
-    {
-        return true;
-    }
-
-    public function read($id)
-    {
-        $stmt = $this->pdo->prepare("SELECT data FROM {$this->table} WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-
-        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return $row['data'];
-        }
-
-        return '';
-    }
-
-    public function write($id, $data)
-    {
-        $timestamp = time();
-        $stmt = $this->pdo->prepare("REPLACE INTO {$this->table} (id, data, timestamp) VALUES (:id, :data, :timestamp)");
-        return $stmt->execute(['id' => $id, 'data' => $data, 'timestamp' => $timestamp]);
-    }
-
-    public function destroy($id)
-    {
-        $stmt = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");
-        return $stmt->execute(['id' => $id]);
-    }
-
-    public function gc($maxLifetime)
-    {
-        $old = time() - $maxLifetime;
-        $stmt = $this->pdo->prepare("DELETE FROM {$this->table} WHERE timestamp < :old");
-        return $stmt->execute(['old' => $old]);
-    }
-}
-
-// Set the custom session handler
-$handler = new DBSessionHandler($db);
-session_set_save_handler($handler, true);
-
-// Start the session
+// Start session using built-in handler
 session_start();
 
+include_once(__DIR__ . '/classes/Db.php');
 include_once(__DIR__ . '/classes/User.php');
 
-echo 'test session 4';
+$db = Db::getInstance();
+
 error_log('Session path: ' . session_save_path());
 error_log('Session ID: ' . session_id());
 error_log('Session data at start: ' . print_r($_SESSION, true));
@@ -82,7 +19,7 @@ if (!empty($_POST)) {
 
     error_log('Form submitted: ' . print_r($_POST, true));
 
-    $user = User::getByEmail($email, $password);
+    $user = User::getByEmail($email, $users);
 
     if ($user) {
         if (password_verify($password, $user['password'])) {
