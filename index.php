@@ -1,8 +1,12 @@
 <?php
-include_once (__DIR__ . '/classes/User.php');
-
-
-
+$file = __DIR__ . '/classes/User.php';
+if (file_exists($file)) {
+    echo "File exists: $file<br>";
+    include_once ($file);
+    echo "User.php included successfully<br>";
+} else {
+    echo "File does not exist: $file<br>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
