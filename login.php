@@ -2,6 +2,8 @@
 session_save_path(__DIR__ . '/sessions');
 include_once (__DIR__ . '/classes/User.php');
 
+echo 'test session';
+
 $users = User::getAll();
 
 if (!empty($_POST)) {
