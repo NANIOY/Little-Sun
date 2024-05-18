@@ -168,12 +168,13 @@ $workers = User::getAllWorkers($locationId);
                     </button>
                 </div>
                 <div class="calendar__navigation__actions">
-                    <button class="button--secondary" id="copySourceWeekButton">Select Source Week</button>
-                    <button class="button--secondary" id="copyDestinationWeekButton">Select Destination Week</button>
-                    <button class="button--primary" id="copyWeekButton" onclick="copyWeekTasks()" disabled>Copy Week
-                        Tasks</button>
+                    <?php if ($view == 'week'): ?>
+                        <button class="button--secondary" id="copyWeekButton" onclick="copyWeekTasks()">Copy Week
+                            Tasks</button>
+                        <button class="button--secondary" id="pasteWeekButton" onclick="pasteWeekTasks()" disabled>Paste
+                            Week Tasks</button>
+                    <?php endif; ?>
                 </div>
-
             </div>
 
             <div class="calendar text-reg-normal <?php echo ($view == 'week') ? 'week-view' : ''; ?>">
@@ -223,8 +224,6 @@ $workers = User::getAllWorkers($locationId);
         </div>
         <script>
             let selectedDates = [];
-            let sourceWeek = null;
-            let destinationWeek = null;
             const tooltip = document.getElementById('tooltip');
 
             function toggleDateSelection(date) {
@@ -292,35 +291,30 @@ $workers = User::getAllWorkers($locationId);
                 tooltip.style.top = event.pageY + 10 + 'px';
             }
 
-            document.getElementById('copySourceWeekButton').addEventListener('click', function () {
+            function copyWeekTasks() {
                 const sourceWeek = {
                     year: <?php echo $currentYear; ?>,
                     month: <?php echo $currentMonth; ?>,
                     day: <?php echo $currentDay; ?>
                 };
                 localStorage.setItem('sourceWeek', JSON.stringify(sourceWeek));
-                alert('Source week selected');
-            });
+                alert('Source week copied. Now go to the destination week and click "Paste Week Tasks".');
+                document.getElementById('pasteWeekButton').disabled = false;
+            }
 
-            document.getElementById('copyDestinationWeekButton').addEventListener('click', function () {
+            function pasteWeekTasks() {
+                const sourceWeek = JSON.parse(localStorage.getItem('sourceWeek'));
+
+                if (!sourceWeek) {
+                    alert('Please copy a source week first by clicking "Copy Week Tasks".');
+                    return;
+                }
+
                 const destinationWeek = {
                     year: <?php echo $currentYear; ?>,
                     month: <?php echo $currentMonth; ?>,
                     day: <?php echo $currentDay; ?>
                 };
-                localStorage.setItem('destinationWeek', JSON.stringify(destinationWeek));
-                alert('Destination week selected');
-                document.getElementById('copyWeekButton').disabled = false;
-            });
-
-            function copyWeekTasks() {
-                const sourceWeek = JSON.parse(localStorage.getItem('sourceWeek'));
-                const destinationWeek = JSON.parse(localStorage.getItem('destinationWeek'));
-
-                if (!sourceWeek || !destinationWeek) {
-                    alert('Please select both source and destination weeks');
-                    return;
-                }
 
                 const data = {
                     sourceWeek: sourceWeek,
@@ -337,7 +331,7 @@ $workers = User::getAllWorkers($locationId);
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            alert('Tasks copied successfully');
+                            localStorage.removeItem('sourceWeek');
                             location.reload();
                         } else {
                             alert('Error copying tasks: ' + data.message);
@@ -350,6 +344,11 @@ $workers = User::getAllWorkers($locationId);
                 const view = urlParams.get('view');
                 if (view === 'week') {
                     document.querySelector('.calendar').classList.add('week-view');
+                }
+
+                const sourceWeek = JSON.parse(localStorage.getItem('sourceWeek'));
+                if (sourceWeek) {
+                    document.getElementById('pasteWeekButton').disabled = false;
                 }
 
                 document.querySelectorAll('.calendar__day').forEach(day => {
