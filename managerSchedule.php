@@ -169,9 +169,11 @@ $workers = User::getAllWorkers($locationId);
                 </div>
                 <div class="calendar__navigation__actions">
                     <?php if ($view == 'week'): ?>
-                        <button class="calendar__navigation__copy button--secondary" id="copyWeekButton" onclick="copyWeekTasks()">Copy week
+                        <button class="calendar__navigation__copy button--secondary" id="copyWeekButton"
+                            onclick="copyWeekTasks()">Copy week
                             tasks</button>
-                        <button class="calendar__navigation__copy button--secondary" id="pasteWeekButton" onclick="pasteWeekTasks()" disabled>Paste
+                        <button class="calendar__navigation__copy button--secondary" id="pasteWeekButton"
+                            onclick="pasteWeekTasks()" disabled>Paste
                             week tasks</button>
                     <?php endif; ?>
                 </div>
@@ -197,13 +199,13 @@ $workers = User::getAllWorkers($locationId);
                         });
 
                         foreach ($schedules as $schedule): ?>
-                            <div class="calendar__day__card text-reg-s"
-                                style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
-                                data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>"
-                                data-worker-id="<?php echo htmlspecialchars($schedule['user_id']); ?>"
-                                onclick="event.stopPropagation(); window.location.href='editSchedule.php?schedule_id=<?php echo htmlspecialchars($schedule['id']); ?>'">
+                            <div class="calendar__day__card text-reg-s <?php echo $schedule['sick_date'] ? 'calendar__day__card--sick' : ''; ?>"
+                                 style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
+                                 data-task-id="<?php echo htmlspecialchars($schedule['task_id']); ?>"
+                                 data-worker-id="<?php echo htmlspecialchars($schedule['user_id']); ?>"
+                                 onclick="event.stopPropagation(); window.location.href='editSchedule.php?schedule_id=<?php echo htmlspecialchars($schedule['id']); ?>'">
                                 <img src="<?php echo htmlspecialchars($schedule['profile_img']); ?>" alt="Profile Image"
-                                    class="calendar__day__card__img">
+                                     class="calendar__day__card__img">
                                 <span
                                     class="calendar__day__card__task"><?php echo htmlspecialchars($schedule['task_title']); ?></span>
                                 <?php if ($view == 'week'): ?>
@@ -215,6 +217,9 @@ $workers = User::getAllWorkers($locationId);
                                     <span class="calendar__day__card__time text-reg-xs">
                                         <?php echo date('H:i', strtotime($schedule['start_time'])); ?>
                                     </span>
+                                <?php endif; ?>
+                                <?php if ($schedule['sick_date']): ?>
+                                    <div class="calendar__day__card--sick__indicator">Sick</div>
                                 <?php endif; ?>
                             </div>
                         <?php endforeach; ?>

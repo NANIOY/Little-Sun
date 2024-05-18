@@ -264,13 +264,13 @@ class Manager
 
     public function fetchSchedules($locationId, $date) {
         $conn = Db::getInstance();
-        $sql = "SELECT s.*, u.first_name, u.last_name, u.id AS user_id, u.profile_img, t.color, t.title AS task_title
+        $sql = "SELECT s.*, u.first_name, u.last_name, u.id AS user_id, u.profile_img, t.color, t.title AS task_title, sd.date AS sick_date
                 FROM schedules s
                 LEFT JOIN schedule_user_assigned sua ON s.id = sua.schedule_id
                 LEFT JOIN users u ON u.id = sua.user_id
                 LEFT JOIN tasks t ON s.task_id = t.id
+                LEFT JOIN sick_days sd ON u.id = sd.user_id AND sd.date = s.date
                 WHERE s.location_id = :locationId AND s.date = :date";
-    
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':locationId', $locationId);
         $stmt->bindValue(':date', $date);
