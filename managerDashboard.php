@@ -15,12 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $endDate = $_POST['endDate'];
     $userId = $_POST['user_id'] ?? null;
 
+    if ($userId == 'all') {
+        $userId = null;
+    }
+
     switch ($reportType) {
         case 'hoursWorked':
             $reportData = Report::getHoursWorked($userId, $startDate, $endDate);
             break;
         case 'totalHoursWorked':
-            $reportData = Report::getTotalHoursWorked($startDate, $endDate);
+            $reportData = Report::getTotalHoursWorked($startDate, $endDate, $userId);
             break;
         case 'overtimeHours':
             $reportData = Report::getOvertimeHours($userId, $startDate, $endDate);

@@ -16,11 +16,16 @@ class Report
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getTotalHoursWorked($startDate, $endDate)
+    public static function getTotalHoursWorked($startDate, $endDate, $userId = null)
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT u.first_name, u.last_name, SUM(TIMESTAMPDIFF(HOUR, clock_in_time, clock_out_time)) AS total_hours_worked FROM attendance a LEFT JOIN users u ON a.user_id = u.id WHERE clock_in_time BETWEEN ? AND ? GROUP BY u.id");
-        $statement->execute([$startDate, $endDate]);
+        if ($userId === null || $userId == 'all') {
+            $statement = $conn->prepare("SELECT u.first_name, u.last_name, SUM(TIMESTAMPDIFF(MINUTE, clock_in_time, clock_out_time)) / 60 AS total_hours_worked FROM attendance a LEFT JOIN users u ON a.user_id = u.id WHERE clock_in_time BETWEEN ? AND ? GROUP BY u.id");
+            $statement->execute([$startDate, $endDate]);
+        } else {
+            $statement = $conn->prepare("SELECT u.first_name, u.last_name, SUM(TIMESTAMPDIFF(MINUTE, clock_in_time, clock_out_time)) / 60 AS total_hours_worked FROM attendance a LEFT JOIN users u ON a.user_id = u.id WHERE a.user_id = ? AND clock_in_time BETWEEN ? AND ? GROUP BY u.id");
+            $statement->execute([$userId, $startDate, $endDate]);
+        }
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
