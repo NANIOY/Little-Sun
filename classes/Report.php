@@ -83,4 +83,31 @@ class Report
         $statement->execute([$locationId]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function getMissedHoursDueToSickness($userId, $startDate, $endDate)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("
+        SELECT 
+            u.first_name, u.last_name,
+            SUM(TIMESTAMPDIFF(HOUR, s.start_time, s.end_time)) AS missed_hours
+        FROM 
+            schedules s
+        LEFT JOIN 
+            schedule_user_assigned sua ON s.id = sua.schedule_id
+        LEFT JOIN 
+            sick_days sd ON sua.user_id = sd.user_id AND s.date = sd.date
+        LEFT JOIN 
+            users u ON sua.user_id = u.id
+        WHERE 
+            sua.user_id = :userId AND s.date BETWEEN :startDate AND :endDate AND sd.date IS NOT NULL
+    ");
+        $statement->execute([
+            ':userId' => $userId,
+            ':startDate' => $startDate,
+            ':endDate' => $endDate
+        ]);
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
