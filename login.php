@@ -14,6 +14,11 @@ if (!empty($_POST)) {
         if (password_verify($password, $user['password'])) {
             session_start();
             $_SESSION["user"] = $user;
+
+            // Debugging statements
+            error_log('User authenticated: ' . print_r($user, true));
+            error_log('User role: ' . $user['role']);
+
             if ($user['role'] === 'admin') {
                 header('Location: managers.php');
             } elseif ($user['role'] === 'manager') {

@@ -1,6 +1,8 @@
 <?php
 include_once (__DIR__ . '/classes/Manager.php');
+include_once (__DIR__ . '/includes/auth.inc.php');
 
+requireAdmin();
 
 $managers = Manager::getAll();
 
