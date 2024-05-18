@@ -1,6 +1,8 @@
 <?php
 include_once (__DIR__ . '/../bootstrap.php');
 
+echo 'test 2.0';
+
 class User
 {
     private $firstName;
