@@ -22,7 +22,7 @@ $managers = Manager::getAll();
 <body>
     <div class="managers">
         <div class="managers__header">
-            <h3>Little Sun | All Managers</h3>
+            <h3>All Managers</h3>
             <button onclick="window.location.href='addManager.php'" class="button--primary">Add manager</button>
         </div>
 
