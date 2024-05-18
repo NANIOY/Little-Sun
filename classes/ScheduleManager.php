@@ -129,4 +129,15 @@ class ScheduleManager
 
         return ['success' => true, 'message' => 'Schedule updated successfully.'];
     }
+
+    public static function getSchedulesByDate($date)
+    {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare('SELECT s.*, sua.user_id FROM schedules s LEFT JOIN schedule_user_assigned sua ON s.id = sua.schedule_id WHERE s.date = :date');
+        $statement->bindValue(':date', $date);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
 }

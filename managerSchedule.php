@@ -137,8 +137,11 @@ $workers = User::getAllWorkers($locationId);
                 <button class="button--tertiary" onclick="removeFilters()">Remove Filters</button>
             </div>
         </div>
+
         <div class="tooltip text-reg-xs" id="tooltip"></div>
+
         <div class="workers">
+
             <div class="calendar__navigation">
                 <div class="calendar__navigation__view">
                     <button class="button--tertiary <?php echo ($view == 'month') ? 'active' : ''; ?>"
@@ -164,7 +167,15 @@ $workers = User::getAllWorkers($locationId);
                         <i class="fa fa-chevron-right"></i>
                     </button>
                 </div>
+                <div class="calendar__navigation__actions">
+                    <button class="button--secondary" id="copySourceWeekButton">Select Source Week</button>
+                    <button class="button--secondary" id="copyDestinationWeekButton">Select Destination Week</button>
+                    <button class="button--primary" id="copyWeekButton" onclick="copyWeekTasks()" disabled>Copy Week
+                        Tasks</button>
+                </div>
+
             </div>
+
             <div class="calendar text-reg-normal <?php echo ($view == 'week') ? 'week-view' : ''; ?>">
                 <div class="text-bold-normal">Mon</div>
                 <div class="text-bold-normal">Tue</div>
@@ -212,6 +223,8 @@ $workers = User::getAllWorkers($locationId);
         </div>
         <script>
             let selectedDates = [];
+            let sourceWeek = null;
+            let destinationWeek = null;
             const tooltip = document.getElementById('tooltip');
 
             function toggleDateSelection(date) {
@@ -277,6 +290,59 @@ $workers = User::getAllWorkers($locationId);
             function moveTooltip(event) {
                 tooltip.style.left = event.pageX + 10 + 'px';
                 tooltip.style.top = event.pageY + 10 + 'px';
+            }
+
+            document.getElementById('copySourceWeekButton').addEventListener('click', function () {
+                const sourceWeek = {
+                    year: <?php echo $currentYear; ?>,
+                    month: <?php echo $currentMonth; ?>,
+                    day: <?php echo $currentDay; ?>
+                };
+                localStorage.setItem('sourceWeek', JSON.stringify(sourceWeek));
+                alert('Source week selected');
+            });
+
+            document.getElementById('copyDestinationWeekButton').addEventListener('click', function () {
+                const destinationWeek = {
+                    year: <?php echo $currentYear; ?>,
+                    month: <?php echo $currentMonth; ?>,
+                    day: <?php echo $currentDay; ?>
+                };
+                localStorage.setItem('destinationWeek', JSON.stringify(destinationWeek));
+                alert('Destination week selected');
+                document.getElementById('copyWeekButton').disabled = false;
+            });
+
+            function copyWeekTasks() {
+                const sourceWeek = JSON.parse(localStorage.getItem('sourceWeek'));
+                const destinationWeek = JSON.parse(localStorage.getItem('destinationWeek'));
+
+                if (!sourceWeek || !destinationWeek) {
+                    alert('Please select both source and destination weeks');
+                    return;
+                }
+
+                const data = {
+                    sourceWeek: sourceWeek,
+                    destinationWeek: destinationWeek
+                };
+
+                fetch('copyWeekTasks.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Tasks copied successfully');
+                            location.reload();
+                        } else {
+                            alert('Error copying tasks: ' + data.message);
+                        }
+                    });
             }
 
             document.addEventListener('DOMContentLoaded', function () {
