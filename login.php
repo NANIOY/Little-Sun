@@ -1,37 +1,14 @@
 <?php
 session_start();
-include_once (__DIR__ . '/classes/Db.php');
-include_once (__DIR__ . '/classes/User.php');
+?>
 
-$db = Db::getInstance();
-
-if (!empty($_POST)) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $user = User::getByEmail($email, $password);
-
-    if ($user) {
-        $_SESSION["user"] = $user;
-
-        if ($user['role'] === 'admin') {
-            header('Location: managers.php');
-            exit();
-        } elseif ($user['role'] === 'manager') {
-            header('Location: managerDashboard.php');
-            exit();
-        }
-    } else {
-        echo "Invalid email or password.";
-    }
-}
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LITTLESUN ☀️ | Login </title>
+    <title>LITTLESUN ☀️ | Login</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/form.css">
     <link rel="stylesheet" href="css/pagestyles/login.css">
@@ -48,8 +25,8 @@ if (!empty($_POST)) {
         </div>
         <div class="formContainer">
             <h4 class="formContainer__title">Welcome</h4>
-            <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
-                <?php if (isset($error)): ?>
+            <form action="login_process.php" method="post" enctype="multipart/form-data" class="formContainer__form">
+                <?php if (isset($_GET['error'])): ?>
                     <div class="form__error">
                         <p>
                             Sorry, we can't log you in with that email address and password. Can you try again?
