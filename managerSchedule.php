@@ -72,7 +72,8 @@ function generateDaysForWeek($year, $month, $day)
     return $days;
 }
 
-function getWeekNumber($date) {
+function getWeekNumber($date)
+{
     $timestamp = strtotime($date);
     $firstDayOfMonth = date('Y-m-01', $timestamp);
     $weekNumber = intval(date('W', $timestamp)) - intval(date('W', strtotime($firstDayOfMonth))) + 1;
@@ -145,22 +146,20 @@ $workers = User::getAllWorkers($locationId);
                         onclick="switchView('week')">Week</button>
                 </div>
                 <div class="calendar__navigation__month">
-                    <button
-                        onclick="<?php if ($view == 'week') {
-                            echo "navigateWeek($currentYear, $currentMonth, $currentDay, 'prev')";
-                        } else {
-                            echo "navigateMonth($currentYear, $currentMonth - 1)";
-                        } ?>">
+                    <button onclick="<?php if ($view == 'week') {
+                        echo "navigateWeek($currentYear, $currentMonth, $currentDay, 'prev')";
+                    } else {
+                        echo "navigateMonth($currentYear, $currentMonth - 1)";
+                    } ?>">
                         <i class="fa fa-chevron-left"></i>
                     </button>
                     <h5><?php echo ($view == 'week') ? "Week " . getWeekNumber("$currentYear-$currentMonth-$currentDay") . " of " . date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')) : date('F Y', strtotime($currentYear . '-' . $currentMonth . '-01')); ?>
                     </h5>
-                    <button
-                        onclick="<?php if ($view == 'week') {
-                            echo "navigateWeek($currentYear, $currentMonth, $currentDay, 'next')";
-                        } else {
-                            echo "navigateMonth($currentYear, $currentMonth + 1)";
-                        } ?>">
+                    <button onclick="<?php if ($view == 'week') {
+                        echo "navigateWeek($currentYear, $currentMonth, $currentDay, 'next')";
+                    } else {
+                        echo "navigateMonth($currentYear, $currentMonth + 1)";
+                    } ?>">
                         <i class="fa fa-chevron-right"></i>
                     </button>
                 </div>
@@ -179,6 +178,11 @@ $workers = User::getAllWorkers($locationId);
                         <div class="date-label"><?php echo date('d', strtotime($day['date'])); ?></div>
                         <?php
                         $schedules = $manager->fetchSchedules($locationId, $day['date']);
+
+                        usort($schedules, function ($a, $b) {
+                            return strtotime($a['start_time']) - strtotime($b['start_time']);
+                        });
+
                         foreach ($schedules as $schedule): ?>
                             <div class="calendar__day__card text-reg-s"
                                 style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>"
