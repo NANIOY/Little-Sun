@@ -15,7 +15,7 @@ if (!empty($_POST)) {
             session_start();
             $_SESSION["user"] = $user;
             if ($user['role'] === 'admin') {
-                header('Location: dashboard.php');
+                header('Location: managers.php');
             } elseif ($user['role'] === 'manager') {
                 header('Location: managerDashboard.php');
             } elseif ($user['role'] === 'worker') {
