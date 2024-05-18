@@ -94,3 +94,19 @@ tbody td {
 tbody tr:nth-child(even) {
     background-color: var(--gray);
 }
+
+.calendar__day__card--sick {
+    border: 2px solid var(--warning);
+    position: relative;
+}
+
+.calendar__day__card--sick__indicator{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--warning);
+    color: var(--white);
+    padding: 2px 5px;
+    font-size: 0.8em;
+    border-radius: 0 0 0 5px;
+}

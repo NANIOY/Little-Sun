@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $latestTimeOffRequests = Report::getLatestTimeOffRequests($locationId, 4);
-$todaySchedule = Report::getTodaySchedule($locationId);
+$todaySchedule = (new Manager())->fetchSchedules($locationId, date('Y-m-d'));
 $clockedInWorkers = Report::getClockedInWorkers($locationId);
 
 function getStatus($approvedCode)
@@ -86,7 +86,7 @@ function formatDateRange($startDate, $endDate)
             <?php if (!empty($todaySchedule)): ?>
                 <div class="calendar">
                     <?php foreach ($todaySchedule as $schedule): ?>
-                        <div class="calendar__day__card"
+                        <div class="calendar__day__card <?php echo $schedule['sick_date'] ? 'calendar__day__card--sick' : ''; ?>"
                             style="background-color: <?php echo htmlspecialchars($schedule['color']); ?>;">
                             <img src="<?php echo htmlspecialchars($schedule['profile_img']); ?>" alt="Profile Image"
                                 class="calendar__day__card__img">
@@ -96,6 +96,9 @@ function formatDateRange($startDate, $endDate)
                                 <?php echo date('H:i', strtotime($schedule['start_time'])); ?> -
                                 <?php echo date('H:i', strtotime($schedule['end_time'])); ?>
                             </span>
+                            <?php if ($schedule['sick_date']): ?>
+                                <div class="calendar__day__card--sick__indicator">Sick</div>
+                            <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
