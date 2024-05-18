@@ -7,7 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LITTLESUN ☀️ | Login </title>
-
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/pagestyles/form.css">
+    <link rel="stylesheet" href="css/pagestyles/login.css">
 </head>
 
 <body>
@@ -26,7 +28,13 @@
         <h4 class="formContainer__title">Welcome</h4>
         <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
 
-            <
+            <?php if (isset($error)): ?>
+                <div class="form__error">
+                    <p>
+                        Sorry, we can't log you in with that email address and password. Can you try again?
+                    </p>
+                </div>
+            <?php endif; ?>
 
             <div class="formContainer__form__field">
                 <label for="email" class="text-reg-s">Email:</label>
