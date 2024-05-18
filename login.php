@@ -44,9 +44,6 @@ if (!empty($_POST)) {
 </head>
 
 <body>
-    <header>
-        <?php include_once ("./includes/nav.inc.php"); ?>
-    </header>
     <main>
 
         <div class="LittleSunTitleShiftplanner">
