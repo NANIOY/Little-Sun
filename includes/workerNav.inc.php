@@ -1,6 +1,6 @@
 <nav class="sidenav">
     <div class="sidenav__top">
-        <a href="index.php" class="logo text-white"><img src="src\img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></a>
+        <a href="workerDashboard.php" class="logo text-white"><img src="src\img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></a>
         <a href="workerDashboard.php" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="workerSchedule.php" class="text-white"><i class="far fa-calendar"></i> Schedule</a>
     </div>

@@ -1,6 +1,6 @@
 <nav class="sidenav">
     <div class="sidenav__top">
-        <a href="index.php" class="logo text-white"><img src="src\img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></a>
+        <a href="dashboard.php" class="logo text-white"><img src="src\img\Little-Sun-Logo-@2x.png" alt="LittleSunLogo"></a>
         <a href="dashboard.php" class="text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="managers.php" class="text-white"><i class="fas fa-users"></i> Managers</a>
         <a href="hublocations.php" class="text-white"><i class="fas fa-map-marker-alt"></i> Hub Locations</a>
