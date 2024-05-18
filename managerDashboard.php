@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         case 'overtimeHours':
             $reportData = Report::getOvertimeHours($userId, $startDate, $endDate);
             break;
-        case 'sickHours':
-            $reportData = Report::getSickHours($userId, $startDate, $endDate);
+        case 'sickDays':
+            $reportData = Report::getSickDays($userId, $startDate, $endDate);
             break;
         case 'timeOffRequests':
             $reportData = Report::getTimeOffRequests($startDate, $endDate);
@@ -113,7 +113,7 @@ function formatDateRange($startDate, $endDate)
                         <option value="hoursWorked">Hours Worked</option>
                         <option value="totalHoursWorked">Total Hours Worked</option>
                         <option value="overtimeHours">Overtime Hours</option>
-                        <option value="sickHours">Sick Hours</option>
+                        <option value="sickDays">Sick Days</option>
                         <option value="timeOffRequests">Time Off Requests</option>
                     </select>
                 </div>
@@ -206,23 +206,21 @@ function formatDateRange($startDate, $endDate)
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                <?php elseif ($reportType == 'sickHours'): ?>
+                <?php elseif ($reportType == 'sickDays'): ?>
                     <table>
                         <thead>
                             <tr>
                                 <th>Date</th>
                                 <th>Worker</th>
                                 <th>Reason</th>
-                                <th>Hours Sick</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($reportData as $entry): ?>
                                 <tr>
-                                    <td><?php echo date('d/m/Y', strtotime($entry['date'])); ?></td>
+                                    <td><?php echo date('d/m/Y', strtotime($entry['sick_date'])); ?></td>
                                     <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
                                     <td><?php echo htmlspecialchars($entry['reason']); ?></td>
-                                    <td><?php echo number_format($entry['hours_sick'], 2); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -257,9 +255,6 @@ function formatDateRange($startDate, $endDate)
         </div>
 
     </div>
-
-
-
 </body>
 
 </html>
