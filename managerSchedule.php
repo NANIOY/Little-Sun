@@ -297,6 +297,7 @@ $workers = User::getAllWorkers($locationId);
 
                 document.querySelectorAll('.calendar__day__card').forEach(card => {
                     card.addEventListener('mouseover', (event) => {
+                        event.stopPropagation();
                         showTooltip('Click to edit task');
                         moveTooltip(event);
                     });
