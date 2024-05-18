@@ -1,35 +1,4 @@
 <?php
-include_once (__DIR__ . '/classes/User.php');
-
-$users = User::getAll();
-
-// Logging form data
-if (!empty($_POST)) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $user = User::getByEmail($email, $_POST['password']);
-
-    if ($user) {
-        if (password_verify($password, $user['password'])) {
-            session_start();
-            $_SESSION["user"] = $user;
-            if ($user['role'] === 'admin') {
-                header('Location: managers.php');
-            } elseif ($user['role'] === 'manager') {
-                header('Location: managerDashboard.php');
-            } elseif ($user['role'] === 'worker') {
-                header('Location: workerDashboard.php');
-            }
-            exit();
-        } else {
-            $error = true;
-        }
-    } else {
-        $error = true;
-    }
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,9 +7,7 @@ if (!empty($_POST)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LITTLESUN ☀️ | Login </title>
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/pagestyles/form.css">
-    <link rel="stylesheet" href="css/pagestyles/login.css">
+
 </head>
 
 <body>
@@ -59,13 +26,7 @@ if (!empty($_POST)) {
         <h4 class="formContainer__title">Welcome</h4>
         <form action="" method="post" enctype="multipart/form-data" class="formContainer__form">
 
-            <?php if (isset($error)): ?>
-                <div class="form__error">
-                    <p>
-                        Sorry, we can't log you in with that email address and password. Can you try again?
-                    </p>
-                </div>
-            <?php endif; ?>
+            <
 
             <div class="formContainer__form__field">
                 <label for="email" class="text-reg-s">Email:</label>
