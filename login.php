@@ -1,15 +1,8 @@
 <?php
-$sessionPath = __DIR__ . '/sessions';
-if (!is_dir($sessionPath)) {
-    mkdir($sessionPath, 0777, true);
-}
-echo 'session test 5';
-session_save_path($sessionPath);
-session_start();
-
+require __DIR__ . '/db_session_handler.php';
 include_once (__DIR__ . '/classes/User.php');
 
-// Debugging information
+echo 'test session 6';
 error_log('Session path: ' . session_save_path());
 error_log('Session ID: ' . session_id());
 error_log('Session data at start: ' . print_r($_SESSION, true));
@@ -53,7 +46,6 @@ if (!empty($_POST)) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,7 +54,6 @@ if (!empty($_POST)) {
     <link rel="stylesheet" href="css/pagestyles/form.css">
     <link rel="stylesheet" href="css/pagestyles/login.css">
 </head>
-
 <body>
     <main>
         <div class="LittleSunTitleShiftplanner">
@@ -100,5 +91,4 @@ if (!empty($_POST)) {
         </div>
     </main>
 </body>
-
 </html>
