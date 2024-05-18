@@ -35,6 +35,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $reportData = [];
     }
 }
+
+$latestTimeOffRequests = Report::getLatestTimeOffRequests($locationId, 4);
+$todaySchedule = Report::getTodaySchedule($locationId);
+$clockedInWorkers = Report::getClockedInWorkers($locationId);
+
+function getStatus($approvedCode)
+{
+    switch ($approvedCode) {
+        case 0:
+            return 'Pending';
+        case 1:
+            return 'Declined';
+        case 2:
+            return 'Approved';
+        default:
+            return 'Unknown';
+    }
+}
+
+function formatDateRange($startDate, $endDate)
+{
+    $start = date("d/m", strtotime($startDate));
+    $end = date("d/m", strtotime($endDate));
+    return $start . ' - ' . $end;
+}
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -51,9 +76,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php include_once ("./includes/managerNav.inc.php"); ?>
     <h4>Manager Dashboard</h4>
 
+    <div class="dashboard-section">
+        <h5 class="formContainer__title">Recent Time Off Requests</h5>
+        <?php if (!empty($latestTimeOffRequests)): ?>
+            <ul>
+                <?php foreach ($latestTimeOffRequests as $request): ?>
+                    <li>
+                        <strong>Employee:</strong>
+                        <?= htmlspecialchars($request['first_name'] . ' ' . $request['last_name']) ?><br>
+                        <strong>Date Range:</strong> <?= formatDateRange($request['startDate'], $request['endDate']) ?><br>
+                        <strong>Reason:</strong> <?= htmlspecialchars($request['reason']) ?><br>
+                        <strong>Status:</strong> <?= getStatus($request['approved']) ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>No recent time off requests.</p>
+        <?php endif; ?>
+    </div>
+
+    <div class="dashboard-section">
+        <h5 class="formContainer__title">Today's Schedule</h5>
+        <?php if (!empty($todaySchedule)): ?>
+            <ul>
+                <?php foreach ($todaySchedule as $schedule): ?>
+                    <li><?php echo $schedule['start_time']; ?> to <?php echo $schedule['end_time']; ?>:
+                        <?php echo $schedule['first_name'] . ' ' . $schedule['last_name']; ?> -
+                        <?php echo $schedule['task_title']; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>No scheduled tasks for today.</p>
+        <?php endif; ?>
+    </div>
+
+    <div class="dashboard-section">
+        <h5 class="formContainer__title">Clocked In Workers</h5>
+        <?php if (!empty($clockedInWorkers)): ?>
+            <ul>
+                <?php foreach ($clockedInWorkers as $worker): ?>
+                    <li><?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?> clocked in at
+                        <?php echo $worker['clock_in_time']; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>No workers currently clocked in.</p>
+        <?php endif; ?>
+    </div>
 
     <div class="formContainer">
-        <h5 class="formContainer__title">Generate report</h5>
+        <h5 class="formContainer__title">Generate Report</h5>
         <form method="POST" action="managerDashboard.php" class="formContainer__form">
             <div class="formContainer__form__field">
                 <label for="reportType">Select Report Type:</label>

@@ -38,9 +38,18 @@ class Report
     public static function getTimeOffRequests($startDate, $endDate)
     {
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT SUM(DATEDIFF(endDate, startDate) + 1) AS time_off_days FROM time_off WHERE startDate BETWEEN ? AND ?");
+        $statement = $conn->prepare("SELECT * FROM time_off WHERE startDate BETWEEN ? AND ?");
         $statement->execute([$startDate, $endDate]);
-        return $statement->fetch(PDO::FETCH_ASSOC);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getLatestTimeOffRequests($locationId, $limit = 4) {
+        $conn = Db::getInstance();
+        $statement = $conn->prepare("SELECT t.*, u.first_name, u.last_name FROM time_off t LEFT JOIN users u ON t.user_id = u.id WHERE u.location_id = ? ORDER BY t.startDate DESC LIMIT ?");
+        $statement->bindValue(1, $locationId, PDO::PARAM_INT);
+        $statement->bindValue(2, $limit, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function getTodaySchedule($locationId)
