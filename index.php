@@ -1,4 +1,8 @@
 <?php
+include_once (__DIR__ . '/classes/User.php');
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
