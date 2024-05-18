@@ -127,20 +127,22 @@ class TimeOff
     {
         $conn = Db::getInstance();
         $statement = $conn->prepare("INSERT INTO time_off (startDate, endDate, reason, approved, decline_reason, user_id) VALUES (:startDate, :endDate, :reason, :approved, :decline_reason, :user_id)");
+
         $startDate = $this->getStartDate();
         $endDate = $this->getEndDate();
         $reason = $this->getReason();
         $approved = $this->getApproved() ?? 0;
         $declineReason = $this->getDeclineReason();
-        $user_id = $_SESSION['user']['id'];
+        $userId = $this->getUserId();
 
         $statement->bindValue(":startDate", $startDate);
         $statement->bindValue(":endDate", $endDate);
         $statement->bindValue(":reason", $reason);
         $statement->bindValue(":approved", $approved, PDO::PARAM_INT);
         $statement->bindValue(":decline_reason", $declineReason);
-        $statement->bindValue(":user_id", $user_id, PDO::PARAM_INT);
-        $statement->execute();
+        $statement->bindValue(":user_id", $userId, PDO::PARAM_INT);
+
+        $statement->execute(); 
     }
 
     public static function getAll()

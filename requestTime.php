@@ -14,18 +14,19 @@ if (!empty($_POST)) {
         $dates = explode(',', $_POST['dates']);
         $reason = $_POST['reason'];
 
-        foreach ($dates as $date) {
-            $existingTimeOff = TimeOff::getByDate($worker['id'], $date);
-            if (!empty($existingTimeOff)) {
-                throw new Exception("Can not ask time off multiple times for: $date");
-            }
-        }
+        // foreach ($dates as $date) {
+        //     $existingTimeOff = TimeOff::getByDate($worker['id'], $date);
+        //     if (!empty($existingTimeOff)) {
+        //         throw new Exception("Cannot ask for time off multiple times for: $date");
+        //     }
+        // }
 
         foreach ($dates as $date) {
             $timeOff = new TimeOff();
             $timeOff->setStartDate($date);
             $timeOff->setEndDate($date);
             $timeOff->setReason($reason);
+            $timeOff->setUserId($worker['id']); 
             $timeOff->save();
         }
 
@@ -38,7 +39,8 @@ if (!empty($_POST)) {
 
 $dates = isset($_GET['dates']) ? $_GET['dates'] : '';
 
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>

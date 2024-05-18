@@ -126,7 +126,7 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Sun | <?= htmlspecialchars($worker['first_name']) ?>'s Schedule</title>
+    <title>Little Sun | Schedule</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/workers.css">
     <link rel="stylesheet" href="css/pagestyles/workerschedule.css">
@@ -222,8 +222,8 @@ $sickDays = User::getSickDays($user_id, $currentYear, $currentMonth);
                         <?php endif;
                     endforeach; ?>
                     <?php foreach ($timesOff as $timeOff):
-                        if ($timeOff['startDate'] <= $day['date'] && $timeOff['endDate'] >= $day['date']):
-                            $statusClass = ($timeOff['approved'] === 2) ? 'approved' : (($timeOff['approved'] === 1) ? 'not-approved' : 'pending'); ?>
+                        if (strtotime($timeOff['startDate']) <= strtotime($day['date']) && strtotime($timeOff['endDate']) >= strtotime($day['date'])):
+                            $statusClass = ($timeOff['approved'] == 2) ? 'approved' : (($timeOff['approved'] == 1) ? 'not-approved' : 'pending'); ?>
                             <div class="calendar__day__timeoff <?php echo $statusClass; ?>">
                                 <span><?php echo htmlspecialchars($timeOff['reason']); ?></span>
                             </div>
