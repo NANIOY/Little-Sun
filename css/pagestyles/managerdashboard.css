@@ -68,3 +68,25 @@
     opacity: 0.6;
     text-align: right;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+thead th {
+    background-color: var(--gray);
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid var(--neutral-30);
+}
+
+tbody td {
+    padding: 10px;
+    border-bottom: 1px solid var(--neutral-30);
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--gray);
+}

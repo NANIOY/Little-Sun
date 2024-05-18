@@ -158,27 +158,103 @@ function formatDateRange($startDate, $endDate)
                 <p>No recent time off requests.</p>
             <?php endif; ?>
         </div>
+            <div class="dashboard__section">
+                <h5 class="formContainer__title">Report Results</h5>
+                <?php if (!empty($reportData)): ?>
+                    <?php if ($reportType == 'hoursWorked' || $reportType == 'overtimeHours'): ?>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Worker</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Hours Worked</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($reportData as $entry): ?>
+                                    <tr>
+                                        <td><?php echo date('d/m/Y', strtotime($entry['date'])); ?></td>
+                                        <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
+                                        <td><?php echo date('H:i', strtotime($entry['clock_in_time'])); ?></td>
+                                        <td><?php echo date('H:i', strtotime($entry['clock_out_time'])); ?></td>
+                                        <td><?php echo number_format($entry['hours_worked'], 2); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php elseif ($reportType == 'totalHoursWorked'): ?>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Worker</th>
+                                    <th>Total Hours Worked</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($reportData as $entry): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
+                                        <td><?php echo number_format($entry['total_hours_worked'], 2); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php elseif ($reportType == 'sickHours'): ?>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Worker</th>
+                                    <th>Reason</th>
+                                    <th>Hours Sick</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($reportData as $entry): ?>
+                                    <tr>
+                                        <td><?php echo date('d/m/Y', strtotime($entry['date'])); ?></td>
+                                        <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
+                                        <td><?php echo htmlspecialchars($entry['reason']); ?></td>
+                                        <td><?php echo number_format($entry['hours_sick'], 2); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php elseif ($reportType == 'timeOffRequests'): ?>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Worker</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Reason</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($reportData as $entry): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
+                                        <td><?php echo date('d/m/Y', strtotime($entry['startDate'])); ?></td>
+                                        <td><?php echo date('d/m/Y', strtotime($entry['endDate'])); ?></td>
+                                        <td><?php echo htmlspecialchars($entry['reason']); ?></td>
+                                        <td><?php echo getStatus($entry['approved']); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <p>No data available for the selected report type and date range.</p>
+                <?php endif; ?>
+            </div>
 
-        <div class="dashboard__section">
-            <h5 class="formContainer__title">Clocked In Workers</h5>
-            <?php if (!empty($clockedInWorkers)): ?>
-                <ul>
-                    <?php foreach ($clockedInWorkers as $worker): ?>
-                        <li><?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?> clocked in at
-                            <?php echo $worker['clock_in_time']; ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else: ?>
-                <p>No workers currently clocked in.</p>
-            <?php endif; ?>
-        </div>
     </div>
 
-    <?php if (isset($reportData)): ?>
-        <h2>Report Results</h2>
-        <pre><?php print_r($reportData); ?></pre>
-    <?php endif; ?>
+
+
 </body>
 
 </html>
