@@ -15,7 +15,7 @@ if (isset($_GET['id'])) {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Manager Profile</title>
+            <title>Little Sun | Manager Profile</title>
             <link rel="stylesheet" href="css/global.css">
             <link rel="stylesheet" href="css/pagestyles/profile.css">
         </head>

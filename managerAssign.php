@@ -62,7 +62,7 @@ if ($workerId) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assign Task</title>
+    <title>Little Sun | Assign Task</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/form.css">
 </head>

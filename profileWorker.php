@@ -36,7 +36,7 @@ if (isset($_GET['id'])) {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Worker Profile</title>
+            <title>Little Sun | Worker Profile</title>
             <link rel="stylesheet" href="css/global.css">
             <link rel="stylesheet" href="css/pagestyles/tasks.css">
             <link rel="stylesheet" href="css/pagestyles/workerprofile.css">

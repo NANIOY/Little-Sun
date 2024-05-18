@@ -40,7 +40,7 @@ $locations = Location::getAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Location</title>
+    <title>Little Sun | Edit Location</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/pagestyles/form.css">
 </head>
