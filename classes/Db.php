@@ -6,7 +6,7 @@ abstract class Db
 
     public static function getInstance()
     {
-        require __DIR__ . '/../settings/db.php';
+        
 
        
     }
