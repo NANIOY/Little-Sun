@@ -234,12 +234,23 @@ class User
     public function update()
     {
         $conn = Db::getInstance();
+
+        if ($this->getHubLocation() === null) {
+            $statement = $conn->prepare("SELECT location_id FROM users WHERE id = :id");
+            $statement->bindValue(':id', $this->getId());
+            $statement->execute();
+            $currentLocation = $statement->fetch(PDO::FETCH_ASSOC);
+            $location_id = $currentLocation['location_id'];
+        } else {
+            $location_id = $this->getHubLocation();
+        }
+
         $userStatement = $conn->prepare("UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, profile_img = :profile_img, location_id = :location_id WHERE id = :id");
         $userStatement->bindValue(':first_name', $this->getFirstName());
         $userStatement->bindValue(':last_name', $this->getLastName());
         $userStatement->bindValue(':email', $this->getEmail());
         $userStatement->bindValue(':profile_img', $this->getProfileImg());
-        $userStatement->bindValue(':location_id', $this->getHubLocation());
+        $userStatement->bindValue(':location_id', $location_id);
         $userStatement->bindValue(':id', $this->getId());
         $userStatement->execute();
     }
