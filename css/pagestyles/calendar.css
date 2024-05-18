@@ -161,10 +161,14 @@
 
 .calendar__day__card__task {
     flex-grow: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .calendar__day__card__time {
     opacity: 0.6;
+    text-align: right;
 }
 
 .calendar__day__timeoff {
