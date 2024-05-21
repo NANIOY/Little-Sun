@@ -1,6 +1,12 @@
 <?php
+session_start();
 include_once (__DIR__ . '/classes/Manager.php');
 include_once (__DIR__ . '/includes/auth.inc.php');
+
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+    header('Location: login.php');
+    exit();
+}
 
 requireAdmin();
 

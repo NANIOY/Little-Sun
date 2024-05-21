@@ -16,3 +16,5 @@ $settings = [
         ],
     ],
 ];
+
+error_log('Database settings: ' . print_r($settings, true));
